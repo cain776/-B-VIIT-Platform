@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - HOME</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Main JS (must load before components) -->
+    <script src="js/main.js"></script>
+
+    <!-- Sidebar Component -->
+    <script src="js/sidebar.js"></script>
+
+    <!-- TopBar Component -->
+    <script src="js/topbar.js"></script>
+</head>
+
+<body class="font-pretendard bg-gray-50">
+    <!-- Top Bar (동적 생성) -->
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <!-- Sidebar (동적 생성) -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content flex-1">
+            <!-- Page Content -->
+            <div class="p-6">
+                <!-- Page Title -->
+                <div class="mb-6">
+                    <h1 class="text-2xl font-bold text-gray-900">HOME</h1>
+                    <p class="text-gray-500 mt-1">EyeChartPro - 오늘의 예약, 진료, 수술 현황을 한눈에 확인하세요</p>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+                    <!-- 오늘 예약 -->
+                    <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500 text-sm">오늘 예약</span>
+                            <span class="badge badge-blue">오늘</span>
+                        </div>
+                        <div class="text-3xl font-bold text-gray-900">48</div>
+                        <div class="flex items-center gap-1 mt-2 text-sm">
+                            <i data-lucide="trending-up" class="w-4 h-4 text-green-500"></i>
+                            <span class="text-green-500">8%</span>
+                            <span class="text-gray-400">vs 어제</span>
+                        </div>
+                    </div>
+
+                    <!-- 진료 대기 -->
+                    <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500 text-sm">진료 대기</span>
+                            <span class="badge badge-yellow">대기</span>
+                        </div>
+                        <div class="text-3xl font-bold text-gray-900">12</div>
+                        <div class="text-sm text-gray-400 mt-2">평균 대기 15분</div>
+                    </div>
+
+                    <!-- 오늘 수술 -->
+                    <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500 text-sm">오늘 수술</span>
+                            <span class="badge badge-green">진행</span>
+                        </div>
+                        <div class="text-3xl font-bold text-gray-900">8</div>
+                        <div class="text-sm text-gray-400 mt-2">라식 5 / 백내장 3</div>
+                    </div>
+
+                    <!-- 신규 환자 -->
+                    <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500 text-sm">신규 환자</span>
+                            <span class="badge badge-purple">이번 주</span>
+                        </div>
+                        <div class="text-3xl font-bold text-gray-900">23</div>
+                        <div class="text-sm text-gray-400 mt-2">소개 12 / 직접 11</div>
+                    </div>
+
+                    <!-- 이번 달 매출 -->
+                    <div class="stat-card bg-blue-600 rounded-xl p-5 text-white">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-white/80 text-sm">이번 달 매출</span>
+                            <button class="text-white/60 hover:text-white">
+                                <i data-lucide="external-link" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                        <div class="text-3xl font-bold">₩ 1.2억</div>
+                        <div class="text-sm text-white/70 mt-1">목표: ₩ 1.5억</div>
+                        <div class="mt-3">
+                            <div class="flex items-center justify-between text-sm mb-1">
+                                <span class="text-white/70">목표 대비</span>
+                                <span class="font-medium">80%</span>
+                            </div>
+                            <div class="h-2 bg-white/20 rounded-full overflow-hidden">
+                                <div class="h-full bg-white rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+                    <button
+                        class="quick-action bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3 text-left">
+                        <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center">
+                            <i data-lucide="user-plus" class="w-5 h-5 text-blue-600"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">환자 등록</span>
+                    </button>
+                    <button
+                        class="quick-action bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3 text-left">
+                        <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
+                            <i data-lucide="calendar-plus" class="w-5 h-5 text-green-600"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">예약 등록</span>
+                    </button>
+                    <button
+                        class="quick-action bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3 text-left">
+                        <div class="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center">
+                            <i data-lucide="clipboard-check" class="w-5 h-5 text-purple-600"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">접수 처리</span>
+                    </button>
+                    <button
+                        class="quick-action bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3 text-left">
+                        <div class="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
+                            <i data-lucide="scan" class="w-5 h-5 text-orange-600"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">검사 입력</span>
+                    </button>
+                    <button
+                        class="quick-action bg-white rounded-xl p-4 border border-gray-200 flex items-center gap-3 text-left">
+                        <div class="w-10 h-10 bg-pink-50 rounded-lg flex items-center justify-center">
+                            <i data-lucide="bar-chart-2" class="w-5 h-5 text-pink-600"></i>
+                        </div>
+                        <span class="text-sm font-medium text-gray-700">매출 리포트</span>
+                    </button>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Weekly Chart -->
+                    <div class="lg:col-span-2 bg-white rounded-xl p-6 border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-gray-900">주간 진료 현황</h3>
+                            <span class="text-sm text-gray-500">총 248건</span>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="weeklyChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Surgery Type Distribution -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-gray-900">수술 유형별 비율</h3>
+                            <span class="text-sm text-gray-500">이번 달</span>
+                        </div>
+                        <div class="h-48 flex items-center justify-center">
+                            <canvas id="surgeryChart"></canvas>
+                        </div>
+                        <div class="mt-4 space-y-2">
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                                    <span class="text-gray-600">라식/라섹</span>
+                                </div>
+                                <span class="font-medium">45%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    <span class="text-gray-600">스마일</span>
+                                </div>
+                                <span class="font-medium">25%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <span class="text-gray-600">백내장</span>
+                                </div>
+                                <span class="font-medium">20%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-purple-500"></div>
+                                    <span class="text-gray-600">녹내장</span>
+                                </div>
+                                <span class="font-medium">7%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-gray-400"></div>
+                                    <span class="text-gray-600">기타</span>
+                                </div>
+                                <span class="font-medium">3%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Recent Patients -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-gray-900">최근 접수 환자</h3>
+                            <a href="#" onclick="alert('환자 목록 페이지 준비중입니다.'); return false;"
+                                class="text-sm text-blue-600 hover:underline flex items-center gap-1">
+                                전체보기
+                                <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-xs font-bold text-blue-600">
+                                        김</div>
+                                    <div>
+                                        <div class="font-medium text-sm text-gray-900">김민수</div>
+                                        <div class="text-xs text-gray-500">라식 상담 · 10:30</div>
+                                    </div>
+                                </div>
+                                <span class="badge badge-yellow">대기</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center text-xs font-bold text-pink-600">
+                                        이</div>
+                                    <div>
+                                        <div class="font-medium text-sm text-gray-900">이지현</div>
+                                        <div class="text-xs text-gray-500">백내장 검사 · 10:45</div>
+                                    </div>
+                                </div>
+                                <span class="badge badge-green">진료중</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center text-xs font-bold text-purple-600">
+                                        박</div>
+                                    <div>
+                                        <div class="font-medium text-sm text-gray-900">박영호</div>
+                                        <div class="text-xs text-gray-500">스마일 수술 · 11:00</div>
+                                    </div>
+                                </div>
+                                <span class="badge badge-blue">수술대기</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center text-xs font-bold text-green-600">
+                                        최</div>
+                                    <div>
+                                        <div class="font-medium text-sm text-gray-900">최수진</div>
+                                        <div class="text-xs text-gray-500">정기검진 · 11:15</div>
+                                    </div>
+                                </div>
+                                <span class="badge bg-gray-100 text-gray-600">완료</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Doctor Performance -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-100">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-semibold text-gray-900">의사별 진료 현황</h3>
+                            <span class="text-sm text-gray-500">오늘</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                        <span class="text-blue-600 font-bold text-sm">김</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">김철수 원장</div>
+                                        <div class="text-xs text-gray-500">굴절교정 전문</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-gray-900">18건</div>
+                                    <div class="text-xs text-green-500">+3 vs 어제</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                        <span class="text-green-600 font-bold text-sm">이</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">이영희 원장</div>
+                                        <div class="text-xs text-gray-500">백내장 전문</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-gray-900">15건</div>
+                                    <div class="text-xs text-green-500">+2 vs 어제</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                        <span class="text-purple-600 font-bold text-sm">박</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">박지민 원장</div>
+                                        <div class="text-xs text-gray-500">망막 전문</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-gray-900">12건</div>
+                                    <div class="text-xs text-red-500">-1 vs 어제</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
+                                        <span class="text-orange-600 font-bold text-sm">정</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-medium text-gray-900">정민호 원장</div>
+                                        <div class="text-xs text-gray-500">녹내장 전문</div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="font-semibold text-gray-900">10건</div>
+                                    <div class="text-xs text-gray-400">= 어제와 동일</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Weekly Chart - 주간 진료 현황
+        const weeklyCtx = document.getElementById('weeklyChart').getContext('2d');
+        new Chart(weeklyCtx, {
+            type: 'bar',
+            data: {
+                labels: ['월', '화', '수', '목', '금', '토', '일'],
+                datasets: [{
+                    label: '진료',
+                    data: [42, 38, 45, 40, 48, 35, 0],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4
+                }, {
+                    label: '수술',
+                    data: [8, 10, 12, 9, 11, 6, 0],
+                    backgroundColor: '#10b981',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Surgery Type Chart - 수술 유형별 비율
+        const surgeryCtx = document.getElementById('surgeryChart').getContext('2d');
+        new Chart(surgeryCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['라식/라섹', '스마일', '백내장', '녹내장', '기타'],
+                datasets: [{
+                    data: [45, 25, 20, 7, 3],
+                    backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#9ca3af'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: '65%'
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 원장단 수술실적</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Main JS (must load before components) -->
+    <script src="../js/main.js"></script>
+
+    <!-- Sidebar Component -->
+    <script src="../js/sidebar.js"></script>
+
+    <!-- TopBar Component -->
+    <script src="../js/topbar.js"></script>
+</head>
+
+<body class="font-pretendard bg-gray-50">
+    <!-- Top Bar (동적 생성) -->
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <!-- Sidebar (동적 생성) -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content -->
+        <main class="main-content flex-1">
+            <!-- Page Content -->
+            <div class="p-6">
+                <!-- Page Header with Doctor Selection -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-900">원장단 수술실적</h1>
+                        <p class="text-gray-500 mt-1">김영수 원장님의 수술 실적 분석</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <!-- Doctor Selection -->
+                        <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2">
+                            <i data-lucide="user" class="w-4 h-4 text-gray-400"></i>
+                            <select id="doctorSelect" class="text-sm border-none focus:ring-0 bg-transparent"
+                                onchange="changeDoctor()">
+                                <option value="kim" selected>김영수 원장</option>
+                                <option value="lee">이영희 원장</option>
+                                <option value="park">박민수 원장</option>
+                                <option value="choi">최지훈 원장</option>
+                            </select>
+                        </div>
+                        <!-- Period Filter -->
+                        <div class="flex items-center gap-2 bg-white border border-gray-200 rounded-lg px-3 py-2">
+                            <i data-lucide="calendar" class="w-4 h-4 text-gray-400"></i>
+                            <select class="text-sm border-none focus:ring-0 bg-transparent">
+                                <option>2026년 1월</option>
+                                <option>2025년 12월</option>
+                                <option>2025년 11월</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor Profile Card -->
+                <div class="bg-white rounded-xl p-6 border border-gray-100 mb-6">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <div
+                                class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                                <i data-lucide="trophy" class="w-8 h-8 text-white"></i>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-gray-900">김영수 원장</h2>
+                                <p class="text-gray-500">전문: 백내장, 안내렌즈</p>
+                                <p class="text-sm text-gray-400 mt-1">진료일: 월화 ㅣ 수 = 오전수술</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <!-- Mini Stats -->
+                            <div class="text-center px-6 border-r border-gray-100">
+                                <div class="text-2xl font-bold text-gray-900">42</div>
+                                <div class="text-xs text-gray-500">이번 달 수술</div>
+                            </div>
+                            <div class="text-center px-6 border-r border-gray-100">
+                                <div class="text-2xl font-bold text-gray-900">3.8<span
+                                        class="text-sm text-gray-400">억</span></div>
+                                <div class="text-xs text-gray-500">이번 달 매출</div>
+                            </div>
+                            <div class="text-center px-6 border-r border-gray-100">
+                                <div class="text-2xl font-bold text-gray-900">71<span
+                                        class="text-sm text-gray-400">%</span></div>
+                                <div class="text-xs text-gray-500">전환률</div>
+                            </div>
+                            <div
+                                class="text-center px-6 bg-gradient-to-br from-green-500 to-green-600 rounded-xl py-3 text-white">
+                                <div class="text-2xl font-bold">905<span class="text-sm">만</span></div>
+                                <div class="text-xs text-white/80">평균수술비</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <!-- 총 수술 건수 -->
+                    <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500 text-sm">총 수술 건수</span>
+                            <div class="w-8 h-8 bg-blue-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="scissors" class="w-4 h-4 text-blue-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-3xl font-bold text-gray-900">42<span
+                                class="text-lg text-gray-400 ml-1">건</span></div>
+                        <div class="flex items-center gap-1 mt-2 text-sm">
+                            <i data-lucide="trending-up" class="w-4 h-4 text-green-500"></i>
+                            <span class="text-green-500">+8%</span>
+                            <span class="text-gray-400">vs 전월</span>
+                        </div>
+                    </div>
+
+                    <!-- 총 매출 -->
+                    <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500 text-sm">총 매출</span>
+                            <div class="w-8 h-8 bg-green-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="banknote" class="w-4 h-4 text-green-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-3xl font-bold text-gray-900">3.8<span
+                                class="text-lg text-gray-400 ml-1">억원</span></div>
+                        <div class="flex items-center gap-1 mt-2 text-sm">
+                            <i data-lucide="trending-up" class="w-4 h-4 text-green-500"></i>
+                            <span class="text-green-500">+12%</span>
+                            <span class="text-gray-400">vs 전월</span>
+                        </div>
+                    </div>
+
+                    <!-- 평균 매출대비 -->
+                    <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500 text-sm">평균 매출대비</span>
+                            <div class="w-8 h-8 bg-purple-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="calculator" class="w-4 h-4 text-purple-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-3xl font-bold text-gray-900">62<span
+                                class="text-lg text-gray-400 ml-1">만원</span></div>
+                        <div class="flex items-center gap-1 mt-2 text-sm">
+                            <i data-lucide="trending-up" class="w-4 h-4 text-green-500"></i>
+                            <span class="text-green-500">+5%</span>
+                            <span class="text-gray-400">vs 전월</span>
+                        </div>
+                    </div>
+
+                    <!-- 수술률 -->
+                    <div class="stat-card bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-gray-500 text-sm">수술률</span>
+                            <div class="w-8 h-8 bg-yellow-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="target" class="w-4 h-4 text-yellow-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-3xl font-bold text-gray-900">71<span
+                                class="text-lg text-gray-400 ml-1">%</span></div>
+                        <div class="flex items-center gap-1 mt-2 text-sm">
+                            <i data-lucide="trending-up" class="w-4 h-4 text-green-500"></i>
+                            <span class="text-green-500">+2%</span>
+                            <span class="text-gray-400">vs 전월</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- 월별 수술 건수 및 매출 추이 -->
+                    <div class="lg:col-span-2 bg-white rounded-xl p-6 border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-gray-900">월별 수술 건수 및 매출 추이</h3>
+                            <div class="flex items-center gap-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                                    <span class="text-gray-600">수술 건수</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-0.5 bg-green-500 border-dashed"></div>
+                                    <span class="text-gray-600">매출 (억원)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-72">
+                            <canvas id="monthlyTrendChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 수술 유형별 분포 -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-gray-900">수술 유형별 분포</h3>
+                        </div>
+                        <div class="h-48 flex items-center justify-center">
+                            <canvas id="surgeryDistributionChart"></canvas>
+                        </div>
+                        <div class="mt-4 space-y-2">
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-600"></div>
+                                    <span class="text-gray-600">라식</span>
+                                </div>
+                                <span class="font-medium">35%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-400"></div>
+                                    <span class="text-gray-600">라섹/안내렌즈</span>
+                                </div>
+                                <span class="font-medium">25%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                    <span class="text-gray-600">스마일</span>
+                                </div>
+                                <span class="font-medium">20%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-orange-500"></div>
+                                    <span class="text-gray-600">백내장/렌즈</span>
+                                </div>
+                                <span class="font-medium">12%</span>
+                            </div>
+                            <div class="flex items-center justify-between text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-gray-400"></div>
+                                    <span class="text-gray-600">기타</span>
+                                </div>
+                                <span class="font-medium">8%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- 수술 유형별 수익률 -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-gray-900">수술 유형별 수익률</h3>
+                            <div class="flex items-center gap-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-600"></div>
+                                    <span class="text-gray-600">목표</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                    <span class="text-gray-600">재진료율</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                    <span class="text-gray-600">수익률</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="surgeryProfitChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- 전년 동기 대비 -->
+                    <div class="bg-white rounded-xl p-6 border border-gray-100">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-gray-900">전년 동기 대비</h3>
+                            <div class="flex items-center gap-4 text-sm">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                                    <span class="text-gray-600">작년 동월</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-3 h-3 rounded-full bg-blue-800"></div>
+                                    <span class="text-gray-600">올해</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-64">
+                            <canvas id="yearComparisonChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Custom Scripts -->
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // 월별 수술 건수 및 매출 추이 차트
+        const monthlyTrendCtx = document.getElementById('monthlyTrendChart').getContext('2d');
+        new Chart(monthlyTrendCtx, {
+            type: 'line',
+            data: {
+                labels: ['7월', '8월', '9월', '10월', '11월', '12월', '1월'],
+                datasets: [{
+                    label: '수술 건수',
+                    data: [32, 35, 33, 38, 36, 40, 42],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    yAxisID: 'y',
+                    pointBackgroundColor: '#3b82f6',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4
+                }, {
+                    label: '매출 (억원)',
+                    data: [2.8, 3.0, 2.9, 3.2, 3.1, 3.5, 3.8],
+                    borderColor: '#10b981',
+                    backgroundColor: 'transparent',
+                    borderDash: [5, 5],
+                    tension: 0.4,
+                    yAxisID: 'y1',
+                    pointBackgroundColor: '#10b981',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2,
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        beginAtZero: false,
+                        min: 25,
+                        max: 50,
+                        title: {
+                            display: true,
+                            text: '수술 건수'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        beginAtZero: false,
+                        min: 2.0,
+                        max: 4.5,
+                        title: {
+                            display: true,
+                            text: '매출 (억원)'
+                        },
+                        grid: {
+                            drawOnChartArea: false,
+                        },
+                    }
+                }
+            }
+        });
+
+        // 수술 유형별 분포 차트
+        const distributionCtx = document.getElementById('surgeryDistributionChart').getContext('2d');
+        new Chart(distributionCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['라식', '라섹/안내렌즈', '스마일', '백내장/렌즈', '기타'],
+                datasets: [{
+                    data: [35, 25, 20, 12, 8],
+                    backgroundColor: ['#2563eb', '#60a5fa', '#f59e0b', '#f97316', '#9ca3af'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: '70%'
+            }
+        });
+
+        // 수술 유형별 수익률 차트
+        const profitCtx = document.getElementById('surgeryProfitChart').getContext('2d');
+        new Chart(profitCtx, {
+            type: 'bar',
+            data: {
+                labels: ['백내장', '스마일', '사시톡', '시력교정', '렌즈수술'],
+                datasets: [{
+                    label: '목표',
+                    data: [800, 600, 500, 400, 350],
+                    backgroundColor: '#3b82f6',
+                    borderRadius: 4
+                }, {
+                    label: '재진료율',
+                    data: [150, 120, 80, 60, 50],
+                    backgroundColor: '#ef4444',
+                    borderRadius: 4
+                }, {
+                    label: '수익률',
+                    data: [650, 500, 420, 340, 300],
+                    backgroundColor: '#10b981',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // 전년 동기 대비 차트
+        const yearComparisonCtx = document.getElementById('yearComparisonChart').getContext('2d');
+        new Chart(yearComparisonCtx, {
+            type: 'bar',
+            data: {
+                labels: ['수술 건수', '매출', '전환률', '재방문률', 'AMR'],
+                datasets: [{
+                    label: '작년 동월',
+                    data: [350, 800, 400, 250, 600],
+                    backgroundColor: '#60a5fa',
+                    borderRadius: 4
+                }, {
+                    label: '올해',
+                    data: [420, 1000, 500, 300, 850],
+                    backgroundColor: '#1e40af',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            display: true
+                        }
+                    }
+                }
+            }
+        });
+
+        // Doctor change function
+        function changeDoctor() {
+            const doctor = document.getElementById('doctorSelect').value;
+            // In a real app, this would reload the data for the selected doctor
+            console.log('Selected doctor:', doctor);
+        }
+    </script>
+
+</body>
+
+</html>

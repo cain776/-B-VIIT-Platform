@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>병원 관리 - EyeChartPro Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50">
+    <div id="sidebar-container"></div>
+    <div id="topbar-container"></div>
+
+    <main class="main-content p-6">
+        <!-- Page Header -->
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h1 class="text-xl font-bold text-gray-900">병원 관리</h1>
+                <p class="text-sm text-gray-500 mt-1">등록된 병원을 관리하고 새로운 병원을 추가합니다</p>
+            </div>
+            <button class="btn-primary" onclick="openAddHospitalModal()">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+                병원 등록
+            </button>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-4 gap-5 mb-6">
+            <div class="stat-card">
+                <div class="stat-icon purple">
+                    <i data-lucide="building-2" class="w-5 h-5"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">24</span>
+                    <span class="stat-label">전체 병원</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green">
+                    <i data-lucide="check-circle" class="w-5 h-5"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">18</span>
+                    <span class="stat-label">활성 병원</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">
+                    <i data-lucide="clock" class="w-5 h-5"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">4</span>
+                    <span class="stat-label">체험 중</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue">
+                    <i data-lucide="users" class="w-5 h-5"></i>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-value">156</span>
+                    <span class="stat-label">전체 사용자</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="card">
+            <div class="card-header flex items-center justify-between">
+                <h2 class="text-base font-semibold text-gray-900">등록된 병원 목록</h2>
+                <div class="search-box">
+                    <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
+                    <input type="text" placeholder="병원명 또는 코드로 검색...">
+                </div>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>병원명</th>
+                        <th>병원코드</th>
+                        <th>대표자</th>
+                        <th>사용자수</th>
+                        <th>상태</th>
+                        <th>등록일</th>
+                        <th>관리</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="font-semibold text-gray-900">비앤빛 강남밝은세상안과</td>
+                        <td><span class="code-badge">BNVIT-001</span></td>
+                        <td>김안과</td>
+                        <td>32명</td>
+                        <td><span class="status-badge active">● 활성</span></td>
+                        <td>2025-11-15</td>
+                        <td class="actions">
+                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold text-gray-900">비앤빛 잠실밝은세상안과</td>
+                        <td><span class="code-badge">BNVIT-002</span></td>
+                        <td>이밝음</td>
+                        <td>28명</td>
+                        <td><span class="status-badge active">● 활성</span></td>
+                        <td>2025-11-20</td>
+                        <td class="actions">
+                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold text-gray-900">VXV 캠리병원</td>
+                        <td><span class="code-badge">VXV-001</span></td>
+                        <td>Nguyen Thi</td>
+                        <td>45명</td>
+                        <td><span class="status-badge active">● 활성</span></td>
+                        <td>2025-12-01</td>
+                        <td class="actions">
+                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold text-gray-900">서울밝은안과의원</td>
+                        <td><span class="code-badge">SEOUL-001</span></td>
+                        <td>박눈빛</td>
+                        <td>12명</td>
+                        <td><span class="status-badge trial">● 체험중</span></td>
+                        <td>2026-01-02</td>
+                        <td class="actions">
+                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold text-gray-900">강남라식센터</td>
+                        <td><span class="code-badge">GN-LASIK-01</span></td>
+                        <td>최안경</td>
+                        <td>8명</td>
+                        <td><span class="status-badge inactive">● 비활성</span></td>
+                        <td>2025-10-15</td>
+                        <td class="actions">
+                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
+                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="../js/admin-sidebar.js"></script>
+    <script src="../js/admin-topbar.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function openAddHospitalModal() {
+            alert('병원 등록 모달 - 추후 구현');
+        }
+    </script>
+</body>
+
+</html>

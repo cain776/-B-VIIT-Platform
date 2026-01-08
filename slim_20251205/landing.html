@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비앤빛 그룹 차세대 핵심 솔루션</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        * {
+            font-family: 'Pretendard Variable', sans-serif;
+        }
+
+        body {
+            background: #f9fafb;
+            min-height: 100vh;
+        }
+
+        .solution-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 28px 24px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: 100%;
+        }
+
+        .solution-card:hover {
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transform: translateY(-4px);
+            border-color: #d1d5db;
+        }
+
+        .icon-wrapper {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .icon-crm {
+            background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+        }
+
+        .icon-emr {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+        }
+
+        .icon-api {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        }
+
+        .icon-inventory {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        }
+
+        .icon-bi {
+            background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+        }
+
+        .icon-ai {
+            background: linear-gradient(135deg, #e1f5fe 0%, #b3e5fc 100%);
+        }
+
+        .icon-derma {
+            background: linear-gradient(135deg, #fef9e7 0%, #fce8a2 100%);
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+
+        .card-subtitle {
+            font-size: 11px;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+        }
+
+        .card-description {
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .btn-outline {
+            padding: 10px 20px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            margin-bottom: 8px;
+        }
+
+        .btn-outline:hover {
+            background: #f3f4f6;
+            border-color: #9ca3af;
+        }
+
+        .btn-colored {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+        }
+
+        .btn-colored:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        .btn-blue {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .btn-orange {
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+        }
+
+        .btn-cyan {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+        }
+
+        .btn-pink {
+            background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .btn-amber {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        }
+
+        .main-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .main-title .highlight {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin-top: 12px;
+        }
+
+        footer {
+            border-top: 1px solid #e5e7eb;
+            background: white;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col items-center justify-center px-6 py-12">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="main-title">비앤빛 그룹 차세대 <span class="highlight">핵심 솔루션</span></h1>
+            <p class="subtitle">진료 접수부터 경영 분석까지, 병원 운영의 전 과정을 통합합니다.</p>
+        </div>
+
+        <!-- Solution Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 max-w-[1600px] w-full">
+            <!-- VXV 피부과 CRM -->
+            <div class="solution-card">
+                <div class="icon-wrapper icon-derma">
+                    <span>🌟</span>
+                </div>
+                <h3 class="card-title">VXV</h3>
+                <p class="card-subtitle">베트남 피부과 CRM</p>
+                <p class="card-description">캠리 병원 전용 피부과 고객 관리 및 시술 상담 시스템</p>
+                <button class="btn-outline">설명 보기</button>
+                <button class="btn-colored btn-amber" onclick="location.href='login.html'">바로가기</button>
+            </div>
+
+            <!-- CRM (EyeChartPro) -->
+            <div class="solution-card">
+                <div class="icon-wrapper icon-crm">
+                    <span>👁️</span>
+                </div>
+                <h3 class="card-title">EyeChartPro</h3>
+                <p class="card-subtitle">안과 전문 CRM</p>
+                <p class="card-description">환자 360° 뷰와 소개환자 추적, 수술 통계 분석</p>
+                <button class="btn-outline">설명 보기</button>
+                <button class="btn-colored btn-blue" onclick="location.href='login.html'">바로가기</button>
+            </div>
+
+            <!-- EMR -->
+            <div class="solution-card">
+                <div class="icon-wrapper icon-emr">
+                    <span>🖥️</span>
+                </div>
+                <h3 class="card-title">EMR</h3>
+                <p class="card-subtitle">Electronic Medical Record</p>
+                <p class="card-description">진료 효율을 극대화하는 표준화된 전자의무기록</p>
+                <button class="btn-outline">설명 보기</button>
+                <button class="btn-colored btn-purple" onclick="location.href='login.html'">바로가기</button>
+            </div>
+
+            <!-- 연동 시스템 -->
+            <div class="solution-card">
+                <div class="icon-wrapper icon-api">
+                    <span>🔗</span>
+                </div>
+                <h3 class="card-title">연동 시스템</h3>
+                <p class="card-subtitle">Open API Gateway</p>
+                <p class="card-description">환자 앱, 콜센터, 결제 등 내외부 시스템의 완벽한 통합</p>
+                <button class="btn-outline">설명 보기</button>
+                <button class="btn-colored btn-orange" onclick="location.href='login.html'">바로가기</button>
+            </div>
+
+            <!-- 재고관리 -->
+            <div class="solution-card">
+                <div class="icon-wrapper icon-inventory">
+                    <span>📦</span>
+                </div>
+                <h3 class="card-title">재고관리</h3>
+                <p class="card-subtitle">Inventory System</p>
+                <p class="card-description">의약품/소모품의 실시간 추적 및 자동 발주 시스템</p>
+                <button class="btn-outline">설명 보기</button>
+                <button class="btn-colored btn-cyan" onclick="location.href='login.html'">바로가기</button>
+            </div>
+
+            <!-- 대시보드 & 분석 -->
+            <div class="solution-card">
+                <div class="icon-wrapper icon-bi">
+                    <span>📊</span>
+                </div>
+                <h3 class="card-title">대시보드 & 분석</h3>
+                <p class="card-subtitle">Business Intelligence</p>
+                <p class="card-description">데이터 기반의 의사결정을 지원하는 경영 시각화</p>
+                <button class="btn-outline">설명 보기</button>
+                <button class="btn-colored btn-pink" onclick="location.href='login.html'">바로가기</button>
+            </div>
+
+            <!-- AI Intelligence -->
+            <div class="solution-card">
+                <div class="icon-wrapper icon-ai">
+                    <span>🤖</span>
+                </div>
+                <h3 class="card-title">AI Intelligence</h3>
+                <p class="card-subtitle">Smart Assistant</p>
+                <p class="card-description">의료진 업무 보조 및 운영 효율화를 위한 AI 기술</p>
+                <button class="btn-outline">설명 보기</button>
+                <button class="btn-colored btn-green" onclick="location.href='login.html'">바로가기</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-6 text-center">
+        <p class="text-sm text-gray-500">© 2026 B&VIIT Group. All rights reserved.</p>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

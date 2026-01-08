@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 병원 등록</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            font-family: 'Pretendard Variable', sans-serif;
+        }
+
+        .register-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+        }
+
+        .register-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 600px;
+            padding: 48px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e5e7eb;
+        }
+
+        .step-dot.active {
+            background: #667eea;
+            width: 32px;
+            border-radius: 5px;
+        }
+
+        .form-section {
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+
+        .form-label .required {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-hint {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .result-box {
+            display: none;
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #86efac;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .hospital-code {
+            font-size: 32px;
+            font-weight: 700;
+            color: #166534;
+            letter-spacing: 4px;
+            margin: 16px 0;
+        }
+
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #166534;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: #14532d;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .login-link a {
+            color: #667eea;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="register-card">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <div
+                    class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl mb-4">
+                    <i data-lucide="building-2" class="w-8 h-8 text-white"></i>
+                </div>
+                <h1 class="text-2xl font-bold text-gray-900">병원 등록</h1>
+                <p class="text-gray-500 mt-2">EyeChartPro를 시작하기 위해 병원 정보를 등록하세요</p>
+            </div>
+
+            <!-- Step Indicator -->
+            <div class="step-indicator">
+                <div class="step-dot active"></div>
+                <div class="step-dot"></div>
+                <div class="step-dot"></div>
+            </div>
+
+            <!-- Form -->
+            <form id="hospitalForm">
+                <!-- Hospital Info Section -->
+                <div class="form-section">
+                    <div class="section-title">병원 정보</div>
+
+                    <div class="form-group">
+                        <label class="form-label">병원명<span class="required">*</span></label>
+                        <input type="text" class="form-input" id="hospitalName" placeholder="예: 비앤빛 강남밝은세상안과">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">사업자등록번호<span class="required">*</span></label>
+                            <input type="text" class="form-input" id="bizNumber" placeholder="000-00-00000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">대표전화</label>
+                            <input type="text" class="form-input" id="hospitalPhone" placeholder="02-0000-0000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">주소</label>
+                        <input type="text" class="form-input" id="hospitalAddress" placeholder="서울시 강남구...">
+                    </div>
+                </div>
+
+                <!-- Admin Info Section -->
+                <div class="form-section">
+                    <div class="section-title">관리자 계정</div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">관리자 이름<span class="required">*</span></label>
+                            <input type="text" class="form-input" id="adminName" placeholder="홍길동">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">휴대폰<span class="required">*</span></label>
+                            <input type="text" class="form-input" id="adminPhone" placeholder="010-0000-0000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">이메일 (로그인 ID)<span class="required">*</span></label>
+                        <input type="email" class="form-input" id="adminEmail" placeholder="admin@hospital.com">
+                        <p class="form-hint">이 이메일이 로그인 아이디가 됩니다</p>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">비밀번호<span class="required">*</span></label>
+                            <input type="password" class="form-input" id="adminPassword" placeholder="8자 이상">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">비밀번호 확인<span class="required">*</span></label>
+                            <input type="password" class="form-input" id="adminPasswordConfirm" placeholder="비밀번호 재입력">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="button" class="btn-primary" onclick="registerHospital()">
+                    병원 등록하기
+                </button>
+            </form>
+
+            <!-- Result Box (Hidden by default) -->
+            <div class="result-box" id="resultBox">
+                <div class="text-green-700 font-semibold mb-2">
+                    <i data-lucide="check-circle" class="w-6 h-6 inline"></i>
+                    병원 등록이 완료되었습니다!
+                </div>
+                <p class="text-green-600 text-sm mb-4">아래 병원코드를 직원들에게 공유하세요</p>
+                <div class="hospital-code" id="generatedCode">BNVIT-001</div>
+                <button class="copy-btn" onclick="copyCode()">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                    코드 복사
+                </button>
+                <div class="mt-6">
+                    <a href="login.html" class="text-green-700 font-medium hover:underline">
+                        로그인 페이지로 이동 →
+                    </a>
+                </div>
+            </div>
+
+            <!-- Login Link -->
+            <div class="login-link">
+                이미 병원코드가 있으신가요? <a href="signup.html">직원 회원가입</a> 또는 <a href="login.html">로그인</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function registerHospital() {
+            // 필수 필드 검증
+            const hospitalName = document.getElementById('hospitalName').value;
+            const bizNumber = document.getElementById('bizNumber').value;
+            const adminName = document.getElementById('adminName').value;
+            const adminPhone = document.getElementById('adminPhone').value;
+            const adminEmail = document.getElementById('adminEmail').value;
+            const adminPassword = document.getElementById('adminPassword').value;
+            const adminPasswordConfirm = document.getElementById('adminPasswordConfirm').value;
+
+            if (!hospitalName || !bizNumber || !adminName || !adminPhone || !adminEmail || !adminPassword) {
+                alert('필수 항목을 모두 입력해주세요.');
+                return;
+            }
+
+            if (adminPassword !== adminPasswordConfirm) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            if (adminPassword.length < 8) {
+                alert('비밀번호는 8자 이상이어야 합니다.');
+                return;
+            }
+
+            // 병원 코드 생성 (실제로는 서버에서 생성)
+            const code = generateHospitalCode(hospitalName);
+            document.getElementById('generatedCode').textContent = code;
+
+            // 폼 숨기고 결과 표시
+            document.getElementById('hospitalForm').style.display = 'none';
+            document.getElementById('resultBox').classList.add('show');
+
+            // 아이콘 재생성
+            lucide.createIcons();
+        }
+
+        function generateHospitalCode(name) {
+            // 병원명에서 영문 추출 또는 랜덤 생성
+            const prefix = name.substring(0, 2).toUpperCase().replace(/[^A-Z가-힣]/g, '');
+            const random = Math.floor(Math.random() * 900) + 100;
+            return `${prefix || 'HP'}-${random}`;
+        }
+
+        function copyCode() {
+            const code = document.getElementById('generatedCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('병원코드가 복사되었습니다: ' + code);
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 채널 상세</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- Main JS -->
+    <script src="../js/main.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/topbar.js"></script>
+
+    <style>
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1f2937;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-mini {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .campaign-table th {
+            font-size: 10px;
+            font-weight: 500;
+            color: #9ca3af;
+            text-transform: uppercase;
+            padding: 12px 16px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .campaign-table td {
+            padding: 14px 16px;
+            font-size: 12px;
+            border-bottom: 1px solid #f9fafb;
+        }
+
+        .campaign-table tr:hover {
+            background: #f9fafb;
+        }
+    </style>
+</head>
+
+<body class="font-pretendard bg-gray-50">
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content flex-1">
+            <div class="p-6">
+                <!-- Page Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <h1 class="text-xl font-bold text-gray-900" id="channelTitle">네이버 DA 상세</h1>
+                        <span
+                            class="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">2026.01</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <select id="channelSelect" onchange="changeChannel(this.value)"
+                            class="text-xs font-medium bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded hover:border-gray-300 cursor-pointer">
+                            <option value="naver" selected>네이버 DA</option>
+                            <option value="google">구글 DA</option>
+                            <option value="viral">바이럴</option>
+                            <option value="platform">플랫폼</option>
+                            <option value="affiliate">제휴</option>
+                            <option value="other">기타</option>
+                        </select>
+                        <button
+                            class="text-xs font-medium bg-white border border-gray-200 text-gray-600 px-3 py-1.5 rounded hover:border-gray-300">날짜
+                            변경</button>
+                        <button
+                            class="text-xs font-medium bg-gray-900 text-white px-3 py-1.5 rounded hover:bg-gray-800">캠페인
+                            관리</button>
+                    </div>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-mini">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs text-gray-400 font-medium uppercase">총 집행 비용</div>
+                            <div class="w-7 h-7 bg-blue-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="wallet" class="w-3.5 h-3.5 text-blue-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">￦15,000,000</div>
+                        <div class="text-xs text-emerald-600">92% 소진</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs text-gray-400 font-medium uppercase">평균 CPC</div>
+                            <div class="w-7 h-7 bg-orange-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="mouse-pointer-click" class="w-3.5 h-3.5 text-orange-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">￦6,000</div>
+                        <div class="text-xs text-red-500">+500원</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs text-gray-400 font-medium uppercase">CTR</div>
+                            <div class="w-7 h-7 bg-emerald-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="percent" class="w-3.5 h-3.5 text-emerald-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">2.1%</div>
+                        <div class="text-xs text-emerald-600">목표 달성</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs text-gray-400 font-medium uppercase">전환 CAC</div>
+                            <div class="w-7 h-7 bg-violet-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="target" class="w-3.5 h-3.5 text-violet-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">￦357,143</div>
+                        <div class="text-xs text-gray-500">양호</div>
+                    </div>
+                </div>
+
+                <!-- Chart -->
+                <div class="bg-white rounded-xl p-5 border border-gray-100 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="section-title">일별 예약/수술 추이</h3>
+                        <div class="flex gap-4 text-xs">
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-[2px] bg-gray-400"></div>
+                                <span class="text-gray-500">예약</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <div class="w-3 h-[2px] bg-gray-900"></div>
+                                <span class="text-gray-900 font-medium">수술</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Campaign Table -->
+                <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="flex justify-between items-center p-4 border-b border-gray-100 bg-gray-50/30">
+                        <h3 class="section-title mb-0">캠페인 리스트</h3>
+                        <button class="text-xs text-gray-500 hover:text-gray-900 flex items-center">
+                            <i data-lucide="download" class="w-3 h-3 mr-1"></i> 엑셀 다운로드
+                        </button>
+                    </div>
+                    <table class="w-full campaign-table text-left">
+                        <thead class="bg-white">
+                            <tr>
+                                <th class="w-24">Status</th>
+                                <th>Campaign</th>
+                                <th class="text-right">Spend</th>
+                                <th class="text-right">CTR</th>
+                                <th class="text-right">Reserve</th>
+                                <th class="text-right">Surgery</th>
+                                <th class="text-right">CAC</th>
+                            </tr>
+                        </thead>
+                        <tbody id="campaignTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // 채널별 데이터
+        const CHANNEL_INFO = {
+            naver: { name: "네이버 DA", cost: "15,000,000", cpc: "6,000", ctr: "2.1%", cac: "357,143", costStatus: "92% 소진", cpcStatus: "+500원", ctrStatus: "목표 달성", cacStatus: "양호" },
+            google: { name: "구글 DA", cost: "10,000,000", cpc: "5,500", ctr: "1.8%", cac: "357,143", costStatus: "85% 소진", cpcStatus: "-200원", ctrStatus: "양호", cacStatus: "양호" },
+            viral: { name: "바이럴", cost: "8,000,000", cpc: "4,000", ctr: "2.5%", cac: "320,000", costStatus: "100% 소진", cpcStatus: "+100원", ctrStatus: "우수", cacStatus: "우수" },
+            platform: { name: "플랫폼", cost: "5,000,000", cpc: "3,500", ctr: "2.2%", cac: "277,778", costStatus: "78% 소진", cpcStatus: "유지", ctrStatus: "양호", cacStatus: "우수" },
+            affiliate: { name: "제휴", cost: "3,000,000", cpc: "7,500", ctr: "1.5%", cac: "300,000", costStatus: "65% 소진", cpcStatus: "+800원", ctrStatus: "낮음", cacStatus: "양호" },
+            other: { name: "기타", cost: "4,000,000", cpc: "8,000", ctr: "1.0%", cac: "800,000", costStatus: "50% 소진", cpcStatus: "+1,000원", ctrStatus: "낮음", cacStatus: "개선 필요" }
+        };
+
+        // 채널 변경 함수
+        function changeChannel(channelKey) {
+            const info = CHANNEL_INFO[channelKey];
+            document.getElementById('channelTitle').textContent = info.name + ' 상세';
+
+            // KPI 카드 업데이트
+            const kpiCards = document.querySelectorAll('.stat-mini');
+            kpiCards[0].querySelector('.text-lg').textContent = '￦' + info.cost;
+            kpiCards[0].querySelector('.text-xs:last-child').textContent = info.costStatus;
+            kpiCards[1].querySelector('.text-lg').textContent = '￦' + info.cpc;
+            kpiCards[1].querySelector('.text-xs:last-child').textContent = info.cpcStatus;
+            kpiCards[2].querySelector('.text-lg').textContent = info.ctr;
+            kpiCards[2].querySelector('.text-xs:last-child').textContent = info.ctrStatus;
+            kpiCards[3].querySelector('.text-lg').textContent = '￦' + info.cac;
+            kpiCards[3].querySelector('.text-xs:last-child').textContent = info.cacStatus;
+        }
+
+        const CAMPAIGN_DATA = [
+            { name: "2026_신년_라식", cost: "8M", ctr: "2.4%", reserve: 100, surgery: 25, cac: "320,000", status: "Active", tag: "Best" },
+            { name: "2026_신년_스마일", cost: "5M", ctr: "1.8%", reserve: 60, surgery: 12, cac: "416,667", status: "Active", tag: "" },
+            { name: "2026_브랜드", cost: "2M", ctr: "0.9%", reserve: 20, surgery: 5, cac: "400,000", status: "Ended", tag: "" },
+        ];
+
+        // Render Campaign Table
+        document.getElementById('campaignTableBody').innerHTML = CAMPAIGN_DATA.map(row => `
+            <tr class="hover:bg-gray-50">
+                <td>
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full ${row.status === 'Active' ? 'bg-emerald-500' : 'bg-gray-300'}"></span>
+                        <span class="text-xs text-gray-500">${row.status}</span>
+                    </div>
+                </td>
+                <td class="font-medium text-gray-800">
+                    ${row.name}
+                    ${row.tag ? `<span class="ml-2 px-1.5 py-0.5 rounded text-[9px] bg-gray-100 text-gray-600 border border-gray-200">${row.tag}</span>` : ''}
+                </td>
+                <td class="text-right text-gray-500">${row.cost}</td>
+                <td class="text-right text-gray-500">${row.ctr}</td>
+                <td class="text-right text-gray-500">${row.reserve}</td>
+                <td class="text-right font-bold text-gray-900">${row.surgery}</td>
+                <td class="text-right text-gray-700">￦${row.cac}</td>
+            </tr>
+        `).join('');
+
+        // Trend Chart
+        const ctx = document.getElementById('trendChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1일', '5일', '10일', '15일', '20일', '25일', '30일'],
+                datasets: [
+                    {
+                        label: '예약',
+                        data: [35, 42, 38, 55, 48, 62, 58],
+                        borderColor: '#9ca3af',
+                        backgroundColor: 'transparent',
+                        tension: 0.4,
+                        borderWidth: 1.5
+                    },
+                    {
+                        label: '수술',
+                        data: [8, 12, 10, 18, 15, 22, 20],
+                        borderColor: '#111827',
+                        backgroundColor: 'transparent',
+                        tension: 0.4,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

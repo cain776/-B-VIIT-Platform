@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 계정 관리</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/topbar.js"></script>
+
+    <style>
+        .stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-card:hover {
+            border-color: #93c5fd;
+        }
+
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .cat-dev {
+            background: #eff6ff;
+            color: #2563eb;
+            border-color: #bfdbfe;
+        }
+
+        .cat-ops {
+            background: #f1f5f9;
+            color: #475569;
+            border-color: #cbd5e1;
+        }
+
+        .cat-data {
+            background: #f5f3ff;
+            color: #7c3aed;
+            border-color: #c4b5fd;
+        }
+
+        .cat-creative {
+            background: #fdf2f8;
+            color: #db2777;
+            border-color: #f9a8d4;
+        }
+
+        .cat-mkt {
+            background: #fff7ed;
+            color: #ea580c;
+            border-color: #fed7aa;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+            border: 1px solid;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #059669;
+            border-color: #a7f3d0;
+        }
+
+        .status-warning {
+            background: #fef3c7;
+            color: #d97706;
+            border-color: #fde68a;
+        }
+
+        .status-danger {
+            background: #fee2e2;
+            color: #dc2626;
+            border-color: #fecaca;
+        }
+
+        .account-table th {
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .account-table td {
+            padding: 16px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: top;
+        }
+
+        .account-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .credential-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 6px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 220px;
+        }
+
+        .credential-box:hover {
+            background: white;
+            border-color: #93c5fd;
+        }
+
+        .tab-btn {
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.15s;
+        }
+
+        .tab-btn.active {
+            background: #1e293b;
+            color: white;
+        }
+
+        .tab-btn:not(.active) {
+            color: #64748b;
+        }
+
+        .tab-btn:not(.active):hover {
+            background: #f1f5f9;
+        }
+    </style>
+</head>
+
+<body class="font-pretendard bg-slate-50">
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content flex-1">
+            <div class="p-6">
+                <!-- Page Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">계정 관리</h1>
+                        <p class="text-slate-500 text-sm mt-1">사내 공용 계정 및 API 키 현황을 모니터링합니다.</p>
+                    </div>
+                    <button
+                        class="flex items-center gap-2 bg-blue-600 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors shadow-sm">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        신규 계정 등록
+                    </button>
+                </div>
+
+                <!-- KPI Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="stat-card">
+                        <div class="flex items-center gap-4">
+                            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                                <i data-lucide="shield" class="w-5 h-5 text-slate-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">총 관리 계정</p>
+                                <h3 class="text-xl font-bold text-slate-800" id="totalAccounts">7</h3>
+                            </div>
+                        </div>
+                        <span
+                            class="text-[10px] font-medium px-2 py-1 rounded-full bg-slate-100 text-slate-400">-</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="flex items-center gap-4">
+                            <div class="p-2.5 bg-rose-50 rounded-lg border border-rose-100">
+                                <i data-lucide="alert-circle" class="w-5 h-5 text-rose-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">확인/조치 필요</p>
+                                <h3 class="text-xl font-bold text-slate-800" id="attentionCount">1</h3>
+                            </div>
+                        </div>
+                        <span
+                            class="text-[10px] font-medium px-2 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-100">Action
+                            Req</span>
+                    </div>
+                    <div class="stat-card">
+                        <div class="flex items-center gap-4">
+                            <div class="p-2.5 bg-slate-50 rounded-lg border border-slate-100">
+                                <i data-lucide="credit-card" class="w-5 h-5 text-slate-500"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500 font-medium">유료 구독 서비스</p>
+                                <h3 class="text-xl font-bold text-slate-800" id="paidCount">3</h3>
+                            </div>
+                        </div>
+                        <span
+                            class="text-[10px] font-medium px-2 py-1 rounded-full bg-slate-100 text-slate-400">-</span>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div
+                    class="bg-white rounded-t-xl border border-slate-200 border-b-0 p-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+                    <!-- Category Tabs -->
+                    <div class="flex items-center gap-1 overflow-x-auto" id="categoryTabs">
+                        <button class="tab-btn active" data-category="All">전체</button>
+                        <button class="tab-btn" data-category="Development">Development</button>
+                        <button class="tab-btn" data-category="Operation">Operation</button>
+                        <button class="tab-btn" data-category="Data & AI">Data & AI</button>
+                        <button class="tab-btn" data-category="Marketing">Marketing</button>
+                        <button class="tab-btn" data-category="Creative">Creative</button>
+                    </div>
+                    <!-- View Toggle -->
+                    <div class="flex items-center bg-slate-100 p-1 rounded-lg">
+                        <button class="p-1.5 rounded-md bg-white shadow-sm text-slate-800" id="listViewBtn">
+                            <i data-lucide="list" class="w-4 h-4"></i>
+                        </button>
+                        <button class="p-1.5 rounded-md text-slate-400 hover:text-slate-600" id="gridViewBtn">
+                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="bg-white border border-slate-200 rounded-b-xl shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full account-table text-left">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Service & Usage</th>
+                                    <th>Credentials</th>
+                                    <th>Manager</th>
+                                    <th>Status / Cost</th>
+                                    <th>Note</th>
+                                    <th class="w-10"></th>
+                                </tr>
+                            </thead>
+                            <tbody id="accountTableBody">
+                                <!-- 동적으로 채워짐 -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Mock Data
+        const ACCOUNTS = [
+            { id: 1, platform: 'Google', site: 'VXV 베트남', category: 'Development', dept: 'DX', usage: 'VXV 개발 구글 API 연동용', accountId: 'vxv.vn2026@gmail.com', password: 'visuworks.co.kr', manager: '권혜수', contact: '010-7110-0829', paymentType: '-', cost: '-', status: 'Active', note: '베트남 개발용' },
+            { id: 2, platform: 'Google', site: '메디비젼', category: 'Operation', dept: 'DX', usage: '비앤빛 앱/운영용', accountId: 'medivision.dx@gmail.com', password: 'bnviitmkt#1994', manager: '권혜수', contact: '010-7110-0829', paymentType: '-', cost: '-', status: 'Active', note: '' },
+            { id: 3, platform: 'Google', site: '비앤빛 공홈', category: 'Data & AI', dept: 'DX', usage: '비앤빛 GA 데이터 수집', accountId: 'bnviit.data@gmail.com', password: 'Medidata123!', manager: '권혜수', contact: '010-7110-0829', paymentType: '-', cost: '-', status: 'Active', note: '테스트폰(Note20) 연동' },
+            { id: 4, platform: 'Google', site: '메디공용', category: 'Data & AI', dept: 'DX/공용', usage: '메디비젼 GPT 챗봇', accountId: 'bnviitchatbot@gmail.com', password: 'MDqldosqlc!@94', manager: '마케팅 공용', contact: '-', paymentType: 'API 과금', cost: '변동', status: 'Active', note: 'OpenAI 비즈니스 연동' },
+            { id: 5, platform: 'Google', site: '헤이젠(HeyGen)', category: 'Creative', dept: '영상+DX', usage: '헤이젠 API 연동', accountId: 'bnviitvideo@gmail.com', password: 'MDqldosqlc!@94', manager: '마케팅 공용', contact: '-', paymentType: '구독', cost: '$29/mo', status: 'Active', note: '로그인 연동됨' },
+            { id: 6, platform: 'Google', site: '비앤빛 마케팅', category: 'Marketing', dept: '영상+마케팅', usage: '유튜브/마케팅 통합 계정', accountId: 'bnviitmkt@gmail.com', password: 'MDqldosqlc!@94', manager: '윤민호', contact: '010-9201-7062', paymentType: '-', cost: '-', status: 'Warning', note: '(구) Many cam 연동, 영상백업용' },
+            { id: 7, platform: 'DirectSend', site: '다이렉트센드', category: 'Operation', dept: 'DX', usage: '다국어 사이트 예약/인증 메일', accountId: 'medivision_dx', password: 'bnviitmkt#1994', manager: '-', contact: '-', paymentType: '충전형', cost: '잔액 4,882원', status: 'Danger', note: '법인변경(메디>비쥬) 필요, 잔액부족 임박' },
+        ];
+
+        let visiblePasswords = {};
+        let selectedCategory = 'All';
+
+        // Category Badge
+        function getCategoryBadge(category) {
+            const config = {
+                'Development': { class: 'cat-dev', icon: 'code-2' },
+                'Operation': { class: 'cat-ops', icon: 'briefcase' },
+                'Data & AI': { class: 'cat-data', icon: 'layers' },
+                'Creative': { class: 'cat-creative', icon: 'monitor-play' },
+                'Marketing': { class: 'cat-mkt', icon: 'megaphone' },
+            };
+            const c = config[category] || { class: 'cat-ops', icon: 'tag' };
+            return `<span class="category-badge ${c.class}"><i data-lucide="${c.icon}" class="w-3 h-3"></i>${category}</span>`;
+        }
+
+        // Status Badge
+        function getStatusBadge(status) {
+            const config = {
+                'Active': { class: 'status-active', label: '정상' },
+                'Warning': { class: 'status-warning', label: '확인 필요' },
+                'Danger': { class: 'status-danger', label: '조치 필요' },
+            };
+            const s = config[status] || config.Active;
+            return `<span class="status-badge ${s.class}">${s.label}</span>`;
+        }
+
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('클립보드에 복사되었습니다');
+            });
+        }
+
+        // Toggle password
+        function togglePassword(id) {
+            visiblePasswords[id] = !visiblePasswords[id];
+            renderTable();
+        }
+
+        // Filter and render table
+        function renderTable() {
+            const filtered = selectedCategory === 'All'
+                ? ACCOUNTS
+                : ACCOUNTS.filter(a => a.category === selectedCategory);
+
+            const tbody = document.getElementById('accountTableBody');
+            tbody.innerHTML = filtered.map(acc => `
+                <tr>
+                    <td>${getCategoryBadge(acc.category)}</td>
+                    <td>
+                        <div class="font-bold text-slate-800 text-sm">${acc.site}</div>
+                        <div class="text-xs text-slate-500 mt-0.5">${acc.usage}</div>
+                        <div class="text-[10px] text-slate-400 mt-1 uppercase">${acc.platform}</div>
+                    </td>
+                    <td>
+                        <div class="space-y-2">
+                            <div class="credential-box">
+                                <span class="text-xs font-mono text-slate-600 truncate mr-2">${acc.accountId}</span>
+                                <button onclick="copyToClipboard('${acc.accountId}')" class="p-1 hover:bg-white rounded text-slate-400 hover:text-blue-600">
+                                    <i data-lucide="copy" class="w-3 h-3"></i>
+                                </button>
+                            </div>
+                            <div class="credential-box">
+                                <span class="text-xs font-mono text-slate-600 truncate mr-2">${visiblePasswords[acc.id] ? acc.password : '••••••••••••'}</span>
+                                <div class="flex gap-0.5">
+                                    <button onclick="togglePassword(${acc.id})" class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-slate-600">
+                                        <i data-lucide="${visiblePasswords[acc.id] ? 'eye-off' : 'eye'}" class="w-3 h-3"></i>
+                                    </button>
+                                    <button onclick="copyToClipboard('${acc.password}')" class="p-1 hover:bg-slate-100 rounded text-slate-400 hover:text-blue-600">
+                                        <i data-lucide="copy" class="w-3 h-3"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex items-center gap-2">
+                            <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] text-slate-500 font-bold border border-slate-200">
+                                ${acc.manager.substring(0, 1)}
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-slate-700">${acc.manager}</div>
+                                <div class="text-[10px] text-slate-400">${acc.contact}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="flex flex-col gap-1.5 items-start">
+                            ${getStatusBadge(acc.status)}
+                            ${acc.paymentType !== '-' ? `<div class="text-xs font-medium text-slate-600">${acc.cost} <span class="text-slate-400 font-normal">/ ${acc.paymentType}</span></div>` : ''}
+                        </div>
+                    </td>
+                    <td>
+                        ${acc.note ? `
+                            <div class="text-[11px] leading-relaxed text-slate-600 bg-amber-50/50 px-2 py-1.5 rounded border border-amber-100/50 flex items-start max-w-[180px]">
+                                <i data-lucide="alert-circle" class="w-3 h-3 text-amber-500 mr-1.5 mt-0.5 flex-shrink-0"></i>
+                                ${acc.note}
+                            </div>
+                        ` : '<span class="text-slate-300 text-xs">-</span>'}
+                    </td>
+                    <td class="text-right">
+                        <button class="text-slate-300 hover:text-slate-500 p-1.5 rounded-md hover:bg-slate-100">
+                            <i data-lucide="more-vertical" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+
+            lucide.createIcons();
+        }
+
+        // Tab click handler
+        document.getElementById('categoryTabs').addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-btn')) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                selectedCategory = e.target.dataset.category;
+                renderTable();
+            }
+        });
+
+        // Initial render
+        renderTable();
+    </script>
+</body>
+
+</html>

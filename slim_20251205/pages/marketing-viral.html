@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 바이럴 마케팅</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/topbar.js"></script>
+
+    <style>
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1f2937;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-mini {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .tier-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 9px;
+            font-weight: 700;
+        }
+
+        .tier-gold {
+            background: #fef3c7;
+            color: #b45309;
+            border: 1px solid #fcd34d;
+        }
+
+        .tier-silver {
+            background: #f3f4f6;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+        }
+
+        .tier-bronze {
+            background: #ffedd5;
+            color: #c2410c;
+            border: 1px solid #fdba74;
+        }
+    </style>
+</head>
+
+<body class="font-pretendard bg-gray-50">
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content flex-1">
+            <div class="p-6">
+                <!-- Page Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="text-xl font-bold text-gray-900">바이럴 마케팅 성과</h1>
+                    <button
+                        class="px-3 py-1 text-xs font-medium bg-white border border-gray-200 rounded text-gray-600 hover:border-gray-300">기간:
+                        1월 전체</button>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-mini">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs text-gray-400 font-medium uppercase">총 바이럴 비용</div>
+                            <div class="w-7 h-7 bg-blue-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="wallet" class="w-3.5 h-3.5 text-blue-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">￦8,000,000</div>
+                        <div class="text-xs text-emerald-600">예산 내 운영</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs text-gray-400 font-medium uppercase">소개 유입 (Leads)</div>
+                            <div class="w-7 h-7 bg-green-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="users" class="w-3.5 h-3.5 text-green-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">85건</div>
+                        <div class="text-xs text-emerald-600">전월 대비 +15%</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs text-gray-400 font-medium uppercase">수술 전환율</div>
+                            <div class="w-7 h-7 bg-emerald-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="percent" class="w-3.5 h-3.5 text-emerald-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">29.4%</div>
+                        <div class="text-xs text-emerald-600">타 채널 대비 2.5x</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="text-xs text-gray-400 font-medium uppercase">CPA (전환당 비용)</div>
+                            <div class="w-7 h-7 bg-violet-50 rounded-lg flex items-center justify-center">
+                                <i data-lucide="target" class="w-3.5 h-3.5 text-violet-600"></i>
+                            </div>
+                        </div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">￦320,000</div>
+                        <div class="text-xs text-emerald-600">매우 효율적</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Buzz Trend Chart -->
+                    <div class="lg:col-span-2 bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="section-title">바이럴 파급력 추이 (BUZZ & INQUIRY)</h3>
+                            <div class="flex gap-4 text-xs">
+                                <div class="flex items-center gap-1.5">
+                                    <div class="w-3 h-[2px] bg-gray-300"></div>
+                                    <span class="text-gray-500">언급량</span>
+                                </div>
+                                <div class="flex items-center gap-1.5">
+                                    <div class="w-3 h-[2px] bg-emerald-600"></div>
+                                    <span class="text-gray-900 font-medium">실제 문의</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-48">
+                            <canvas id="buzzChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Channel Share -->
+                    <div class="bg-white rounded-xl p-5 border border-gray-100">
+                        <h3 class="section-title mb-4 pb-2 border-b border-gray-100">채널 점유율</h3>
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-medium text-gray-600">네이버 카페</span>
+                                    <span class="font-bold text-gray-900">45%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 h-1.5 rounded-full">
+                                    <div class="h-full bg-emerald-500 rounded-full" style="width: 45%"></div>
+                                </div>
+                                <span class="text-[10px] text-gray-400">맘카페/성형커뮤니티</span>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-medium text-gray-600">인스타그램</span>
+                                    <span class="font-bold text-gray-900">33%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 h-1.5 rounded-full">
+                                    <div class="h-full bg-rose-500 rounded-full" style="width: 33%"></div>
+                                </div>
+                                <span class="text-[10px] text-gray-400">릴스/스토리 유입</span>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs mb-1">
+                                    <span class="font-medium text-gray-600">유튜브</span>
+                                    <span class="font-bold text-gray-900">22%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 h-1.5 rounded-full">
+                                    <div class="h-full bg-red-600 rounded-full" style="width: 22%"></div>
+                                </div>
+                                <span class="text-[10px] text-gray-400">쇼츠 댓글/커뮤니티</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Marketer Table -->
+                <div class="bg-white rounded-xl border border-gray-100 overflow-hidden">
+                    <div class="flex justify-between items-center p-4 border-b border-gray-100 bg-gray-50/30">
+                        <h3 class="section-title mb-0">가상 계정(마케터) 성과 리포트</h3>
+                        <button class="text-xs text-gray-500 hover:text-gray-900 flex items-center">
+                            <i data-lucide="download" class="w-3 h-3 mr-1"></i> 전체 보기
+                        </button>
+                    </div>
+                    <table class="w-full text-xs text-left">
+                        <thead class="bg-white border-b border-gray-100">
+                            <tr>
+                                <th class="py-3 px-4 font-medium text-gray-400 w-12">Tier</th>
+                                <th class="py-3 px-4 font-medium text-gray-400">Account</th>
+                                <th class="py-3 px-4 font-medium text-gray-400">Channel</th>
+                                <th class="py-3 px-4 font-medium text-gray-400 text-center">Posts</th>
+                                <th class="py-3 px-4 font-medium text-gray-400 text-right">Referrals</th>
+                                <th class="py-3 px-4 font-medium text-gray-400 text-right">Conv. Rate</th>
+                                <th class="py-3 px-4 font-medium text-gray-400 text-center">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="marketerTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const VIRAL_DATA = [
+            { name: "마케팅_김철수", channel: "네이버카페", posts: 45, reserve: 25, surgery: 8, efficiency: "32.0%", status: "Active", tier: "Gold" },
+            { name: "마케팅_이영희", channel: "인스타그램", posts: 60, reserve: 18, surgery: 5, efficiency: "27.8%", status: "Active", tier: "Silver" },
+            { name: "마케팅_박민수", channel: "유튜브댓글", posts: 120, reserve: 22, surgery: 7, efficiency: "31.8%", status: "Warning", tier: "Bronze" },
+            { name: "마케팅_최지우", channel: "커뮤니티", posts: 30, reserve: 20, surgery: 5, efficiency: "25.0%", status: "Active", tier: "Silver" },
+        ];
+
+        document.getElementById('marketerTableBody').innerHTML = VIRAL_DATA.map(item => `
+            <tr class="hover:bg-gray-50 border-b border-gray-50">
+                <td class="py-3 px-4">
+                    <span class="tier-badge tier-${item.tier.toLowerCase()}">${item.tier[0]}</span>
+                </td>
+                <td class="py-3 px-4 font-bold text-gray-800">${item.name}</td>
+                <td class="py-3 px-4 text-gray-500">${item.channel}</td>
+                <td class="py-3 px-4 text-center text-gray-600">${item.posts}</td>
+                <td class="py-3 px-4 text-right">
+                    <span class="text-gray-900 font-bold">${item.reserve}</span>
+                    <span class="text-gray-400 mx-1">/</span>
+                    <span class="text-emerald-600 font-bold">${item.surgery}</span>
+                </td>
+                <td class="py-3 px-4 text-right font-medium text-gray-700">${item.efficiency}</td>
+                <td class="py-3 px-4 text-center">
+                    <span class="px-2 py-0.5 rounded-full text-[9px] font-medium border ${item.status === 'Active' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'}">
+                        ${item.status}
+                    </span>
+                </td>
+            </tr>
+        `).join('');
+
+        // Buzz Chart
+        const ctx = document.getElementById('buzzChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [
+                    {
+                        label: '언급량',
+                        data: [55, 80, 100, 130],
+                        borderColor: '#d1d5db',
+                        backgroundColor: 'transparent',
+                        tension: 0.4,
+                        borderWidth: 1.5
+                    },
+                    {
+                        label: '실제 문의',
+                        data: [12, 20, 28, 38],
+                        borderColor: '#059669',
+                        backgroundColor: 'transparent',
+                        tension: 0.4,
+                        borderWidth: 2
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

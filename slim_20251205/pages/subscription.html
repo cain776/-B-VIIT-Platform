@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 구독/결제</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/topbar.js"></script>
+
+    <style>
+        .subscription-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.2s;
+        }
+
+        .subscription-card:hover {
+            border-color: #93c5fd;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .subscription-card.active {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .payment-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 9999px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge-subscription {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .badge-usage {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-prepaid {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+
+<body class="font-pretendard bg-slate-50">
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content flex-1">
+            <div class="p-6">
+                <!-- Page Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">구독/결제</h1>
+                        <p class="text-slate-500 text-sm mt-1">월별 구독 서비스 및 결제 현황을 관리합니다.</p>
+                    </div>
+                    <button
+                        class="flex items-center gap-2 bg-slate-800 text-white px-4 py-2.5 rounded-lg text-sm font-semibold hover:bg-slate-700 transition-colors shadow-sm">
+                        <i data-lucide="file-text" class="w-4 h-4"></i>
+                        결제 리포트
+                    </button>
+                </div>
+
+                <!-- Monthly Summary -->
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-6 mb-6 text-white">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100 text-sm font-medium mb-1">2026년 1월 예상 비용</p>
+                            <h2 class="text-3xl font-bold">₩487,500</h2>
+                            <p class="text-blue-200 text-xs mt-2">총 3개 유료 서비스 운영 중</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <div class="bg-white/10 backdrop-blur rounded-xl p-4 text-center min-w-[100px]">
+                                <p class="text-blue-100 text-xs mb-1">구독형</p>
+                                <p class="text-xl font-bold">2</p>
+                            </div>
+                            <div class="bg-white/10 backdrop-blur rounded-xl p-4 text-center min-w-[100px]">
+                                <p class="text-blue-100 text-xs mb-1">사용량 기반</p>
+                                <p class="text-xl font-bold">1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Subscriptions -->
+                <div class="mb-8">
+                    <h3 class="section-title">활성 구독 서비스</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- HeyGen -->
+                        <div class="subscription-card active">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-pink-500 to-purple-500 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="video" class="w-5 h-5 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">HeyGen</h4>
+                                        <p class="text-xs text-slate-500">AI 영상 생성</p>
+                                    </div>
+                                </div>
+                                <span class="payment-badge badge-subscription">
+                                    <i data-lucide="refresh-cw" class="w-3 h-3"></i>
+                                    구독
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-2xl font-bold text-slate-800">$29<span
+                                            class="text-sm font-normal text-slate-400">/월</span></p>
+                                    <p class="text-xs text-slate-500 mt-1">다음 결제: 2026.02.01</p>
+                                </div>
+                                <span
+                                    class="px-2 py-1 rounded-full text-[10px] font-medium bg-emerald-100 text-emerald-700">Active</span>
+                            </div>
+                        </div>
+
+                        <!-- OpenAI API -->
+                        <div class="subscription-card">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="bot" class="w-5 h-5 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">OpenAI API</h4>
+                                        <p class="text-xs text-slate-500">GPT 챗봇 연동</p>
+                                    </div>
+                                </div>
+                                <span class="payment-badge badge-usage">
+                                    <i data-lucide="activity" class="w-3 h-3"></i>
+                                    사용량
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-2xl font-bold text-slate-800">~$150<span
+                                            class="text-sm font-normal text-slate-400">/월</span></p>
+                                    <p class="text-xs text-slate-500 mt-1">이번 달 사용: $127.50</p>
+                                </div>
+                                <span
+                                    class="px-2 py-1 rounded-full text-[10px] font-medium bg-emerald-100 text-emerald-700">Active</span>
+                            </div>
+                        </div>
+
+                        <!-- DirectSend -->
+                        <div class="subscription-card" style="border-color: #fecaca;">
+                            <div class="flex items-start justify-between mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div
+                                        class="w-10 h-10 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center">
+                                        <i data-lucide="mail" class="w-5 h-5 text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-slate-800">다이렉트센드</h4>
+                                        <p class="text-xs text-slate-500">이메일 발송 서비스</p>
+                                    </div>
+                                </div>
+                                <span class="payment-badge badge-prepaid">
+                                    <i data-lucide="wallet" class="w-3 h-3"></i>
+                                    충전형
+                                </span>
+                            </div>
+                            <div class="flex justify-between items-end">
+                                <div>
+                                    <p class="text-2xl font-bold text-rose-600">₩4,882<span
+                                            class="text-sm font-normal text-slate-400"> 잔액</span></p>
+                                    <p class="text-xs text-rose-500 mt-1 flex items-center gap-1">
+                                        <i data-lucide="alert-triangle" class="w-3 h-3"></i>
+                                        잔액 부족 - 충전 필요
+                                    </p>
+                                </div>
+                                <button
+                                    class="px-3 py-1.5 rounded-lg text-xs font-medium bg-rose-600 text-white hover:bg-rose-700">충전하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment History -->
+                <div>
+                    <h3 class="section-title">최근 결제 내역</h3>
+                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200">
+                                    <th class="py-3 px-4 text-[11px] font-bold text-slate-400 uppercase">결제일</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-slate-400 uppercase">서비스</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-slate-400 uppercase">결제수단</th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-slate-400 uppercase text-right">금액
+                                    </th>
+                                    <th class="py-3 px-4 text-[11px] font-bold text-slate-400 uppercase text-center">상태
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100">
+                                <tr class="hover:bg-slate-50">
+                                    <td class="py-3 px-4 text-sm text-slate-600">2026.01.01</td>
+                                    <td class="py-3 px-4">
+                                        <div class="font-medium text-slate-800 text-sm">HeyGen</div>
+                                        <div class="text-xs text-slate-400">월간 구독</div>
+                                    </td>
+                                    <td class="py-3 px-4 text-sm text-slate-600">Visa •••• 4242</td>
+                                    <td class="py-3 px-4 text-sm font-bold text-slate-800 text-right">$29.00</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-[10px] font-medium bg-emerald-100 text-emerald-700">완료</span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="py-3 px-4 text-sm text-slate-600">2025.12.31</td>
+                                    <td class="py-3 px-4">
+                                        <div class="font-medium text-slate-800 text-sm">OpenAI API</div>
+                                        <div class="text-xs text-slate-400">12월 사용량</div>
+                                    </td>
+                                    <td class="py-3 px-4 text-sm text-slate-600">Visa •••• 4242</td>
+                                    <td class="py-3 px-4 text-sm font-bold text-slate-800 text-right">$142.30</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-[10px] font-medium bg-emerald-100 text-emerald-700">완료</span>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-50">
+                                    <td class="py-3 px-4 text-sm text-slate-600">2025.12.01</td>
+                                    <td class="py-3 px-4">
+                                        <div class="font-medium text-slate-800 text-sm">HeyGen</div>
+                                        <div class="text-xs text-slate-400">월간 구독</div>
+                                    </td>
+                                    <td class="py-3 px-4 text-sm text-slate-600">Visa •••• 4242</td>
+                                    <td class="py-3 px-4 text-sm font-bold text-slate-800 text-right">$29.00</td>
+                                    <td class="py-3 px-4 text-center">
+                                        <span
+                                            class="px-2 py-1 rounded-full text-[10px] font-medium bg-emerald-100 text-emerald-700">완료</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

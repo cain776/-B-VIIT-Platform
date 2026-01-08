@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>수술 스케줄 - EyeChartPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .under-construction {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .uc-icon {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            animation: pulse 2s infinite;
+        }
+
+        .uc-icon svg {
+            width: 60px;
+            height: 60px;
+            color: #2563eb;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.9;
+            }
+        }
+
+        .uc-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .uc-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin-bottom: 32px;
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .uc-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #92400e;
+            margin-bottom: 24px;
+        }
+
+        .uc-info {
+            display: flex;
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .uc-info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 16px 24px;
+            background: #f9fafb;
+            border-radius: 12px;
+            min-width: 140px;
+        }
+
+        .uc-info-item span:first-child {
+            font-size: 12px;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .uc-info-item span:last-child {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .btn-back {
+            margin-top: 32px;
+            padding: 12px 28px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-back:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div id="sidebar-container"></div>
+    <div id="topbar-container"></div>
+
+    <main class="main-content p-6">
+        <div class="under-construction">
+            <div class="uc-badge">
+                <i data-lucide="construction" class="w-4 h-4"></i>
+                개발 진행 중
+            </div>
+            <div class="uc-icon">
+                <i data-lucide="calendar-clock"></i>
+            </div>
+            <h1 class="uc-title">수술 스케줄</h1>
+            <p class="uc-subtitle">
+                해당 기능은 현재 개발 중입니다.<br>
+                더 나은 서비스를 위해 열심히 준비하고 있습니다.
+            </p>
+            <div class="uc-info">
+                <div class="uc-info-item">
+                    <span>카테고리</span>
+                    <span>수술 관리</span>
+                </div>
+                <div class="uc-info-item">
+                    <span>예정</span>
+                    <span>2026 Q1</span>
+                </div>
+            </div>
+            <a href="../index.html" class="btn-back">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                홈으로 돌아가기
+            </a>
+        </div>
+    </main>
+
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/topbar.js"></script>
+    <script src="../js/main.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>

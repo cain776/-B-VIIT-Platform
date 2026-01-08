@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro Admin - 로그인</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Inter & Outfit -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f0f4f8;
+            position: relative;
+            overflow: hidden;
+            color: #334155;
+        }
+
+        /* Soft Blurred Background (Mesh Gradient) */
+        .mesh-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            background-color: #f3f4f6;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.8;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: #a5f3fc;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 60vw;
+            height: 60vw;
+            background: #ddd6fe;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 40vw;
+            height: 40vw;
+            background: #fbcfe8;
+            opacity: 0.6;
+            animation-delay: -10s;
+        }
+
+        .overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            z-index: 1;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        /* Glass Card */
+        .login-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            padding: 48px 40px;
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                0 10px 15px -3px rgba(0, 0, 0, 0.05),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+            animation: card-enter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes card-enter {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Logo Section */
+        .logo-section {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .logo-box {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, #2563eb, #06b6d4);
+            color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            margin: 0 auto 16px;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+        }
+
+        .logo-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: #1e293b;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-subtitle {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* Floating Label Styles (Ported from General Login) */
+        .floating-label-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .floating-label-group input {
+            width: 100%;
+            padding: 24px 16px 8px;
+            /* Top padding increased for float effect */
+            font-size: 15px;
+            color: #1e293b;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        }
+
+        .floating-label-group input:hover {
+            border-color: #cbd5e1;
+            background-color: #f8fafc;
+        }
+
+        .floating-label-group input:focus {
+            border-color: #3b82f6;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .floating-label-group label {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 14px;
+            pointer-events: none;
+            /* Important for clicking through */
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+        }
+
+        .floating-label-group input:focus+label,
+        .floating-label-group input:not(:placeholder-shown)+label {
+            top: 10px;
+            transform: translateY(0);
+            font-size: 11px;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        /* Password Toggle */
+        .pwd-toggle {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            z-index: 5;
+        }
+
+        .pwd-toggle:hover {
+            color: #2563eb;
+        }
+
+        /* Login Button - Premium Frosted Glass */
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            /* 유리 질감 배경 */
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+
+            /* 유리 테두리 */
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+
+            color: #64748b;
+            /* 비활성 시 차분한 텍스트 */
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+            /* 은은한 그림자 */
+            box-shadow:
+                0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+
+            margin-top: 12px;
+            opacity: 0.6;
+            pointer-events: none;
+            letter-spacing: -0.01em;
+        }
+
+        /* 활성화 상태 - 유리에 푸른 빛이 차오름 */
+        .login-btn.active {
+            opacity: 1;
+            pointer-events: auto;
+            /* 진한 유리 느낌 */
+            background: rgba(37, 99, 235, 0.85);
+            /* Blue with transparency */
+            border-color: rgba(255, 255, 255, 0.3);
+            color: white;
+
+            /* 빛나는 효과 */
+            box-shadow:
+                0 10px 20px -5px rgba(37, 99, 235, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .login-btn.active:hover {
+            background: rgba(37, 99, 235, 0.95);
+            transform: translateY(-2px) scale(1.01);
+            box-shadow:
+                0 20px 30px -10px rgba(37, 99, 235, 0.5),
+                inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        .login-btn.active:active {
+            transform: scale(0.98);
+        }
+
+        /* Slide Captcha */
+        .slide-captcha-container {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            background: #e2e8f0;
+            border-radius: 25px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            user-select: none;
+            touch-action: none;
+        }
+
+        .slide-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: #64748b;
+            font-weight: 500;
+            z-index: 1;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .slider {
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            width: 46px;
+            height: 46px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            transition: transform 0.1s;
+            /* Smooth dragging */
+            color: #64748b;
+        }
+
+        .slider:hover {
+            color: #2563eb;
+        }
+
+        .slide-bg-success {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: #10b981;
+            /* Green */
+            transition: width 0.1s;
+        }
+
+        .slide-captcha-container.success .slider {
+            right: 2px;
+            left: auto;
+            background: white;
+            color: #10b981;
+            cursor: default;
+        }
+
+        .slide-captcha-container.success .slide-bg-success {
+            width: 100% !important;
+            transition: width 0.3s ease;
+        }
+
+        .slide-captcha-container.success .slide-text {
+            color: white;
+            font-weight: 600;
+            opacity: 1;
+            z-index: 3;
+        }
+
+        /* Footer */
+        .footer-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 32px;
+            font-size: 13px;
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: #0f172a;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Blobs -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="overlay"></div>
+
+    <div class="login-card">
+        <div class="logo-section">
+            <div class="logo-box">👁️</div>
+            <h1 class="logo-title">EyeChartPro</h1>
+            <p class="logo-subtitle">Admin Console</p>
+        </div>
+
+        <form action="index.html" autocomplete="off">
+            <!-- ID Floating Label -->
+            <div class="floating-label-group">
+                <input type="text" id="adminId" name="admin_id" placeholder=" " autocomplete="off" required>
+                <label for="adminId">ID</label>
+            </div>
+
+            <!-- Password Floating Label -->
+            <div class="floating-label-group">
+                <input type="password" id="adminPassword" name="admin_password" placeholder=" "
+                    autocomplete="new-password" required>
+                <label for="adminPassword">Password</label>
+                <button type="button" class="pwd-toggle" onclick="togglePassword()">
+                    <i data-lucide="eye" class="w-5 h-5" id="eye-icon"></i>
+                </button>
+            </div>
+
+            <!-- Slide Captcha -->
+            <div class="slide-captcha-container" id="captchaContainer">
+                <div class="slide-bg-success" id="captchaBg"></div>
+                <div class="slide-text" id="captchaText">밀어서 보안 해제</div>
+                <div class="slider" id="captchaSlider">
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn" disabled>
+                Log In
+            </button>
+        </form>
+
+        <a href="../login.html" class="footer-link">
+            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            일반 사용자 로그인
+        </a>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function togglePassword() {
+            const input = document.getElementById('adminPassword');
+            const icon = document.getElementById('eye-icon');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+
+        // 로그인 처리 함수
+        document.querySelector('form').addEventListener('submit', function (e) {
+            e.preventDefault(); // 기본 폼 제출 방지
+
+            const id = document.getElementById('adminId').value;
+            const password = document.getElementById('adminPassword').value;
+
+            // 간단한 입력 검증
+            if (!id || !password) {
+                alert('아이디와 비밀번호를 모두 입력해주세요.');
+                return;
+            }
+
+            // 페이지 이동
+            window.location.href = 'pages/hospitals.html';
+        });
+
+        // Slide Captcha Logic
+        const slider = document.getElementById('captchaSlider');
+        const container = document.getElementById('captchaContainer');
+        const bg = document.getElementById('captchaBg');
+        const text = document.getElementById('captchaText');
+        const loginBtn = document.getElementById('loginBtn');
+        let isDragging = false;
+        let startX = 0;
+        let p = 0; // percentage
+        let isVerified = false;
+
+        slider.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', endDrag);
+
+        // Touch support
+        slider.addEventListener('touchstart', (e) => startDrag(e.touches[0]));
+        document.addEventListener('touchmove', (e) => drag(e.touches[0]));
+        document.addEventListener('touchend', endDrag);
+
+        function startDrag(e) {
+            if (isVerified) return;
+            isDragging = true;
+            startX = e.clientX;
+            slider.style.transition = 'none';
+            bg.style.transition = 'none';
+        }
+
+        function drag(e) {
+            if (!isDragging || isVerified) return;
+
+            const containerWidth = container.offsetWidth;
+            const sliderWidth = slider.offsetWidth;
+            const maxMove = containerWidth - sliderWidth - 4; // 4px buffer (2px padding each side)
+
+            let x = e.clientX - startX;
+            if (x < 0) x = 0;
+            if (x > maxMove) x = maxMove;
+
+            slider.style.transform = `translateX(${x}px)`;
+
+            // Background width follows slider center
+            bg.style.width = `${x + sliderWidth / 2}px`;
+
+            // Calculate percentage
+            p = x / maxMove;
+
+            // Text opacity
+            text.style.opacity = 1 - p * 1.5;
+        }
+
+        function endDrag() {
+            if (!isDragging || isVerified) return;
+            isDragging = false;
+
+            // Check success (e.g., > 90%)
+            if (p > 0.9) {
+                verifySuccess();
+            } else {
+                resetSlider();
+            }
+        }
+
+        function verifySuccess() {
+            isVerified = true;
+            container.classList.add('success');
+            slider.style.transform = 'none';
+            slider.style.right = '2px';
+            slider.style.left = 'auto';
+            bg.style.width = '100%';
+
+            text.textContent = '보안 확인 완료';
+            text.style.opacity = '1';
+
+            slider.innerHTML = '<i data-lucide="check" class="w-5 h-5"></i>';
+            lucide.createIcons();
+
+            // Enable Login Button
+            loginBtn.disabled = false;
+            loginBtn.classList.add('active');
+        }
+
+        function resetSlider() {
+            slider.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            bg.style.transition = 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            slider.style.transform = 'translateX(0)';
+            bg.style.width = '0';
+            text.style.opacity = '1';
+        }
+    </script>
+</body>
+
+</html>

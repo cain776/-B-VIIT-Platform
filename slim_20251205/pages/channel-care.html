@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 채널 케어</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        /* 채널 케어 전용 스타일 - Refined */
+        :root {
+            --cc-border: #e8eaed;
+            --cc-bg-subtle: #f8f9fa;
+            --cc-text-primary: #1a1a1a;
+            --cc-text-secondary: #5f6368;
+            --cc-text-muted: #80868b;
+            --cc-accent: #1a73e8;
+            --cc-accent-light: #e8f0fe;
+        }
+
+        .channel-care-container {
+            display: flex;
+            height: calc(100vh - 56px);
+            overflow: hidden;
+            font-size: 88%;
+        }
+
+        /* 필터 패널 */
+        .filter-panel {
+            width: 220px;
+            min-width: 220px;
+            border-right: 1px solid var(--cc-border);
+            background: var(--cc-bg-subtle);
+            overflow-y: auto;
+        }
+
+        /* 대화 목록 */
+        .conversation-list {
+            width: 320px;
+            min-width: 320px;
+            border-right: 1px solid var(--cc-border);
+            background: white;
+            overflow-y: auto;
+        }
+
+        /* 채팅 영역 */
+        .chat-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #fafbfc;
+            min-width: 0;
+        }
+
+        .chat-area .chat-header {
+            height: 48px;
+            min-height: 48px;
+            box-sizing: border-box;
+        }
+
+        /* 환자 정보 패널 */
+        .patient-panel {
+            width: 280px;
+            min-width: 280px;
+            border-left: 1px solid var(--cc-border);
+            background: white;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* 대화 아이템 */
+        .conversation-item {
+            padding: 14px 18px;
+            border-bottom: 1px solid #f1f3f4;
+            cursor: pointer;
+            transition: all 0.12s ease;
+        }
+
+        .conversation-item:hover {
+            background: #f8f9fa;
+        }
+
+        .conversation-item.active {
+            background: var(--cc-accent-light);
+            border-left: 2px solid var(--cc-accent);
+            padding-left: 16px;
+        }
+
+        /* 상태 배지 */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .status-new {
+            background: #fce8e6;
+            color: #c5221f;
+        }
+
+        .status-consulting {
+            background: #e6f4ea;
+            color: #137333;
+        }
+
+        .status-pending {
+            background: #fef7e0;
+            color: #b06000;
+        }
+
+        .status-completed {
+            background: #f1f3f4;
+            color: #5f6368;
+        }
+
+        /* 채널 아이콘 */
+        .channel-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .channel-kakao {
+            background: #fee500;
+            color: #391b1b;
+        }
+
+        .channel-instagram {
+            background: #e1306c;
+            color: white;
+        }
+
+        .channel-naver {
+            background: #03c75a;
+            color: white;
+        }
+
+        .channel-sms {
+            background: var(--cc-accent);
+            color: white;
+        }
+
+        /* 메시지 버블 */
+        .message-bubble {
+            max-width: 65%;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            line-height: 1.55;
+            letter-spacing: -0.01em;
+        }
+
+        .message-incoming {
+            background: #f1f3f4;
+            color: var(--cc-text-primary);
+        }
+
+        .message-outgoing {
+            background: var(--cc-accent);
+            color: white;
+        }
+
+        /* 미읽음 배지 */
+        .unread-badge {
+            background: #ea4335;
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* 필터 섹션 */
+        .filter-section {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--cc-border);
+        }
+
+        .filter-section-title {
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--cc-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 10px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            color: var(--cc-text-secondary);
+            transition: all 0.1s ease;
+        }
+
+        .filter-option:hover {
+            background: #e8eaed;
+            color: var(--cc-text-primary);
+        }
+
+        .filter-option.active {
+            background: var(--cc-accent-light);
+            color: var(--cc-accent);
+            font-weight: 500;
+        }
+
+        /* 채팅 헤더 */
+        .chat-header {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--cc-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            background: #fafbfc;
+        }
+
+        .chat-input-area {
+            padding: 14px 20px;
+            border-top: 1px solid var(--cc-border);
+            background: white;
+        }
+
+        /* 상태 버튼 */
+        .status-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid var(--cc-border);
+            background: white;
+            cursor: pointer;
+            color: var(--cc-text-secondary);
+            transition: all 0.12s ease;
+        }
+
+        .status-btn:hover {
+            border-color: var(--cc-accent);
+            color: var(--cc-accent);
+        }
+
+        .status-btn.active {
+            background: var(--cc-accent);
+            color: white;
+            border-color: var(--cc-accent);
+        }
+
+        /* 환자 정보 섹션 */
+        .patient-section-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--cc-text-primary);
+            letter-spacing: 0.01em;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .patient-info-row {
+            margin-bottom: 14px;
+        }
+
+        .patient-info-label {
+            font-size: 10px;
+            color: var(--cc-text-muted);
+            margin-bottom: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .patient-info-value {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--cc-text-primary);
+        }
+
+        /* 인풋 스타일 */
+        .cc-input {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 12px;
+            border: 1px solid var(--cc-border);
+            border-radius: 8px;
+            outline: none;
+            transition: all 0.12s ease;
+        }
+
+        .cc-input:focus {
+            border-color: var(--cc-accent);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+        }
+
+        .cc-input::placeholder {
+            color: var(--cc-text-muted);
+        }
+
+        /* 버튼 스타일 */
+        .cc-btn-primary {
+            padding: 10px 18px;
+            background: var(--cc-accent);
+            color: white;
+            font-size: 12px;
+            font-weight: 500;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.12s ease;
+        }
+
+        .cc-btn-primary:hover {
+            background: #1557b0;
+        }
+
+        .cc-btn-secondary {
+            padding: 8px 14px;
+            background: white;
+            color: var(--cc-text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid var(--cc-border);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.12s ease;
+        }
+
+        .cc-btn-secondary:hover {
+            background: var(--cc-bg-subtle);
+            border-color: #d0d4d9;
+        }
+
+        .cc-btn-ghost {
+            padding: 8px;
+            background: transparent;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--cc-text-muted);
+            transition: all 0.1s ease;
+        }
+
+        .cc-btn-ghost:hover {
+            background: #f1f3f4;
+            color: var(--cc-text-secondary);
+        }
+
+        /* 첨부 파일 아이템 */
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--cc-bg-subtle);
+            border-radius: 8px;
+            font-size: 12px;
+            color: var(--cc-text-secondary);
+        }
+
+        /* 스크롤바 스타일 */
+        .filter-panel::-webkit-scrollbar,
+        .conversation-list::-webkit-scrollbar,
+        .chat-messages::-webkit-scrollbar,
+        .patient-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .filter-panel::-webkit-scrollbar-thumb,
+        .conversation-list::-webkit-scrollbar-thumb,
+        .chat-messages::-webkit-scrollbar-thumb,
+        .patient-panel::-webkit-scrollbar-thumb {
+            background: #dadce0;
+            border-radius: 3px;
+        }
+
+        .filter-panel::-webkit-scrollbar-thumb:hover,
+        .conversation-list::-webkit-scrollbar-thumb:hover,
+        .chat-messages::-webkit-scrollbar-thumb:hover,
+        .patient-panel::-webkit-scrollbar-thumb:hover {}
+    </style>
+
+    <!-- Main JS (must load before components) -->
+    <script src="../js/main.js"></script>
+
+    <!-- Sidebar Component -->
+    <script src="../js/sidebar.js"></script>
+
+    <!-- TopBar Component -->
+    <script src="../js/topbar.js"></script>
+</head>
+
+<body class="font-pretendard bg-gray-50">
+    <!-- Top Bar (동적 생성) -->
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <!-- Sidebar (동적 생성) -->
+        <div id="sidebar-container"></div>
+
+        <!-- Main Content - 채널 케어 4분할 레이아웃 -->
+        <main class="main-content flex-1 overflow-hidden">
+            <div class="channel-care-container">
+                <!-- 1. 필터 패널 -->
+                <div class="filter-panel">
+                    <div class="filter-section"
+                        style="height: 48px; display: flex; align-items: center; padding: 0 18px;">
+                        <div class="relative flex-1">
+                            <i data-lucide="search"
+                                class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                            <input type="text" placeholder="대화 검색..." class="cc-input pl-9"
+                                style="padding-top: 6px; padding-bottom: 6px;">
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-section-title">상태 필터</div>
+                        <div class="space-y-1">
+                            <div class="filter-option active"><i data-lucide="inbox"
+                                    class="w-4 h-4"></i><span>전체</span><span
+                                    class="ml-auto text-xs text-gray-500">12</span></div>
+                            <div class="filter-option"><span
+                                    class="w-2 h-2 rounded-full bg-red-500"></span><span>신규</span><span
+                                    class="ml-auto unread-badge">3</span></div>
+                            <div class="filter-option"><span
+                                    class="w-2 h-2 rounded-full bg-green-500"></span><span>상담중</span><span
+                                    class="ml-auto text-xs text-gray-500">5</span></div>
+                            <div class="filter-option"><span
+                                    class="w-2 h-2 rounded-full bg-yellow-500"></span><span>보류</span><span
+                                    class="ml-auto text-xs text-gray-500">2</span></div>
+                            <div class="filter-option"><span
+                                    class="w-2 h-2 rounded-full bg-gray-400"></span><span>완료</span><span
+                                    class="ml-auto text-xs text-gray-500">2</span></div>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-section-title">채널 필터</div>
+                        <div class="space-y-1">
+                            <label class="filter-option"><input type="checkbox" checked
+                                    class="rounded text-blue-600"><span
+                                    class="channel-icon channel-kakao text-xs">K</span><span>카카오톡</span></label>
+                            <label class="filter-option"><input type="checkbox" checked
+                                    class="rounded text-blue-600"><span
+                                    class="channel-icon channel-instagram text-xs">I</span><span>인스타그램</span></label>
+                            <label class="filter-option"><input type="checkbox" checked
+                                    class="rounded text-blue-600"><span
+                                    class="channel-icon channel-naver text-xs">N</span><span>네이버</span></label>
+                            <label class="filter-option"><input type="checkbox" class="rounded text-blue-600"><span
+                                    class="channel-icon channel-sms text-xs">S</span><span>문자</span></label>
+                        </div>
+                    </div>
+
+                    <div class="filter-section">
+                        <div class="filter-section-title">담당자</div>
+                        <div class="space-y-1">
+                            <div class="filter-option"><i data-lucide="users" class="w-4 h-4"></i><span>전체</span></div>
+                            <div class="filter-option active"><i data-lucide="user" class="w-4 h-4"></i><span>내
+                                    담당</span></div>
+                            <div class="filter-option"><i data-lucide="user-x" class="w-4 h-4"></i><span>미배정</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. 대화 목록 -->
+                <div class="conversation-list">
+                    <div class="flex items-center justify-between"
+                        style="height: 48px; padding: 0 18px; border-bottom: 1px solid var(--cc-border);">
+                        <span class="font-medium text-sm" style="color: var(--cc-text-primary)">대화 목록</span>
+                        <button class="text-xs font-medium hover:underline" style="color: var(--cc-accent)">+ 새
+                            메시지</button>
+                    </div>
+
+                    <div class="conversation-item active">
+                        <div class="flex items-start gap-3">
+                            <div class="channel-icon channel-kakao flex-shrink-0">K</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-gray-900 text-sm">김영희</span>
+                                    <span class="text-xs text-gray-500">10분 전</span>
+                                </div>
+                                <div class="text-xs text-gray-500 truncate mt-0.5">수술 상담 예약하고 싶어요</div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="status-badge status-new">신규</span>
+                                    <span class="unread-badge">3</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="conversation-item">
+                        <div class="flex items-start gap-3">
+                            <div class="channel-icon channel-instagram flex-shrink-0">I</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-gray-900 text-sm">이수진</span>
+                                    <span class="text-xs text-gray-500">40분 전</span>
+                                </div>
+                                <div class="text-xs text-gray-500 truncate mt-0.5">가격 문의드려요</div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="status-badge status-consulting">상담중</span>
+                                    <span class="text-xs text-gray-400">상담팀</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="conversation-item">
+                        <div class="flex items-start gap-3">
+                            <div class="channel-icon channel-naver flex-shrink-0">N</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-gray-900 text-sm">박철수</span>
+                                    <span class="text-xs text-gray-500">1시간 전</span>
+                                </div>
+                                <div class="text-xs text-gray-500 truncate mt-0.5">검사결과 언제 나오나요?</div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="status-badge status-pending">보류</span>
+                                    <span class="text-xs text-gray-400">김OO</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="conversation-item">
+                        <div class="flex items-start gap-3">
+                            <div class="channel-icon channel-sms flex-shrink-0">S</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-gray-900 text-sm">최민수</span>
+                                    <span class="text-xs text-gray-500">어제</span>
+                                </div>
+                                <div class="text-xs text-gray-500 truncate mt-0.5">감사합니다</div>
+                                <div class="flex items-center gap-2 mt-1">
+                                    <span class="status-badge status-completed">완료</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 채팅 영역 -->
+                <div class="chat-area">
+                    <div class="chat-header">
+                        <div class="flex items-center gap-3">
+                            <div class="channel-icon channel-kakao">K</div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-medium text-gray-900">김영희</span>
+                                    <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                                    <span class="text-xs text-green-600">Online</span>
+                                </div>
+                                <div class="text-xs text-gray-500">카카오톡</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button class="status-btn">신규</button>
+                            <button class="status-btn active">상담중</button>
+                            <button class="status-btn">보류</button>
+                            <button class="status-btn">완료</button>
+                            <div class="w-px h-6 bg-gray-200 mx-2"></div>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg"><i data-lucide="phone"
+                                    class="w-4 h-4 text-gray-600"></i></button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg"><i data-lucide="video"
+                                    class="w-4 h-4 text-gray-600"></i></button>
+                            <button class="p-2 hover:bg-gray-100 rounded-lg"><i data-lucide="more-horizontal"
+                                    class="w-4 h-4 text-gray-600"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="chat-messages">
+                        <div class="flex items-end gap-2 mb-4">
+                            <div class="message-bubble message-incoming">안녕하세요, 수술 상담 예약하고 싶어요. 라식이랑 라섹 차이가 궁금해요.</div>
+                            <span class="text-xs text-gray-400 mb-1">05:23 PM</span>
+                        </div>
+
+                        <div class="flex items-end gap-2 mb-4 flex-row-reverse">
+                            <div class="message-bubble message-outgoing">안녕하세요! 비앤빛 안과입니다 😊<br>상담 예약 도와드릴게요.</div>
+                            <div class="flex items-center gap-1 mb-1">
+                                <i data-lucide="check-check" class="w-3 h-3 text-blue-400"></i>
+                                <span class="text-xs text-gray-400">05:23 PM</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-end gap-2 mb-4">
+                            <div class="message-bubble message-incoming">감사합니다! 언제가 편하실까요?</div>
+                            <span class="text-xs text-gray-400 mb-1">05:24 PM</span>
+                        </div>
+
+                        <div class="flex items-end gap-2 mb-4 flex-row-reverse">
+                            <div class="message-bubble message-outgoing">내일 오후 2시 가능하신가요?<br>편하신 시간 알려주시면 예약 잡아드릴게요.
+                            </div>
+                            <div class="flex items-center gap-1 mb-1">
+                                <i data-lucide="check" class="w-3 h-3 text-gray-400"></i>
+                                <span class="text-xs text-gray-400">05:25 PM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chat-input-area">
+                        <div class="flex items-center gap-3">
+                            <button class="cc-btn-secondary">
+                                <i data-lucide="file-text" class="w-4 h-4"></i>
+                                템플릿
+                            </button>
+                            <button class="cc-btn-ghost"><i data-lucide="smile" class="w-5 h-5"></i></button>
+                            <button class="cc-btn-ghost"><i data-lucide="paperclip" class="w-5 h-5"></i></button>
+                            <input type="text" placeholder="메시지를 입력하세요..." class="cc-input flex-1">
+                            <button class="cc-btn-primary">
+                                <span>전송</span>
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 환자 정보 패널 -->
+                <div class="patient-panel">
+                    <h3 class="patient-section-title">
+                        <i data-lucide="user" class="w-4 h-4"></i>
+                        환자 정보
+                    </h3>
+
+                    <div>
+                        <div class="patient-info-row">
+                            <div class="patient-info-label">이름</div>
+                            <div class="patient-info-value">김영희</div>
+                        </div>
+                        <div class="patient-info-row">
+                            <div class="patient-info-label">연락처</div>
+                            <div class="patient-info-value">010-1234-5678</div>
+                        </div>
+                        <div class="patient-info-row">
+                            <div class="patient-info-label">최근 방문</div>
+                            <div class="patient-info-value">2025-12-20</div>
+                        </div>
+                        <div class="patient-info-row">
+                            <div class="patient-info-label">담당 의사</div>
+                            <div class="patient-info-value">이OO 원장</div>
+                        </div>
+
+                        <button class="w-full py-2.5 rounded-lg text-xs font-medium mt-3"
+                            style="background: var(--cc-accent-light); color: var(--cc-accent)">
+                            환자 차트 열기
+                        </button>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h3 class="patient-section-title">
+                        <i data-lucide="paperclip" class="w-4 h-4"></i>
+                        첨부 이력
+                    </h3>
+                    <div class="space-y-2">
+                        <div class="attachment-item">
+                            <i data-lucide="file" class="w-4 h-4"></i>
+                            <span>가격표.pdf</span>
+                        </div>
+                        <div class="attachment-item">
+                            <i data-lucide="image" class="w-4 h-4"></i>
+                            <span>시술안내.jpg</span>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <h3 class="patient-section-title">
+                        <i data-lucide="sticky-note" class="w-4 h-4"></i>
+                        메모
+                    </h3>
+                    <textarea placeholder="상담 메모를 입력하세요..." class="cc-input resize-none"
+                        rows="3">라섹 관심, 가격 문의 중</textarea>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <script>
+        lucide.createIcons();
+
+        // 대화 데이터
+        const conversations = {
+            1: {
+                name: '김영희',
+                channel: 'kakao',
+                channelName: '카카오톡',
+                phone: '010-1234-5678',
+                lastVisit: '2025-12-20',
+                doctor: '이OO 원장',
+                memo: '라섹 관심, 가격 문의 중',
+                messages: [
+                    { type: 'incoming', text: '안녕하세요, 수술 상담 예약하고 싶어요. 라식이랑 라섹 차이가 궁금해요.', time: '05:23 PM' },
+                    { type: 'outgoing', text: '안녕하세요! 비앤빛 안과입니다 😊<br>상담 예약 도와드릴게요.', time: '05:23 PM', read: true },
+                    { type: 'incoming', text: '감사합니다! 언제가 편하실까요?', time: '05:24 PM' },
+                    { type: 'outgoing', text: '내일 오후 2시 가능하신가요?<br>편하신 시간 알려주시면 예약 잡아드릴게요.', time: '05:25 PM', read: false }
+                ]
+            },
+            2: {
+                name: '이수진',
+                channel: 'instagram',
+                channelName: '인스타그램',
+                phone: '010-9876-5432',
+                lastVisit: '2025-12-15',
+                doctor: '박OO 원장',
+                memo: '가격 문의, 할인 이벤트 안내함',
+                messages: [
+                    { type: 'incoming', text: '안녕하세요~ 라식 가격 문의드려요', time: '04:30 PM' },
+                    { type: 'outgoing', text: '안녕하세요! 문의 감사합니다 😊<br>라식은 눈 상태에 따라 가격이 달라질 수 있어요.', time: '04:32 PM', read: true },
+                    { type: 'incoming', text: '대략적으로 얼마 정도인가요?', time: '04:35 PM' },
+                    { type: 'outgoing', text: '일반 라식 150만원대, 스마일라식 200만원대입니다.<br>현재 신년 이벤트도 진행 중이에요!', time: '04:40 PM', read: true }
+                ]
+            },
+            3: {
+                name: '박철수',
+                channel: 'naver',
+                channelName: '네이버',
+                phone: '010-5555-1234',
+                lastVisit: '2025-12-18',
+                doctor: '김OO 원장',
+                memo: '검사 결과 대기 중',
+                messages: [
+                    { type: 'incoming', text: '검사결과 언제 나오나요?', time: '02:00 PM' },
+                    { type: 'outgoing', text: '안녕하세요! 검사 결과는 보통 2-3일 소요됩니다.', time: '02:05 PM', read: true },
+                    { type: 'incoming', text: '알겠습니다. 결과 나오면 연락주세요', time: '02:10 PM' },
+                    { type: 'outgoing', text: '네, 결과 나오는 대로 바로 연락드리겠습니다!', time: '02:12 PM', read: true }
+                ]
+            },
+            4: {
+                name: '최민수',
+                channel: 'sms',
+                channelName: '문자',
+                phone: '010-7777-8888',
+                lastVisit: '2025-12-10',
+                doctor: '이OO 원장',
+                memo: '수술 완료, 만족도 높음',
+                messages: [
+                    { type: 'outgoing', text: '안녕하세요! 수술 후 경과는 어떠신가요?', time: '10:00 AM', read: true },
+                    { type: 'incoming', text: '아주 잘 보여요! 감사합니다 😊', time: '10:30 AM' },
+                    { type: 'outgoing', text: '다행이에요! 불편하신 점 있으시면 언제든 연락주세요.', time: '10:32 AM', read: true },
+                    { type: 'incoming', text: '감사합니다', time: '10:35 AM' }
+                ]
+            }
+        };
+
+        // 대화 선택 함수
+        function selectConversation(id) {
+            const conv = conversations[id];
+            if (!conv) return;
+
+            // 활성화 상태 변경
+            document.querySelectorAll('.conversation-item').forEach((item, idx) => {
+                item.classList.remove('active');
+                if (idx + 1 === id) item.classList.add('active');
+            });
+
+            // 채팅 헤더 업데이트
+            const chatHeader = document.querySelector('.chat-header');
+            const channelIcon = chatHeader.querySelector('.channel-icon');
+            channelIcon.className = `channel-icon channel-${conv.channel}`;
+            channelIcon.textContent = conv.channel[0].toUpperCase();
+            chatHeader.querySelector('.font-medium').textContent = conv.name;
+            chatHeader.querySelector('.text-xs.text-gray-500').textContent = conv.channelName;
+
+            // 채팅 메시지 업데이트
+            const messagesContainer = document.querySelector('.chat-messages');
+            messagesContainer.innerHTML = conv.messages.map(msg => {
+                if (msg.type === 'incoming') {
+                    return `<div class="flex items-end gap-2 mb-4">
+                        <div class="message-bubble message-incoming">${msg.text}</div>
+                        <span class="text-xs text-gray-400 mb-1">${msg.time}</span>
+                    </div>`;
+                } else {
+                    return `<div class="flex items-end gap-2 mb-4 flex-row-reverse">
+                        <div class="message-bubble message-outgoing">${msg.text}</div>
+                        <div class="flex items-center gap-1 mb-1">
+                            <i data-lucide="${msg.read ? 'check-check' : 'check'}" class="w-3 h-3 ${msg.read ? 'text-blue-400' : 'text-gray-400'}"></i>
+                            <span class="text-xs text-gray-400">${msg.time}</span>
+                        </div>
+                    </div>`;
+                }
+            }).join('');
+
+            // 환자 정보 업데이트
+            const patientPanel = document.querySelector('.patient-panel');
+            const infoValues = patientPanel.querySelectorAll('.patient-info-value');
+            infoValues[0].textContent = conv.name;
+            infoValues[1].textContent = conv.phone;
+            infoValues[2].textContent = conv.lastVisit;
+            infoValues[3].textContent = conv.doctor;
+            patientPanel.querySelector('textarea').value = conv.memo;
+
+            lucide.createIcons();
+        }
+
+        // 클릭 이벤트 바인딩
+        document.querySelectorAll('.conversation-item').forEach((item, idx) => {
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', () => selectConversation(idx + 1));
+        });
+    </script>
+</body>
+
+</html>

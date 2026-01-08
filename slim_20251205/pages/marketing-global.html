@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 해외 마케팅</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/topbar.js"></script>
+
+    <style>
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1f2937;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .stat-mini {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .region-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .region-card:hover {
+            border-color: #d1d5db;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="font-pretendard bg-gray-50">
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content flex-1">
+            <div class="p-6">
+                <!-- Page Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <h1 class="text-xl font-bold text-gray-900">해외 마케팅 성과</h1>
+                    <button
+                        class="px-3 py-1 text-xs font-medium bg-white border border-gray-200 rounded text-gray-600 hover:border-gray-300">기간:
+                        1월 전체</button>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="stat-mini">
+                        <div class="text-xs text-gray-400 font-medium uppercase mb-1">총 해외 매출</div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">￦310,000,000</div>
+                        <div class="text-xs text-emerald-600">전월 대비 +12%</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="text-xs text-gray-400 font-medium uppercase mb-1">해외 수술 건수</div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">31건</div>
+                        <div class="text-xs text-emerald-600">목표 달성율 95%</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="text-xs text-gray-400 font-medium uppercase mb-1">평균 객단가</div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">￦10,000,000</div>
+                        <div class="text-xs text-gray-400">변동 없음</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="text-xs text-gray-400 font-medium uppercase mb-1">전환율 (예약→수술)</div>
+                        <div class="text-lg font-bold text-gray-900 mb-1">42.5%</div>
+                        <div class="text-xs text-emerald-600">국내 대비 +2.5%</div>
+                    </div>
+                </div>
+
+                <!-- Region Cards -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6" id="regionCards"></div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl p-5 border border-gray-100">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="section-title">중화권 월별 성장 추이 (수술 건수)</h3>
+                            <div class="flex gap-2 text-xs">
+                                <span class="text-gray-400">Target</span>
+                                <span class="font-bold text-gray-800">15건 달성</span>
+                            </div>
+                        </div>
+                        <div class="h-48">
+                            <canvas id="growthChart"></canvas>
+                        </div>
+                    </div>
+                    <div
+                        class="bg-gray-50 rounded-xl p-6 border border-dashed border-gray-200 flex flex-col items-center justify-center text-center">
+                        <div class="p-3 bg-white rounded-full mb-3 shadow-sm">
+                            <i data-lucide="globe" class="w-5 h-5 text-gray-400"></i>
+                        </div>
+                        <h4 class="text-xs font-bold text-gray-800 mb-1">국가별 상세 점유율</h4>
+                        <p class="text-[10px] text-gray-400 mb-4">현재 데이터 수집 중입니다.</p>
+                        <button
+                            class="text-[10px] font-medium text-gray-600 bg-white border border-gray-200 px-3 py-1.5 rounded hover:bg-gray-50">
+                            데이터 소스 연결
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const GLOBAL_DATA = [
+            { region: "중화권", flag: "🇨🇳", staff: 2, reserve: 35, surgery: 15, sales: 150000000, arpc: "1,000만", growth: "+15%" },
+            { region: "영미권", flag: "🇺🇸", staff: 2, reserve: 28, surgery: 12, sales: 120000000, arpc: "1,000만", growth: "+8%" },
+            { region: "베트남", flag: "🇻🇳", staff: 1, reserve: 10, surgery: 4, sales: 40000000, arpc: "1,000만", growth: "New" },
+        ];
+
+        document.getElementById('regionCards').innerHTML = GLOBAL_DATA.map(item => `
+            <div class="region-card">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">${item.flag}</span>
+                        <h3 class="text-sm font-bold text-gray-800">${item.region}</h3>
+                    </div>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full font-medium ${item.growth === 'New' ? 'bg-blue-50 text-blue-600' : 'bg-green-50 text-green-600'}">
+                        ${item.growth}
+                    </span>
+                </div>
+                <div class="space-y-3 text-xs">
+                    <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                        <span class="text-gray-400">전담 인원</span>
+                        <span class="font-medium text-gray-700">${item.staff}명</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                        <span class="text-gray-400">수술 / 예약</span>
+                        <span class="font-medium text-gray-700">
+                            <span class="font-bold text-gray-900">${item.surgery}</span> / ${item.reserve}
+                        </span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-gray-50 pb-2">
+                        <span class="text-gray-400">객단가 (ARPC)</span>
+                        <span class="font-medium text-gray-600">￦${item.arpc}</span>
+                    </div>
+                    <div class="pt-2">
+                        <span class="text-gray-400 block mb-1 text-[10px] uppercase">Revenue Contribution</span>
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="text-base font-bold text-gray-900">￦${item.sales.toLocaleString()}</span>
+                        </div>
+                        <div class="w-full bg-gray-100 h-1.5 rounded-full overflow-hidden">
+                            <div class="h-full bg-gray-800 rounded-full" style="width: ${(item.sales / 310000000) * 100}%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        // Growth Chart
+        const ctx = document.getElementById('growthChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['10월', '11월', '12월', '01월'],
+                datasets: [{
+                    label: '수술 건수',
+                    data: [8, 12, 14, 15],
+                    borderColor: '#4b5563',
+                    backgroundColor: 'transparent',
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointBackgroundColor: '#4b5563',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 고객 유입유형</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/topbar.js"></script>
+
+    <style>
+        .section-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #1f2937;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .analysis-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+        }
+    </style>
+</head>
+
+<body class="font-pretendard bg-gray-50">
+    <div id="topbar-container"></div>
+
+    <div class="flex">
+        <div id="sidebar-container"></div>
+
+        <main class="main-content flex-1">
+            <div class="p-6">
+                <!-- Page Header -->
+                <div class="mb-6">
+                    <h1 class="text-xl font-bold text-gray-900">고객 유입유형 분석</h1>
+                    <p class="text-gray-500 text-sm mt-1">신규/기존 고객 비율과 유입 채널을 분석합니다</p>
+                </div>
+
+                <!-- Upper Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <!-- 신규 vs 기존 -->
+                    <div class="analysis-card flex flex-col items-center justify-center">
+                        <h3 class="section-title mb-6 self-start w-full">신규 vs 기존</h3>
+                        <div class="flex items-center gap-10 w-full justify-center">
+                            <div class="relative w-32 h-32">
+                                <canvas id="newVsExistingChart"></canvas>
+                            </div>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <div class="w-2 h-2 bg-gray-800 rounded-full"></div>
+                                        <span class="text-xs font-bold text-gray-900">신규 (380)</span>
+                                    </div>
+                                    <div class="text-[10px] text-gray-400 pl-4">First Visit</div>
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <div class="w-2 h-2 bg-gray-200 rounded-full"></div>
+                                        <span class="text-xs font-bold text-gray-500">기존 (140)</span>
+                                    </div>
+                                    <div class="text-[10px] text-gray-400 pl-4">Revisit</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 국적 및 유입 구성 -->
+                    <div class="analysis-card">
+                        <h3 class="section-title mb-6">국적 및 유입 구성</h3>
+                        <div class="space-y-5">
+                            <div>
+                                <div class="flex justify-between mb-1.5">
+                                    <span class="text-xs font-medium text-gray-500">내국인</span>
+                                    <span class="text-xs font-bold text-gray-900">81%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 h-1.5 rounded-full">
+                                    <div class="bg-gray-800 h-1.5 rounded-full" style="width: 81%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between mb-1.5">
+                                    <span class="text-xs font-medium text-gray-500">외국인</span>
+                                    <span class="text-xs font-bold text-gray-900">19%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 h-1.5 rounded-full">
+                                    <div class="bg-orange-500 h-1.5 rounded-full" style="width: 19%"></div>
+                                </div>
+                            </div>
+                            <div class="pt-4 border-t border-gray-50">
+                                <div class="flex justify-between mb-1.5">
+                                    <span class="text-xs font-medium text-gray-500">지인 소개 (Referral)</span>
+                                    <span class="text-xs font-bold text-emerald-600">32%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 h-1.5 rounded-full">
+                                    <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 32%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lower Section -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- 연령대별 분포 -->
+                    <div class="analysis-card">
+                        <h3 class="section-title mb-4 flex items-center gap-2">
+                            연령대별 내원 분포
+                            <span
+                                class="text-[10px] font-normal text-gray-400 bg-gray-100 px-1.5 rounded">Targeting</span>
+                        </h3>
+                        <div class="space-y-3" id="ageDistribution"></div>
+                        <div class="mt-4 pt-3 border-t border-gray-50 text-[10px] text-gray-400">
+                            * 2030 시력교정 집중 타겟 유효함 (75% 비중)
+                        </div>
+                    </div>
+
+                    <!-- 수술 유형별 선호도 -->
+                    <div class="analysis-card">
+                        <h3 class="section-title mb-4 flex items-center gap-2">
+                            수술 유형별 선호도
+                            <span
+                                class="text-[10px] font-normal text-gray-400 bg-gray-100 px-1.5 rounded">Conversion</span>
+                        </h3>
+                        <div class="flex flex-wrap gap-2 mb-2" id="surgeryPreference"></div>
+                        <div class="mt-2 text-[10px] text-gray-400 text-right">
+                            * 스마일라식 캠페인 성과 우수
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const AGE_DATA = [
+            { range: "20대", value: 45, color: "bg-indigo-600" },
+            { range: "30대", value: 30, color: "bg-indigo-400" },
+            { range: "40대", value: 15, color: "bg-indigo-300" },
+            { range: "50대+", value: 10, color: "bg-gray-400" },
+        ];
+
+        const SURGERY_DATA = [
+            { type: "스마일라식", value: 42, color: "bg-emerald-500" },
+            { type: "일반라식/라섹", value: 28, color: "bg-blue-500" },
+            { type: "렌즈삽입술", value: 18, color: "bg-indigo-500" },
+            { type: "백내장/노안", value: 12, color: "bg-gray-400" },
+        ];
+
+        // Age Distribution
+        document.getElementById('ageDistribution').innerHTML = AGE_DATA.map(item => `
+            <div class="flex items-center gap-3">
+                <span class="text-xs font-medium text-gray-600 w-10">${item.range}</span>
+                <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full ${item.color} rounded-full" style="width: ${item.value}%"></div>
+                </div>
+                <span class="text-xs font-bold text-gray-800 w-8 text-right">${item.value}%</span>
+            </div>
+        `).join('');
+
+        // Surgery Preference
+        document.getElementById('surgeryPreference').innerHTML = SURGERY_DATA.map(item => `
+            <div class="flex-1 min-w-[40%] border border-gray-100 p-2 rounded bg-gray-50/50">
+                <div class="flex items-center gap-1.5 mb-1">
+                    <div class="w-1.5 h-1.5 rounded-full ${item.color}"></div>
+                    <span class="text-[10px] text-gray-500">${item.type}</span>
+                </div>
+                <div class="text-lg font-bold text-gray-800">${item.value}%</div>
+            </div>
+        `).join('');
+
+        // New vs Existing Chart
+        const ctx = document.getElementById('newVsExistingChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['신규', '기존'],
+                datasets: [{
+                    data: [73, 27],
+                    backgroundColor: ['#1f2937', '#e5e7eb'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: { legend: { display: false } },
+                cutout: '70%'
+            }
+        });
+    </script>
+</body>
+
+</html>

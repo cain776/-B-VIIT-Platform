@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EyeChartPro - 로그인</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Pretendard Font -->
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="font-pretendard overflow-hidden">
+    <div class="h-screen flex w-full">
+        <!-- Left Side - Video Background -->
+        <!-- Left Side - Video Background -->
+        <div
+            class="login-left hidden lg:flex lg:w-2/3 flex-col justify-between p-10 xl:p-12 text-white relative overflow-hidden h-full">
+            <!-- Video Background -->
+            <video autoplay muted playsinline class="absolute inset-0 w-full h-full object-cover z-0"
+                style="transform: rotate(-90deg) scale(1.8);">
+                <source src="assets/video/login_bg.mp4" type="video/mp4">
+            </video>
+
+            <!-- Dark Overlay -->
+            <div class="absolute inset-0 bg-blue-900/60 backdrop-blur-[2px] z-[1]"></div>
+
+            <!-- Logo -->
+            <div class="flex items-center gap-3 relative z-10">
+                <div
+                    class="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-lg flex items-center justify-center font-bold text-sm">
+                    👁️
+                </div>
+                <span class="text-xl font-semibold">EyeChartPro</span>
+            </div>
+
+            <!-- Main Content -->
+            <div class="relative z-10 mb-8 mt-auto">
+                <h1 class="text-5xl xl:text-5xl font-bold leading-tight mb-6 tracking-tight">
+                    안과 진료의 모든 것을<br>한눈에
+                </h1>
+                <p class="text-white/90 text-lg font-light mb-8 leading-relaxed">
+                    환자 예약부터 진료, 수술, 경영 분석까지<br>
+                    <span class="font-semibold text-white">안과 전문 클라우드 시스템</span>으로 통합 관리하세요.
+                </p>
+
+                <!-- CTA Buttons -->
+                <div class="flex items-center gap-4 mb-10">
+                    <a href="#"
+                        class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition shadow-lg hover:shadow-blue-500/30 flex items-center gap-2">
+                        문의하기
+                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="landing.html"
+                        class="px-6 py-3 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 text-white rounded-lg font-medium transition flex items-center gap-2">
+                        둘러보기
+                        <i data-lucide="layout" class="w-4 h-4"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Features (Restored & Added) -->
+            <div class="space-y-3.5 relative z-10 mb-0">
+                <div class="flex items-center gap-4 group">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-white/20 transition-all duration-300 border border-white/10 group-hover:scale-110 shadow-lg shadow-black/5">
+                        <i data-lucide="users" class="w-5 h-5 text-blue-100"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-base mb-0.5 text-white/95">환자 360° 통합 관리</div>
+                        <div class="text-blue-100/70 text-xs font-light tracking-wide">진료 이력, 검사 결과, 수술 기록을 한눈에</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 group">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-white/20 transition-all duration-300 border border-white/10 group-hover:scale-110 shadow-lg shadow-black/5">
+                        <i data-lucide="calendar" class="w-5 h-5 text-blue-100"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-base mb-0.5 text-white/95">스마트 예약 시스템</div>
+                        <div class="text-blue-100/70 text-xs font-light tracking-wide">검사/진료/수술 예약 자동화 및 노쇼 관리</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 group">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-white/20 transition-all duration-300 border border-white/10 group-hover:scale-110 shadow-lg shadow-black/5">
+                        <i data-lucide="package" class="w-5 h-5 text-blue-100"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-base mb-0.5 text-white/95">시술 연동 재고 관리</div>
+                        <div class="text-blue-100/70 text-xs font-light tracking-wide">처방/수술 시 소모품 자동 차감 및 재고 알림</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 group">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-white/20 transition-all duration-300 border border-white/10 group-hover:scale-110 shadow-lg shadow-black/5">
+                        <i data-lucide="message-circle" class="w-5 h-5 text-blue-100"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-base mb-0.5 text-white/95">통합 채널 케어</div>
+                        <div class="text-blue-100/70 text-xs font-light tracking-wide">카카오톡, 문자 등 다양한 채널로 환자 맞춤 소통</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 group">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-white/20 transition-all duration-300 border border-white/10 group-hover:scale-110 shadow-lg shadow-black/5">
+                        <i data-lucide="heart" class="w-5 h-5 text-blue-100"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-base mb-0.5 text-white/95">소개환자 추적 관리</div>
+                        <div class="text-blue-100/70 text-xs font-light tracking-wide">소개인별 실적 분석 및 VIP 고객 케어</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 group">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center group-hover:bg-white/20 transition-all duration-300 border border-white/10 group-hover:scale-110 shadow-lg shadow-black/5">
+                        <i data-lucide="bar-chart-2" class="w-5 h-5 text-blue-100"></i>
+                    </div>
+                    <div>
+                        <div class="font-bold text-base mb-0.5 text-white/95">경영 데이터 인사이트</div>
+                        <div class="text-blue-100/70 text-xs font-light tracking-wide">의사별 실적, 수술 통계, 매출 분석 대시보드</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="text-white/60 text-xs relative z-10 mt-8">
+                © 2026 B&VIIT Group. All rights reserved.
+            </div>
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div class="w-full lg:w-1/3 flex items-center justify-center p-8 bg-gray-50 relative">
+            <!-- 상단 우측 링크들 -->
+            <div class="absolute top-6 right-8 flex items-center gap-4">
+                <a href="../admin_20250108/login.html"
+                    class="text-sm text-gray-500 hover:text-blue-600 flex items-center gap-1 transition">
+                    <i data-lucide="shield" class="w-4 h-4"></i>
+                    어드민으로 가기
+                </a>
+                <div class="w-px h-3 bg-gray-300"></div>
+                <a href="landing.html"
+                    class="text-sm text-gray-500 hover:text-blue-600 flex items-center gap-1 transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                    솔루션 목록 보기
+                </a>
+            </div>
+
+            <div class="w-full max-w-md">
+                <div class="bg-white rounded-2xl shadow-xl p-10 border border-gray-100"
+                    style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);">
+                    <!-- Header -->
+                    <div class="text-center mb-10">
+                        <h2 class="text-3xl font-bold text-gray-900 tracking-tight">EyeChartPro</h2>
+                        <p class="text-gray-400 mt-2 text-sm tracking-wide">안과 전문 클라우드 시스템</p>
+                    </div>
+
+                    <!-- Floating Label Styles -->
+                    <style>
+                        .floating-label-group {
+                            position: relative;
+                        }
+
+                        .floating-label-group input {
+                            padding-top: 1.5rem;
+                            padding-bottom: 0.5rem;
+                            font-size: 0.95rem;
+                            background-color: #fafafa;
+                            border: 1.5px solid #e5e7eb;
+                            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                        }
+
+                        .floating-label-group input:hover {
+                            border-color: #d1d5db;
+                            background-color: #fff;
+                        }
+
+                        .floating-label-group label {
+                            position: absolute;
+                            left: 1rem;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            color: #9ca3af;
+                            font-size: 0.95rem;
+                            font-weight: 500;
+                            pointer-events: none;
+                            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                            background: transparent;
+                        }
+
+                        .floating-label-group input:focus+label,
+                        .floating-label-group input:not(:placeholder-shown)+label,
+                        .floating-label-group .relative input:focus~label,
+                        .floating-label-group .relative input:not(:placeholder-shown)~label {
+                            top: 0.6rem;
+                            transform: translateY(0);
+                            font-size: 0.7rem;
+                            color: #2563eb;
+                            font-weight: 600;
+                            letter-spacing: 0.025em;
+                        }
+
+                        .floating-label-group input:focus {
+                            border-color: #2563eb;
+                            background-color: #fff;
+                            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+                        }
+
+                        /* 로그인 버튼 스타일 */
+                        .login-btn {
+                            background-color: #2563eb;
+                            font-weight: 600;
+                            letter-spacing: 0.025em;
+                            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                            box-shadow: 0 4px 14px -3px rgba(37, 99, 235, 0.4);
+                        }
+
+                        .login-btn:hover {
+                            background-color: #1d4ed8;
+                            transform: translateY(-1px);
+                            box-shadow: 0 6px 20px -3px rgba(37, 99, 235, 0.5);
+                        }
+
+                        .login-btn:active {
+                            transform: translateY(0);
+                        }
+
+                        /* 체크박스 스타일 개선 */
+                        .custom-checkbox {
+                            appearance: none;
+                            width: 1.125rem;
+                            height: 1.125rem;
+                            border: 1.5px solid #d1d5db;
+                            border-radius: 4px;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+                            position: relative;
+                        }
+
+                        .custom-checkbox:hover {
+                            border-color: #2563eb;
+                        }
+
+                        .custom-checkbox:checked {
+                            background-color: #2563eb;
+                            border-color: #2563eb;
+                        }
+
+                        .custom-checkbox:checked::after {
+                            content: '';
+                            position: absolute;
+                            left: 5px;
+                            top: 2px;
+                            width: 5px;
+                            height: 9px;
+                            border: solid white;
+                            border-width: 0 2px 2px 0;
+                            transform: rotate(45deg);
+                        }
+
+                        /* 링크 호버 효과 */
+                        .link-hover {
+                            position: relative;
+                            transition: color 0.2s ease;
+                        }
+
+                        .link-hover::after {
+                            content: '';
+                            position: absolute;
+                            bottom: -2px;
+                            left: 0;
+                            width: 0;
+                            height: 1.5px;
+                            background-color: #2563eb;
+                            transition: width 0.25s ease;
+                        }
+
+                        .link-hover:hover::after {
+                            width: 100%;
+                        }
+                    </style>
+
+                    <!-- Form -->
+                    <form action="index.html" class="space-y-5 px-2" autocomplete="off">
+                        <!-- 병의원 코드 -->
+                        <div class="floating-label-group">
+                            <input type="text" id="hospitalCode" name="hc_code_x" placeholder=" " autocomplete="off"
+                                data-lpignore="true" data-form-type="other" readonly
+                                onfocus="this.removeAttribute('readonly');"
+                                class="w-full px-4 py-3 rounded-xl text-gray-900 focus:outline-none">
+                            <label for="hospitalCode">병의원 코드</label>
+                        </div>
+
+                        <!-- 아이디 -->
+                        <div class="floating-label-group">
+                            <input type="text" id="loginId" name="loginId_field" placeholder=" "
+                                autocomplete="new-password"
+                                class="w-full px-4 py-3 rounded-xl text-gray-900 focus:outline-none">
+                            <label for="loginId">아이디</label>
+                        </div>
+
+                        <!-- 비밀번호 -->
+                        <div class="floating-label-group">
+                            <div class="relative">
+                                <input type="password" id="loginPassword" name="loginPassword_field" placeholder=" "
+                                    autocomplete="new-password"
+                                    class="w-full px-4 py-3 rounded-xl text-gray-900 pr-12 focus:outline-none">
+                                <label for="loginPassword">비밀번호</label>
+                                <button type="button" onclick="togglePassword()"
+                                    class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600 z-10 transition-colors">
+                                    <i data-lucide="eye" class="w-5 h-5" id="eye-icon"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-1 gap-4">
+                            <div class="flex items-center gap-4">
+                                <label class="flex items-center gap-2 cursor-pointer group">
+                                    <input type="checkbox" id="saveHospitalCode" class="custom-checkbox">
+                                    <span class="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">병원코드
+                                        저장</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer group">
+                                    <input type="checkbox" id="saveId" class="custom-checkbox">
+                                    <span class="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">아이디
+                                        저장</span>
+                                </label>
+                            </div>
+                            <button type="button" onclick="openFindPasswordModal()"
+                                class="text-sm text-gray-500 hover:text-blue-600 link-hover whitespace-nowrap">비밀번호
+                                찾기</button>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 text-white rounded-xl login-btn mt-2">
+                            로그인
+                        </button>
+                    </form>
+
+                    <!-- Sign Up Link -->
+                    <p class="text-center mt-8 text-gray-500 text-sm">
+                        계정이 없으신가요?
+                        <button type="button" onclick="openSignupModal()"
+                            class="text-blue-600 font-semibold hover:text-blue-700 link-hover ml-1">회원가입</button>
+                    </p>
+                </div>
+
+                <!-- Footer Links -->
+                <div class="flex justify-center gap-6 mt-6 text-sm text-gray-500">
+                    <a href="#" class="hover:text-gray-700">이용약관</a>
+                    <a href="#" class="hover:text-gray-700">개인정보처리방침</a>
+                    <a href="#" class="hover:text-gray-700">고객센터</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal - Redesigned -->
+    <div id="signupModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[1000]"
+        style="display: none;">
+        <style>
+            /* Floating Label Signup Modal Styles */
+            .signup-modal-new {
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                width: 580px;
+                max-width: 95vw;
+                overflow: hidden;
+            }
+
+            .signup-header {
+                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                padding: 20px 28px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .signup-header h2 {
+                color: white;
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            .signup-header .close-btn {
+                color: white;
+                background: rgba(255, 255, 255, 0.15);
+                border: none;
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s;
+            }
+
+            .signup-header .close-btn:hover {
+                background: rgba(255, 255, 255, 0.25);
+            }
+
+            .signup-body {
+                padding: 24px 28px;
+            }
+
+            .signup-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px 24px;
+            }
+
+            .signup-grid .full-width {
+                grid-column: 1 / -1;
+            }
+
+            /* Floating Label Input Group */
+            .float-group {
+                position: relative;
+            }
+
+            .float-group input,
+            .float-group select {
+                width: 100%;
+                padding: 22px 36px 8px 14px;
+                font-size: 14px;
+                border: 1.5px solid #e5e7eb;
+                border-radius: 10px;
+                background: #fafafa;
+                transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                -webkit-appearance: none;
+                appearance: none;
+            }
+
+            .float-group select {
+                padding-right: 40px;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 14px center;
+                background-size: 16px 16px;
+                cursor: pointer;
+            }
+
+            .float-group input:hover,
+            .float-group select:hover {
+                border-color: #d1d5db;
+                background-color: #fff;
+            }
+
+            .float-group input:focus,
+            .float-group select:focus {
+                outline: none;
+                border-color: #2563eb;
+                background-color: #fff;
+                box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+            }
+
+            .float-group label {
+                position: absolute;
+                left: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 14px;
+                color: #9ca3af;
+                pointer-events: none;
+                transition: all 0.2s ease;
+                background: transparent;
+            }
+
+            .float-group input:focus+label,
+            .float-group input:not(:placeholder-shown)+label,
+            .float-group select:focus+label,
+            .float-group select.has-value+label {
+                top: 6px;
+                transform: translateY(0);
+                font-size: 10px;
+                color: #2563eb;
+                font-weight: 600;
+                letter-spacing: 0.3px;
+            }
+
+            .float-group .required-star {
+                color: #ef4444;
+            }
+
+            /* Button with input */
+            .input-with-btn {
+                display: flex;
+                gap: 8px;
+            }
+
+            .input-with-btn .float-group {
+                flex: 1;
+            }
+
+            .input-with-btn .check-btn {
+                padding: 0 16px;
+                background: #2563eb;
+                color: white;
+                border: none;
+                border-radius: 10px;
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                white-space: nowrap;
+                transition: all 0.2s;
+            }
+
+            .input-with-btn .check-btn:hover {
+                background: #1d4ed8;
+            }
+
+            /* Password toggle */
+            .float-group .pwd-toggle {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: none;
+                border: none;
+                color: #9ca3af;
+                cursor: pointer;
+                padding: 4px;
+            }
+
+            .float-group .pwd-toggle:hover {
+                color: #2563eb;
+            }
+
+            /* Clear button */
+            .float-group .clear-btn {
+                position: absolute;
+                right: 12px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: #e5e7eb;
+                border: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: none;
+                align-items: center;
+                justify-content: center;
+                font-size: 11px;
+                color: #6b7280;
+                line-height: 1;
+                padding: 0;
+            }
+
+            .float-group .clear-btn:hover {
+                background: #d1d5db;
+                color: #374151;
+            }
+
+            .float-group input:not(:placeholder-shown)~.clear-btn,
+            .float-group input:focus~.clear-btn {
+                display: flex;
+            }
+
+            .float-group:has(input:not(:placeholder-shown)) .clear-btn {
+                display: flex;
+            }
+
+            /* Agreement Section */
+            .agreement-box {
+                background: #f9fafb;
+                border-radius: 12px;
+                padding: 16px;
+                margin-top: 8px;
+            }
+
+            .agreement-box .all-agree {
+                padding-bottom: 12px;
+                border-bottom: 1px solid #e5e7eb;
+                margin-bottom: 12px;
+            }
+
+            .agreement-box label {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                cursor: pointer;
+                font-size: 13px;
+                color: #374151;
+            }
+
+            .agreement-box input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+                accent-color: #2563eb;
+                cursor: pointer;
+            }
+
+            .agreement-box .sub-item {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 8px;
+            }
+
+            .agreement-box .view-link {
+                font-size: 12px;
+                color: #6b7280;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                gap: 2px;
+            }
+
+            .agreement-box .view-link:hover {
+                color: #2563eb;
+            }
+
+            .required-tag {
+                font-size: 11px;
+                color: #ef4444;
+                font-weight: 500;
+            }
+
+            /* Notice */
+            .signup-notice-new {
+                text-align: center;
+                font-size: 13px;
+                color: #6b7280;
+                margin-top: 16px;
+                padding: 12px;
+                background: #eff6ff;
+                border-radius: 8px;
+            }
+
+            /* Footer */
+            .signup-footer {
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+                padding: 20px 28px;
+                border-top: 1px solid #e5e7eb;
+            }
+
+            .signup-footer .btn {
+                padding: 12px 32px;
+                border-radius: 10px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+
+            .signup-footer .btn-submit {
+                background: #2563eb;
+                color: white;
+                border: none;
+            }
+
+            .signup-footer .btn-submit:hover {
+                background: #1d4ed8;
+                transform: translateY(-1px);
+            }
+
+            .signup-footer .btn-cancel {
+                background: white;
+                color: #6b7280;
+                border: 1px solid #d1d5db;
+            }
+
+            .signup-footer .btn-cancel:hover {
+                background: #f9fafb;
+            }
+
+            .signup-footer .btn-reset {
+                background: white;
+                color: #6b7280;
+                border: 1px solid #d1d5db;
+            }
+
+            .signup-footer .btn-reset:hover {
+                background: #fef2f2;
+                border-color: #fca5a5;
+                color: #dc2626;
+            }
+
+            .success-msg {
+                display: none;
+                color: #059669;
+                font-size: 12px;
+                margin-top: 4px;
+                padding-left: 14px;
+            }
+
+            .error-msg {
+                display: none;
+                color: #ef4444;
+                font-size: 12px;
+                margin-top: 4px;
+                padding-left: 14px;
+            }
+
+            /* Terms Modal */
+            .terms-modal-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 10000;
+                justify-content: center;
+                align-items: center;
+                backdrop-filter: blur(4px);
+            }
+
+            .terms-modal-container {
+                background: white;
+                width: 720px;
+                max-width: 90vw;
+                max-height: 85vh;
+                border-radius: 16px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                overflow: hidden;
+                animation: slideUp 0.3s ease;
+            }
+
+            @keyframes slideUp {
+                from {
+                    transform: translateY(20px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .terms-modal-header {
+                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                padding: 16px 24px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .terms-modal-header h3 {
+                color: white;
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .terms-modal-header .close-btn {
+                color: white;
+                background: rgba(255, 255, 255, 0.15);
+                border: none;
+                width: 28px;
+                height: 28px;
+                border-radius: 6px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.2s;
+            }
+
+            .terms-modal-header .close-btn:hover {
+                background: rgba(255, 255, 255, 0.25);
+            }
+
+            .terms-modal-body {
+                height: 700px;
+                overflow: auto;
+            }
+
+            .terms-modal-body iframe {
+                width: 100%;
+                height: 100%;
+                border: none;
+            }
+
+            .terms-modal-footer {
+                padding: 12px 24px;
+                background: #f9fafb;
+                border-top: 1px solid #e5e7eb;
+                display: flex;
+                justify-content: flex-end;
+            }
+
+            .terms-modal-footer .btn-close {
+                padding: 8px 20px;
+                background: #2563eb;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+
+            .terms-modal-footer .btn-close:hover {
+                background: #1d4ed8;
+            }
+        </style>
+
+        <div class="signup-modal-new">
+            <!-- Header -->
+            <div class="signup-header">
+                <h2>회원가입</h2>
+                <button class="close-btn" onclick="closeSignupModal()">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="signup-body">
+                <form id="signupForm">
+                    <div class="signup-grid">
+                        <!-- Hospital Code -->
+                        <div class="full-width input-with-btn">
+                            <div class="float-group">
+                                <input type="text" id="modalHospitalCode" placeholder=" ">
+                                <label>병원코드 <span class="required-star">*</span></label>
+                            </div>
+                            <button type="button" class="check-btn" onclick="checkModalHospitalCode()">코드 확인</button>
+                        </div>
+                        <div class="full-width">
+                            <div class="success-msg" id="hospitalCodeSuccess">✓ <span id="hospitalNameDisplay"></span>
+                            </div>
+                            <div class="error-msg" id="hospitalCodeError">유효하지 않은 병원코드입니다.</div>
+                        </div>
+
+                        <!-- ID -->
+                        <div class="input-with-btn">
+                            <div class="float-group">
+                                <input type="text" id="userId" placeholder=" ">
+                                <label>아이디 <span class="required-star">*</span></label>
+                            </div>
+                            <button type="button" class="check-btn" onclick="checkDuplicateId()">중복확인</button>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="float-group">
+                            <input type="text" id="userName" placeholder=" ">
+                            <label>이름 <span class="required-star">*</span></label>
+                            <button type="button" class="clear-btn" onclick="clearInput('userName')">×</button>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="float-group">
+                            <input type="password" id="signupPassword" placeholder=" ">
+                            <label>비밀번호 <span class="required-star">*</span></label>
+                            <button type="button" class="pwd-toggle" onclick="toggleSignupPassword('signupPassword')">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+
+                        <!-- Password Confirm -->
+                        <div class="float-group">
+                            <input type="password" id="passwordConfirm" placeholder=" ">
+                            <label>비밀번호 확인 <span class="required-star">*</span></label>
+                            <button type="button" class="pwd-toggle" onclick="toggleSignupPassword('passwordConfirm')">
+                                <i data-lucide="eye" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="float-group">
+                            <input type="email" id="emailFull" placeholder=" ">
+                            <label>이메일 <span class="required-star">*</span></label>
+                            <button type="button" class="clear-btn" onclick="clearInput('emailFull')">×</button>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="float-group">
+                            <input type="tel" id="contact" placeholder=" ">
+                            <label>휴대폰 <span class="required-star">*</span></label>
+                            <button type="button" class="clear-btn" onclick="clearInput('contact')">×</button>
+                        </div>
+
+                        <!-- Department -->
+                        <div class="float-group">
+                            <select id="department" onchange="this.classList.toggle('has-value', this.value !== '')">
+                                <option value=""></option>
+                                <option value="진료">진료</option>
+                                <option value="수술">수술</option>
+                                <option value="검사">검사</option>
+                                <option value="간호">간호</option>
+                                <option value="원무">원무</option>
+                                <option value="마케팅">마케팅</option>
+                                <option value="경영지원">경영지원</option>
+                            </select>
+                            <label>소속 부서 <span class="required-star">*</span></label>
+                        </div>
+
+                        <!-- Role -->
+                        <div class="float-group">
+                            <select id="role" onchange="this.classList.toggle('has-value', this.value !== '')">
+                                <option value=""></option>
+                                <option value="원장">원장</option>
+                                <option value="의사">의사</option>
+                                <option value="간호사">간호사</option>
+                                <option value="검사실장">검사실장</option>
+                                <option value="코디네이터">코디네이터</option>
+                                <option value="팀장">팀장</option>
+                                <option value="사원">사원</option>
+                            </select>
+                            <label>직급 <span class="required-star">*</span></label>
+                        </div>
+                    </div>
+
+                    <!-- Agreement -->
+                    <div class="agreement-box">
+                        <div class="all-agree">
+                            <label>
+                                <input type="checkbox" id="agreeAll" onchange="toggleAllAgreements()">
+                                <span style="font-weight: 600;">전체 동의합니다</span>
+                            </label>
+                        </div>
+                        <div class="sub-item">
+                            <label>
+                                <input type="checkbox" class="agreement-checkbox" id="agreePrivacy">
+                                <span>개인정보 수집 및 이용 동의 <span class="required-tag">(필수)</span></span>
+                            </label>
+                            <a href="#" class="view-link" onclick="viewTerms('privacy'); return false;">
+                                보기 <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                        <div class="sub-item">
+                            <label>
+                                <input type="checkbox" class="agreement-checkbox" id="agreeService">
+                                <span>서비스 이용약관 <span class="required-tag">(필수)</span></span>
+                            </label>
+                            <a href="#" class="view-link" onclick="viewTerms('service'); return false;">
+                                보기 <i data-lucide="chevron-right" class="w-3 h-3"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Notice -->
+                    <div class="signup-notice-new">
+                        💡 관리자 승인 후 EyeChartPro 서비스 로그인이 가능합니다
+                    </div>
+                </form>
+            </div>
+
+            <!-- Footer -->
+            <div class="signup-footer">
+                <button type="button" class="btn btn-submit" onclick="submitSignup()">가입 신청</button>
+                <button type="button" class="btn btn-reset" onclick="resetSignupForm()">초기화</button>
+                <button type="button" class="btn btn-cancel" onclick="closeSignupModal()">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms Modal -->
+    <div id="termsModal" class="terms-modal-overlay" onclick="closeTermsModal(event)">
+        <div class="terms-modal-container" onclick="event.stopPropagation()">
+            <div class="terms-modal-header">
+                <h3 id="termsModalTitle">약관</h3>
+                <button class="close-btn" onclick="closeTermsModal()">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="terms-modal-body">
+                <iframe id="termsIframe" src=""></iframe>
+            </div>
+            <div class="terms-modal-footer">
+                <button class="btn-close" onclick="closeTermsModal()">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Find Password Modal -->
+    <div id="findPasswordModal" class="modal-overlay hidden">
+        <div class="find-password-modal-container">
+            <!-- Modal Header -->
+            <div class="signup-modal-header modal-header-primary">
+                <h2 class="modal-title">비밀번호 찾기</h2>
+                <button type="button" class="modal-close" onclick="closeFindPasswordModal()">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="find-password-body">
+                <p class="find-password-desc">이메일 주소를 입력하시면 비밀번호 재설정 안내를 보내드립니다.</p>
+
+                <div class="find-password-form">
+                    <div class="find-password-input-wrapper">
+                        <i data-lucide="mail" class="find-password-input-icon"></i>
+                        <input type="email" id="findPasswordEmail" class="find-password-input"
+                            placeholder="이메일 주소를 입력해주세요">
+                    </div>
+
+                    <button type="button" class="find-password-submit-btn" onclick="findPasswordNext()">
+                        재설정 안내 보내기
+                    </button>
+                </div>
+
+                <p class="find-password-login-link">
+                    이미 계정이 있으신가요? <a href="#" onclick="closeFindPasswordModal()">로그인</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Scripts -->
+    <script src="js/main.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // 병원코드 및 아이디 저장 기능 - 페이지 로드 시 저장된 값 복원
+        document.addEventListener('DOMContentLoaded', function () {
+            // 병원코드 복원
+            const savedHospitalCode = localStorage.getItem('savedHospitalCode');
+            const saveHospitalCodeChecked = localStorage.getItem('saveHospitalCodeChecked') === 'true';
+
+            if (saveHospitalCodeChecked && savedHospitalCode) {
+                document.getElementById('hospitalCode').value = savedHospitalCode;
+                document.getElementById('saveHospitalCode').checked = true;
+            }
+
+            // 아이디 복원
+            const savedId = localStorage.getItem('savedLoginId');
+            const saveIdChecked = localStorage.getItem('saveIdChecked') === 'true';
+
+            if (saveIdChecked && savedId) {
+                document.getElementById('loginId').value = savedId;
+                document.getElementById('saveId').checked = true;
+            }
+
+            // 폼 제출 시 저장 처리
+            document.querySelector('form').addEventListener('submit', function (e) {
+                // 병원코드 저장
+                const saveHospitalCodeCheckbox = document.getElementById('saveHospitalCode');
+                const hospitalCodeInput = document.getElementById('hospitalCode');
+
+                if (saveHospitalCodeCheckbox.checked) {
+                    localStorage.setItem('savedHospitalCode', hospitalCodeInput.value);
+                    localStorage.setItem('saveHospitalCodeChecked', 'true');
+                } else {
+                    localStorage.removeItem('savedHospitalCode');
+                    localStorage.setItem('saveHospitalCodeChecked', 'false');
+                }
+
+                // 아이디 저장
+                const saveIdCheckbox = document.getElementById('saveId');
+                const idInput = document.getElementById('loginId');
+
+                if (saveIdCheckbox.checked) {
+                    localStorage.setItem('savedLoginId', idInput.value);
+                    localStorage.setItem('saveIdChecked', 'true');
+                } else {
+                    localStorage.removeItem('savedLoginId');
+                    localStorage.setItem('saveIdChecked', 'false');
+                }
+            });
+        });
+
+        // Toggle password visibility
+        function togglePassword() {
+            const input = document.getElementById('loginPassword');
+            const icon = document.getElementById('eye-icon');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+
+        // Open Signup Modal
+        function openSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        // Close Signup Modal
+        function closeSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            resetSignupForm();
+        }
+
+        // Reset Signup Form
+        function resetSignupForm() {
+            document.getElementById('signupForm').reset();
+            document.querySelectorAll('.error-msg, .success-msg').forEach(el => el.style.display = 'none');
+
+            // Reset select boxes explicitly
+            document.querySelectorAll('#signupModal select').forEach(el => {
+                el.value = '';
+                el.classList.remove('has-value');
+            });
+
+            // Hide all clear buttons
+            document.querySelectorAll('#signupModal .clear-btn').forEach(btn => btn.style.display = 'none');
+        }
+
+        // Clear individual input
+        function clearInput(inputId) {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        // Toggle password visibility for signup form
+        function toggleSignupPassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+
+        // Check modal hospital code
+        function checkModalHospitalCode() {
+            const code = document.getElementById('modalHospitalCode').value.trim().toUpperCase();
+            const errorEl = document.getElementById('hospitalCodeError');
+            const successEl = document.getElementById('hospitalCodeSuccess');
+            const nameEl = document.getElementById('hospitalNameDisplay');
+
+            if (!code) {
+                alert('병원코드를 입력해주세요.');
+                return;
+            }
+
+            // 테스트용 유효한 병원코드 목록 (실제로는 서버에서 검증)
+            const validCodes = {
+                'BNVIT-001': '비앤빛 강남밝은세상안과',
+                'BNVIT-002': '비앤빛 잠실밝은세상안과',
+                'VXV-001': 'VXV 캠리병원'
+            };
+
+            if (validCodes[code]) {
+                errorEl.style.display = 'none';
+                successEl.style.display = 'block';
+                nameEl.textContent = validCodes[code];
+                document.getElementById('modalHospitalCode').value = code;
+            } else {
+                successEl.style.display = 'none';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        // Check duplicate ID
+        function checkDuplicateId() {
+            const userId = document.getElementById('userId').value;
+            if (!userId) {
+                alert('아이디를 입력해주세요.');
+                return;
+            }
+            alert('사용 가능한 아이디입니다.');
+        }
+
+        // Toggle all agreements
+        function toggleAllAgreements() {
+            const agreeAll = document.getElementById('agreeAll').checked;
+            document.querySelectorAll('.agreement-checkbox').forEach(checkbox => {
+                checkbox.checked = agreeAll;
+            });
+        }
+
+        // Individual agreement change handler
+        document.querySelectorAll('.agreement-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const allChecked = Array.from(document.querySelectorAll('.agreement-checkbox')).every(cb => cb.checked);
+                document.getElementById('agreeAll').checked = allChecked;
+            });
+        });
+
+        // View terms
+        function viewTerms(type) {
+            const modal = document.getElementById('termsModal');
+            const title = document.getElementById('termsModalTitle');
+            const iframe = document.getElementById('termsIframe');
+
+            if (type === 'privacy') {
+                title.textContent = '개인정보 수집 및 이용 동의';
+                iframe.src = 'pages/terms-privacy.html';
+            } else if (type === 'service') {
+                title.textContent = '서비스 이용약관';
+                iframe.src = 'pages/terms-service.html';
+            }
+
+            modal.style.display = 'flex';
+            lucide.createIcons();
+        }
+
+        function closeTermsModal(event) {
+            if (event && event.target !== event.currentTarget) return;
+            const modal = document.getElementById('termsModal');
+            const iframe = document.getElementById('termsIframe');
+            modal.style.display = 'none';
+            iframe.src = '';
+        }
+
+        // Submit signup
+        function submitSignup() {
+            const hospitalCode = document.getElementById('modalHospitalCode').value;
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('signupPassword').value;
+            const passwordConfirm = document.getElementById('passwordConfirm').value;
+            const userName = document.getElementById('userName').value;
+            const email = document.getElementById('emailFull').value;
+            const contact = document.getElementById('contact').value;
+            const department = document.getElementById('department').value;
+            const role = document.getElementById('role').value;
+            const agreePrivacy = document.getElementById('agreePrivacy').checked;
+            const agreeService = document.getElementById('agreeService').checked;
+
+            if (!hospitalCode || !userId || !password || !passwordConfirm || !userName || !email || !contact || !department || !role) {
+                alert('필수 항목을 모두 입력해주세요.');
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
+            }
+
+            if (password.length < 8) {
+                alert('비밀번호는 8자 이상이어야 합니다.');
+                return;
+            }
+
+            if (!agreePrivacy || !agreeService) {
+                alert('필수 약관에 모두 동의해주세요.');
+                return;
+            }
+
+            alert('회원가입이 완료되었습니다.\n관리자 승인 후 로그인이 가능합니다.');
+            closeSignupModal();
+        }
+
+        // Close modal on overlay click
+        document.getElementById('signupModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeSignupModal();
+            }
+        });
+
+        // Find Password Modal Functions
+        function openFindPasswordModal() {
+            document.getElementById('findPasswordModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeFindPasswordModal() {
+            document.getElementById('findPasswordModal').classList.add('hidden');
+            document.body.style.overflow = '';
+            document.getElementById('findPasswordEmail').value = '';
+        }
+
+        function findPasswordNext() {
+            const email = document.getElementById('findPasswordEmail').value;
+            if (!email) {
+                alert('이메일 주소를 입력해주세요.');
+                return;
+            }
+            // 이메일 형식 검증
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('올바른 이메일 형식을 입력해주세요.');
+                return;
+            }
+            alert('입력하신 이메일로 비밀번호 재설정 안내를 보내드렸습니다.\n이메일을 확인해주세요.');
+            closeFindPasswordModal();
+        }
+
+        // Close find password modal on overlay click
+        document.getElementById('findPasswordModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeFindPasswordModal();
+            }
+        });
+
+        // Close modal on ESC key
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                if (!document.getElementById('signupModal').classList.contains('hidden')) {
+                    closeSignupModal();
+                }
+                if (!document.getElementById('findPasswordModal').classList.contains('hidden')) {
+                    closeFindPasswordModal();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
