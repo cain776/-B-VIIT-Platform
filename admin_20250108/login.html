@@ -170,7 +170,7 @@
             margin-top: 4px;
         }
 
-        /* Floating Label Styles (Ported from General Login) */
+        /* Floating Label Styles */
         .floating-label-group {
             position: relative;
             margin-bottom: 20px;
@@ -209,7 +209,6 @@
             color: #94a3b8;
             font-size: 14px;
             pointer-events: none;
-            /* Important for clicking through */
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             background: transparent;
         }
@@ -245,44 +244,31 @@
         .login-btn {
             width: 100%;
             padding: 16px;
-            /* 유리 질감 배경 */
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-
-            /* 유리 테두리 */
             border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 16px;
-
             color: #64748b;
-            /* 비활성 시 차분한 텍스트 */
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-
-            /* 은은한 그림자 */
             box-shadow:
                 0 4px 6px -1px rgba(0, 0, 0, 0.05),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-
             margin-top: 12px;
             opacity: 0.6;
             pointer-events: none;
             letter-spacing: -0.01em;
         }
 
-        /* 활성화 상태 - 유리에 푸른 빛이 차오름 */
         .login-btn.active {
             opacity: 1;
             pointer-events: auto;
-            /* 진한 유리 느낌 */
             background: rgba(37, 99, 235, 0.85);
-            /* Blue with transparency */
             border-color: rgba(255, 255, 255, 0.3);
             color: white;
-
-            /* 빛나는 효과 */
             box-shadow:
                 0 10px 20px -5px rgba(37, 99, 235, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
@@ -343,7 +329,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             z-index: 2;
             transition: transform 0.1s;
-            /* Smooth dragging */
             color: #64748b;
         }
 
@@ -358,7 +343,6 @@
             height: 100%;
             width: 0;
             background: #10b981;
-            /* Green */
             transition: width 0.1s;
         }
 
@@ -416,23 +400,16 @@
         </div>
 
         <form action="index.html" autocomplete="off">
-            <!-- Chrome Autofill Blocker (Hidden Fields) -->
-            <div style="width:0;height:0;overflow:hidden">
-                <input type="text" name="fake_email" autocomplete="off">
-                <input type="password" name="fake_password" autocomplete="new-password">
-            </div>
-
             <!-- ID Floating Label -->
             <div class="floating-label-group">
-                <input type="text" id="adminId" name="admin_id_real" placeholder=" " autocomplete="chrome-off" readonly
-                    onfocus="this.removeAttribute('readonly');" required>
+                <input type="text" id="adminId" name="admin_id" placeholder=" " autocomplete="off" required>
                 <label for="adminId">ID</label>
             </div>
 
             <!-- Password Floating Label -->
             <div class="floating-label-group">
-                <input type="password" id="adminPassword" name="admin_password_real" placeholder=" "
-                    autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');" required>
+                <input type="password" id="adminPassword" name="admin_password" placeholder=" "
+                    autocomplete="new-password" required>
                 <label for="adminPassword">Password</label>
                 <button type="button" class="pwd-toggle" onclick="togglePassword()">
                     <i data-lucide="eye" class="w-5 h-5" id="eye-icon"></i>
@@ -453,7 +430,7 @@
             </button>
         </form>
 
-        <a href="../login.html" class="footer-link">
+        <a href="../slim_20251205/login.html" class="footer-link">
             <i data-lucide="arrow-left" class="w-4 h-4"></i>
             일반 사용자 로그인
         </a>
@@ -478,12 +455,11 @@
 
         // 로그인 처리 함수
         document.querySelector('form').addEventListener('submit', function (e) {
-            e.preventDefault(); // 기본 폼 제출 방지
+            e.preventDefault();
 
             const id = document.getElementById('adminId').value;
             const password = document.getElementById('adminPassword').value;
 
-            // 간단한 입력 검증
             if (!id || !password) {
                 alert('아이디와 비밀번호를 모두 입력해주세요.');
                 return;
@@ -501,14 +477,13 @@
         const loginBtn = document.getElementById('loginBtn');
         let isDragging = false;
         let startX = 0;
-        let p = 0; // percentage
+        let p = 0;
         let isVerified = false;
 
         slider.addEventListener('mousedown', startDrag);
         document.addEventListener('mousemove', drag);
         document.addEventListener('mouseup', endDrag);
 
-        // Touch support
         slider.addEventListener('touchstart', (e) => startDrag(e.touches[0]));
         document.addEventListener('touchmove', (e) => drag(e.touches[0]));
         document.addEventListener('touchend', endDrag);
@@ -526,21 +501,16 @@
 
             const containerWidth = container.offsetWidth;
             const sliderWidth = slider.offsetWidth;
-            const maxMove = containerWidth - sliderWidth - 4; // 4px buffer (2px padding each side)
+            const maxMove = containerWidth - sliderWidth - 4;
 
             let x = e.clientX - startX;
             if (x < 0) x = 0;
             if (x > maxMove) x = maxMove;
 
             slider.style.transform = `translateX(${x}px)`;
-
-            // Background width follows slider center
             bg.style.width = `${x + sliderWidth / 2}px`;
 
-            // Calculate percentage
             p = x / maxMove;
-
-            // Text opacity
             text.style.opacity = 1 - p * 1.5;
         }
 
@@ -548,7 +518,6 @@
             if (!isDragging || isVerified) return;
             isDragging = false;
 
-            // Check success (e.g., > 90%)
             if (p > 0.9) {
                 verifySuccess();
             } else {
@@ -570,7 +539,6 @@
             slider.innerHTML = '<i data-lucide="check" class="w-5 h-5"></i>';
             lucide.createIcons();
 
-            // Enable Login Button
             loginBtn.disabled = false;
             loginBtn.classList.add('active');
         }
