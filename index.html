@@ -41,10 +41,11 @@
         <p class="text-slate-500 mt-3 text-lg">접속하실 서비스를 선택해주세요.</p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-6 w-full max-w-4xl">
+    <!-- Expanded max-width for 3 columns -->
+    <div class="grid md:grid-cols-3 gap-6 w-full max-w-6xl">
         <!-- Admin Card -->
         <a href="admin_20250108/login.html"
-            class="gateway-card block bg-white border border-slate-200 rounded-3xl p-8 hover:border-blue-500/50 group cursor-pointer relative overflow-hidden">
+            class="gateway-card block bg-white border border-slate-200 rounded-3xl p-8 hover:border-blue-500/50 group cursor-pointer relative overflow-hidden flex flex-col">
             <div
                 class="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             </div>
@@ -56,7 +57,7 @@
                 <h2 class="text-2xl font-bold text-slate-900 mb-2 font-[Outfit]">Admin Console</h2>
                 <p class="text-slate-500 mb-8 flex-grow">병원 관리, 사용자 설정 및 시스템 전반을 관리하는 최고 관리자 페이지입니다.</p>
                 <div
-                    class="flex items-center text-blue-600 font-semibold group-hover:translate-x-1 transition-transform">
+                    class="flex items-center text-blue-600 font-semibold group-hover:translate-x-1 transition-transform mt-auto">
                     접속하기 <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
                 </div>
             </div>
@@ -64,7 +65,7 @@
 
         <!-- Client Card -->
         <a href="slim_20251205/login.html"
-            class="gateway-card block bg-white border border-slate-200 rounded-3xl p-8 hover:border-cyan-500/50 group cursor-pointer relative overflow-hidden">
+            class="gateway-card block bg-white border border-slate-200 rounded-3xl p-8 hover:border-cyan-500/50 group cursor-pointer relative overflow-hidden flex flex-col">
             <div
                 class="absolute inset-0 bg-gradient-to-br from-cyan-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             </div>
@@ -76,8 +77,28 @@
                 <h2 class="text-2xl font-bold text-slate-900 mb-2 font-[Outfit]">EyeChartPro Client</h2>
                 <p class="text-slate-500 mb-8 flex-grow">의료진 및 병원 관계자가 사용하는 EMR/CRM 메인 시스템입니다.</p>
                 <div
-                    class="flex items-center text-cyan-600 font-semibold group-hover:translate-x-1 transition-transform">
+                    class="flex items-center text-cyan-600 font-semibold group-hover:translate-x-1 transition-transform mt-auto">
                     접속하기 <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                </div>
+            </div>
+        </a>
+
+        <!-- Landing/Solution Card -->
+        <a href="slim_20251205/landing.html"
+            class="gateway-card block bg-white border border-slate-200 rounded-3xl p-8 hover:border-violet-500/50 group cursor-pointer relative overflow-hidden flex flex-col">
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-violet-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            </div>
+            <div class="relative z-10 flex flex-col h-full">
+                <div
+                    class="w-12 h-12 bg-violet-100 text-violet-600 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-violet-600 group-hover:text-white transition-colors duration-300">
+                    <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-2 font-[Outfit]">Solution Catalog</h2>
+                <p class="text-slate-500 mb-8 flex-grow">제공하는 모든 안과 솔루션 목록을 확인하고 데모를 체험할 수 있습니다.</p>
+                <div
+                    class="flex items-center text-violet-600 font-semibold group-hover:translate-x-1 transition-transform mt-auto">
+                    목록 보기 <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
                 </div>
             </div>
         </a>
