@@ -1162,6 +1162,17 @@ input:focus {
     margin: 0 auto;
 }
 
+/* 사이드바 축소 시 배지가 있는 메뉴에서 아이콘 숨기고 배지만 표시 */
+.sidebar.collapsed .menu-item:has(.rounded-full) svg[data-lucide],
+.sidebar.collapsed .menu-item:has(.rounded-full) i[data-lucide] {
+    display: none !important;
+}
+
+.sidebar.collapsed .menu-item:has(.rounded-full) .rounded-full {
+    margin: 0 auto !important;
+    margin-left: 0 !important;
+}
+
 /* Main Content with Sidebar */
 .main-content {
     margin-left: 240px;

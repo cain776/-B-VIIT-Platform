@@ -4,35 +4,9 @@
    ======================================== */
 
 /**
- * 현재 페이지 타이틀 가져오기
- */
-function getPageTitle() {
-    const path = window.location.pathname;
-    const filename = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
-
-    const titleMap = {
-        'index.html': 'HOME',
-        'dashboard-surgery.html': '전체 수술실적',
-        'dashboard-doctor.html': '원장단 수술실적',
-        'dashboard-marketing.html': '마케팅 대시보드',
-        'marketing-channel.html': '채널 상세',
-        'marketing-viral.html': '바이럴',
-        'marketing-global.html': '해외 마케팅',
-        'marketing-customer.html': '고객 유입유형',
-        'channel-care.html': '채널 케어',
-        'account-management.html': '계정 관리',
-        'subscription.html': '구독/결제'
-    };
-
-    return titleMap[filename] || 'EyeChartPro';
-}
-
-/**
  * TopBar HTML 생성
  */
 function createTopBarHTML() {
-    const pageTitle = getPageTitle();
-
     // localStorage에서 사이드바 접힘 상태 확인
     const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
     const collapsedClass = isCollapsed ? 'collapsed' : '';
@@ -49,8 +23,6 @@ function createTopBarHTML() {
                 <button class="top-bar-toggle" onclick="toggleSidebar()" title="사이드바 토글">
                     <i data-lucide="${toggleIcon}" class="w-5 h-5" id="sidebar-toggle-icon"></i>
                 </button>
-                <div class="top-bar-divider"></div>
-                <span class="top-bar-title">${pageTitle}</span>
                 <span
                     style="margin-left: 12px; padding: 4px 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; font-size: 11px; font-weight: 500; border-radius: 4px; letter-spacing: 0.02em;">비앤빛
                     강남본점</span>
@@ -175,5 +147,5 @@ function goToSolutionList() {
 
 // 어드민으로 이동
 function goToAdmin() {
-    window.location.href = '../../admin_20250108/pages/hospitals.html';
+    window.location.href = '../../admin/pages/hospitals.html';
 }
