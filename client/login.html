@@ -17,6 +17,10 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-config.js"></script>
+
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -292,7 +296,7 @@
                     </style>
 
                     <!-- Form -->
-                    <form action="index.html" class="space-y-5 px-2" autocomplete="off">
+                    <form id="loginForm" class="space-y-5 px-2" autocomplete="off" onsubmit="handleLogin(event)">
                         <!-- 병의원 코드 -->
                         <div class="floating-label-group">
                             <input type="text" id="hospitalCode" name="hc_code_x" placeholder=" " autocomplete="off"
@@ -302,12 +306,12 @@
                             <label for="hospitalCode">병의원 코드</label>
                         </div>
 
-                        <!-- 아이디 -->
+                        <!-- 이메일 (아이디 대신) -->
                         <div class="floating-label-group">
-                            <input type="text" id="loginId" name="loginId_field" placeholder=" "
+                            <input type="email" id="loginEmail" name="loginEmail_field" placeholder=" "
                                 autocomplete="new-password"
                                 class="w-full px-4 py-3 rounded-xl text-gray-900 focus:outline-none">
-                            <label for="loginId">아이디</label>
+                            <label for="loginEmail">이메일</label>
                         </div>
 
                         <!-- 비밀번호 -->
@@ -332,8 +336,8 @@
                                         저장</span>
                                 </label>
                                 <label class="flex items-center gap-2 cursor-pointer group">
-                                    <input type="checkbox" id="saveId" class="custom-checkbox">
-                                    <span class="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">아이디
+                                    <input type="checkbox" id="saveEmail" class="custom-checkbox">
+                                    <span class="text-sm text-gray-500 group-hover:text-gray-700 transition-colors">이메일
                                         저장</span>
                                 </label>
                             </div>
@@ -342,7 +346,7 @@
                                 찾기</button>
                         </div>
 
-                        <button type="submit" class="w-full py-3.5 text-white rounded-xl login-btn mt-2">
+                        <button type="submit" id="loginBtn" class="w-full py-3.5 text-white rounded-xl login-btn mt-2">
                             로그인
                         </button>
                     </form>
@@ -1018,52 +1022,31 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // 병원코드 및 아이디 저장 기능 - 페이지 로드 시 저장된 값 복원
+        // 병원코드 및 이메일 저장 기능 - 페이지 로드 시 저장된 값 복원
         document.addEventListener('DOMContentLoaded', function () {
             // 병원코드 복원
             const savedHospitalCode = localStorage.getItem('savedHospitalCode');
             const saveHospitalCodeChecked = localStorage.getItem('saveHospitalCodeChecked') === 'true';
 
             if (saveHospitalCodeChecked && savedHospitalCode) {
-                document.getElementById('hospitalCode').value = savedHospitalCode;
-                document.getElementById('saveHospitalCode').checked = true;
+                const hospitalCodeEl = document.getElementById('hospitalCode');
+                if (hospitalCodeEl) {
+                    hospitalCodeEl.value = savedHospitalCode;
+                    document.getElementById('saveHospitalCode').checked = true;
+                }
             }
 
-            // 아이디 복원
-            const savedId = localStorage.getItem('savedLoginId');
-            const saveIdChecked = localStorage.getItem('saveIdChecked') === 'true';
+            // 이메일 복원
+            const savedEmail = localStorage.getItem('savedLoginEmail');
+            const saveEmailChecked = localStorage.getItem('saveEmailChecked') === 'true';
 
-            if (saveIdChecked && savedId) {
-                document.getElementById('loginId').value = savedId;
-                document.getElementById('saveId').checked = true;
+            if (saveEmailChecked && savedEmail) {
+                const emailEl = document.getElementById('loginEmail');
+                if (emailEl) {
+                    emailEl.value = savedEmail;
+                    document.getElementById('saveEmail').checked = true;
+                }
             }
-
-            // 폼 제출 시 저장 처리
-            document.querySelector('form').addEventListener('submit', function (e) {
-                // 병원코드 저장
-                const saveHospitalCodeCheckbox = document.getElementById('saveHospitalCode');
-                const hospitalCodeInput = document.getElementById('hospitalCode');
-
-                if (saveHospitalCodeCheckbox.checked) {
-                    localStorage.setItem('savedHospitalCode', hospitalCodeInput.value);
-                    localStorage.setItem('saveHospitalCodeChecked', 'true');
-                } else {
-                    localStorage.removeItem('savedHospitalCode');
-                    localStorage.setItem('saveHospitalCodeChecked', 'false');
-                }
-
-                // 아이디 저장
-                const saveIdCheckbox = document.getElementById('saveId');
-                const idInput = document.getElementById('loginId');
-
-                if (saveIdCheckbox.checked) {
-                    localStorage.setItem('savedLoginId', idInput.value);
-                    localStorage.setItem('saveIdChecked', 'true');
-                } else {
-                    localStorage.removeItem('savedLoginId');
-                    localStorage.setItem('saveIdChecked', 'false');
-                }
-            });
         });
 
         // Toggle password visibility
@@ -1079,6 +1062,103 @@
                 icon.setAttribute('data-lucide', 'eye');
             }
             lucide.createIcons();
+        }
+
+        // Handle Login - Supabase Auth 연동
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
+
+            if (!email || !password) {
+                alert('이메일과 비밀번호를 입력해주세요.');
+                return;
+            }
+
+            // 로딩 상태
+            loginBtn.textContent = '로그인 중...';
+            loginBtn.disabled = true;
+
+            try {
+                const client = getSupabase();
+                if (!client) {
+                    throw new Error('Supabase 연결 실패');
+                }
+
+                // Supabase Auth 로그인
+                const { data, error } = await client.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) {
+                    console.error('로그인 오류:', error);
+                    if (error.message.includes('Invalid login credentials')) {
+                        alert('이메일 또는 비밀번호가 올바르지 않습니다.');
+                    } else if (error.message.includes('Email not confirmed')) {
+                        alert('이메일 인증이 필요합니다. 이메일을 확인해주세요.');
+                    } else {
+                        alert('로그인 오류: ' + error.message);
+                    }
+                    return;
+                }
+
+                // 프로필 상태 확인
+                const { data: profile, error: profileError } = await client
+                    .from('profiles')
+                    .select('status, role, name')
+                    .eq('id', data.user.id)
+                    .single();
+
+                if (profileError) {
+                    console.error('프로필 조회 오류:', profileError);
+                }
+
+                // 승인 상태 확인
+                if (profile && profile.status === 'pending') {
+                    await client.auth.signOut(); // 로그아웃
+                    alert('관리자 승인 대기 중입니다.\n승인 후 로그인이 가능합니다.');
+                    return;
+                }
+
+                if (profile && profile.status === 'rejected') {
+                    await client.auth.signOut();
+                    alert('가입이 거절되었습니다.\n관리자에게 문의해주세요.');
+                    return;
+                }
+
+                // 저장 옵션 처리
+                const saveHospitalCodeCheckbox = document.getElementById('saveHospitalCode');
+                const hospitalCodeInput = document.getElementById('hospitalCode');
+                const saveEmailCheckbox = document.getElementById('saveEmail');
+
+                if (saveHospitalCodeCheckbox && saveHospitalCodeCheckbox.checked) {
+                    localStorage.setItem('savedHospitalCode', hospitalCodeInput.value);
+                    localStorage.setItem('saveHospitalCodeChecked', 'true');
+                }
+
+                if (saveEmailCheckbox && saveEmailCheckbox.checked) {
+                    localStorage.setItem('savedLoginEmail', email);
+                    localStorage.setItem('saveEmailChecked', 'true');
+                }
+
+                // 세션 저장
+                localStorage.setItem('supabaseSession', JSON.stringify(data.session));
+                
+                console.log('✅ 로그인 성공:', profile?.name || email);
+                
+                // 메인 페이지로 이동
+                window.location.href = 'index.html';
+
+            } catch (err) {
+                console.error('로그인 처리 오류:', err);
+                alert('서버 연결 오류가 발생했습니다.');
+            } finally {
+                loginBtn.textContent = '로그인';
+                loginBtn.disabled = false;
+            }
         }
 
         // Open Signup Modal
@@ -1138,33 +1218,70 @@
             lucide.createIcons();
         }
 
-        // Check modal hospital code
-        function checkModalHospitalCode() {
-            const code = document.getElementById('modalHospitalCode').value.trim().toUpperCase();
+        // Check modal hospital code - Supabase 연동
+        let verifiedHospitalId = null; // 검증된 병원 ID 저장
+        
+        async function checkModalHospitalCode() {
+            const code = document.getElementById('modalHospitalCode').value.trim().toLowerCase();
             const errorEl = document.getElementById('hospitalCodeError');
             const successEl = document.getElementById('hospitalCodeSuccess');
             const nameEl = document.getElementById('hospitalNameDisplay');
+            const checkBtn = document.querySelector('.input-with-btn .check-btn');
 
             if (!code) {
                 alert('병원코드를 입력해주세요.');
                 return;
             }
 
-            // 테스트용 유효한 병원코드 목록 (실제로는 서버에서 검증)
-            const validCodes = {
-                'BNVIT-001': '비앤빛 강남밝은세상안과',
-                'BNVIT-002': '비앤빛 잠실밝은세상안과',
-                'VXV-001': 'VXV 캠리병원'
-            };
+            // 버튼 로딩 상태
+            checkBtn.textContent = '확인 중...';
+            checkBtn.disabled = true;
 
-            if (validCodes[code]) {
-                errorEl.style.display = 'none';
-                successEl.style.display = 'block';
-                nameEl.textContent = validCodes[code];
-                document.getElementById('modalHospitalCode').value = code;
-            } else {
-                successEl.style.display = 'none';
+            try {
+                // Supabase 클라이언트 가져오기
+                const client = getSupabase();
+                if (!client) {
+                    throw new Error('Supabase 라이브러리가 로드되지 않았습니다.');
+                }
+
+                console.log('🔍 병원코드 검색:', code);
+
+                // hospitals 테이블에서 코드 검증
+                const { data, error } = await client
+                    .from('hospitals')
+                    .select('id, name, code')
+                    .eq('code', code)
+                    .eq('status', 'active')
+                    .single();
+
+                console.log('📦 결과:', { data, error });
+
+                if (error) {
+                    console.error('❌ Supabase 오류:', error);
+                    successEl.style.display = 'none';
+                    errorEl.style.display = 'block';
+                    if (error.code === 'PGRST116') {
+                        errorEl.textContent = '유효하지 않은 병원코드입니다.';
+                    } else {
+                        errorEl.textContent = '오류: ' + error.message;
+                    }
+                    verifiedHospitalId = null;
+                } else if (data) {
+                    errorEl.style.display = 'none';
+                    successEl.style.display = 'block';
+                    nameEl.textContent = data.name;
+                    verifiedHospitalId = data.id;
+                    document.getElementById('modalHospitalCode').value = data.code;
+                    console.log('✅ 병원 확인:', data.name);
+                }
+            } catch (err) {
+                console.error('🚫 병원코드 확인 오류:', err);
                 errorEl.style.display = 'block';
+                errorEl.textContent = err.message || '서버 연결 오류';
+                verifiedHospitalId = null;
+            } finally {
+                checkBtn.textContent = '코드 확인';
+                checkBtn.disabled = false;
             }
         }
 
@@ -1220,8 +1337,8 @@
             iframe.src = '';
         }
 
-        // Submit signup
-        function submitSignup() {
+        // Submit signup - Supabase Auth 연동
+        async function submitSignup() {
             const hospitalCode = document.getElementById('modalHospitalCode').value;
             const userId = document.getElementById('userId').value;
             const password = document.getElementById('signupPassword').value;
@@ -1234,8 +1351,14 @@
             const agreePrivacy = document.getElementById('agreePrivacy').checked;
             const agreeService = document.getElementById('agreeService').checked;
 
+            // 유효성 검사
             if (!hospitalCode || !userId || !password || !passwordConfirm || !userName || !email || !contact || !department || !role) {
                 alert('필수 항목을 모두 입력해주세요.');
+                return;
+            }
+
+            if (!verifiedHospitalId) {
+                alert('병원코드 확인을 먼저 진행해주세요.');
                 return;
             }
 
@@ -1254,8 +1377,71 @@
                 return;
             }
 
-            alert('회원가입이 완료되었습니다.\n관리자 승인 후 로그인이 가능합니다.');
-            closeSignupModal();
+            // 가입 버튼 로딩 상태
+            const submitBtn = document.querySelector('.signup-footer .btn-submit');
+            submitBtn.textContent = '가입 중...';
+            submitBtn.disabled = true;
+
+            try {
+                // Supabase 클라이언트 가져오기
+                const client = getSupabase();
+                if (!client) {
+                    throw new Error('Supabase 라이브러리가 로드되지 않았습니다.');
+                }
+
+                // Supabase Auth로 회원가입
+                const { data, error } = await client.auth.signUp({
+                    email: email,
+                    password: password,
+                    options: {
+                        data: {
+                            name: userName,
+                            phone: contact,
+                            hospital_id: verifiedHospitalId,
+                            department: department,
+                            position: role  // 직급
+                        }
+                    }
+                });
+
+                if (error) {
+                    console.error('회원가입 오류:', error);
+                    if (error.message.includes('already registered')) {
+                        alert('이미 등록된 이메일입니다.');
+                    } else {
+                        alert('회원가입 오류: ' + error.message);
+                    }
+                    return;
+                }
+
+                // 회원가입 성공 - Auth 트리거가 profiles 테이블에 자동 생성
+                // 추가로 hospital_id 업데이트 필요 (트리거에서 처리 안됨)
+                if (data.user) {
+                    // profiles 테이블에 hospital_id 업데이트
+                    const { error: updateError } = await client
+                        .from('profiles')
+                        .update({ 
+                            hospital_id: verifiedHospitalId,
+                            phone: contact,
+                            name: userName
+                        })
+                        .eq('id', data.user.id);
+
+                    if (updateError) {
+                        console.error('프로필 업데이트 오류:', updateError);
+                    }
+                }
+
+                alert('회원가입이 완료되었습니다.\n관리자 승인 후 로그인이 가능합니다.');
+                closeSignupModal();
+
+            } catch (err) {
+                console.error('회원가입 처리 오류:', err);
+                alert('서버 연결 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+            } finally {
+                submitBtn.textContent = '가입 신청';
+                submitBtn.disabled = false;
+            }
         }
 
         // Close modal on overlay click
