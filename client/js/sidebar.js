@@ -214,7 +214,7 @@ function createMenuItem(item) {
         const isActive = isActivePage(item.href);
         const activeClass = isActive ? 'active' : '';
         const badgeHtml = item.badge
-            ? `<span class="ml-auto flex items-center justify-center w-5 h-5 bg-red-500 text-white text-xs font-semibold rounded-full">${item.badge}</span>`
+            ? `<span class="ml-auto flex-shrink-0 flex items-center justify-center w-5 h-5 aspect-square bg-red-500 text-white text-xs font-semibold rounded-full">${item.badge}</span>`
             : '';
 
         return `
