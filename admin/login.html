@@ -178,10 +178,10 @@
             margin-bottom: 20px;
         }
 
-        .floating-label-group input {
+        .floating-label-group input,
+        .floating-label-group select {
             width: 100%;
             padding: 24px 16px 8px;
-            /* Top padding increased for float effect */
             font-size: 15px;
             color: #1e293b;
             background: white;
@@ -190,17 +190,37 @@
             outline: none;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+            appearance: none;
+            -webkit-appearance: none;
+            cursor: pointer;
         }
 
-        .floating-label-group input:hover {
+        .floating-label-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 44px;
+        }
+
+        .floating-label-group input:hover,
+        .floating-label-group select:hover {
             border-color: #cbd5e1;
             background-color: #f8fafc;
         }
 
-        .floating-label-group input:focus {
+        .floating-label-group select:hover {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+        }
+
+        .floating-label-group input:focus,
+        .floating-label-group select:focus {
             border-color: #3b82f6;
             background-color: #fff;
             box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .floating-label-group select:focus {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
         }
 
         .floating-label-group label {
@@ -215,8 +235,19 @@
             background: transparent;
         }
 
+        /* Input labels - float on focus/filled */
         .floating-label-group input:focus+label,
         .floating-label-group input:not(:placeholder-shown)+label {
+            top: 10px;
+            transform: translateY(0);
+            font-size: 11px;
+            color: #2563eb;
+            font-weight: 600;
+        }
+
+        /* Select labels - float on focus or when has value */
+        .floating-label-group select:focus+label,
+        .floating-label-group.has-value select+label {
             top: 10px;
             transform: translateY(0);
             font-size: 11px;
@@ -447,10 +478,96 @@
             </button>
         </form>
 
-        <a href="../slim_20251205/login.html" class="footer-link">
-            <i data-lucide="arrow-left" class="w-4 h-4"></i>
-            일반 사용자 로그인
-        </a>
+        <div class="flex items-center justify-center gap-4 mt-6">
+            <span class="text-sm text-gray-500">계정이 없으신가요?</span>
+            <button onclick="openSignupModal()" class="text-sm font-medium text-blue-600 hover:text-blue-700 transition">
+                회원가입
+            </button>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signupModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[1000]" style="display: none;">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-hidden animate-modal-enter">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-white">회원가입</h3>
+                <button onclick="closeSignupModal()" class="text-white/80 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto" style="max-height: calc(90vh - 140px);">
+                <form id="signupForm">
+                    <!-- 이름 -->
+                    <div class="floating-label-group mb-4">
+                        <input type="text" id="signupName" placeholder=" " required>
+                        <label>이름</label>
+                    </div>
+                    
+                    <!-- 이메일 -->
+                    <div class="floating-label-group mb-4">
+                        <input type="email" id="signupEmail" placeholder=" " required>
+                        <label>이메일</label>
+                    </div>
+                    
+                    <!-- 비밀번호 -->
+                    <div class="floating-label-group mb-4">
+                        <input type="password" id="signupPassword" placeholder=" " required minlength="6">
+                        <label>비밀번호 (6자 이상)</label>
+                    </div>
+                    
+                    <!-- 비밀번호 재확인 -->
+                    <div class="floating-label-group mb-4">
+                        <input type="password" id="signupPasswordConfirm" placeholder=" " required minlength="6">
+                        <label>비밀번호 재확인</label>
+                    </div>
+                    
+                    <!-- 전화번호 -->
+                    <div class="floating-label-group mb-4">
+                        <input type="tel" id="signupPhone" placeholder=" ">
+                        <label>전화번호</label>
+                    </div>
+                    
+                    <!-- 소속 선택 -->
+                    <div class="floating-label-group mb-4">
+                        <select id="signupCompany" onchange="updateDepartmentOptions()" required>
+                            <option value=""></option>
+                            <option value="visuworks">VisuWorks</option>
+                            <option value="bnviit">비앤빛안과</option>
+                        </select>
+                        <label>소속</label>
+                    </div>
+                    
+                    <!-- 부서 선택 -->
+                    <div class="floating-label-group mb-4">
+                        <select id="signupDepartment" required>
+                            <option value=""></option>
+                        </select>
+                        <label>부서</label>
+                    </div>
+                    
+                    <!-- 직위 선택 -->
+                    <div class="floating-label-group mb-4">
+                        <select id="signupPosition" required>
+                            <option value=""></option>
+                        </select>
+                        <label>직위</label>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-gray-50 border-t flex justify-end gap-3">
+                <button onclick="closeSignupModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                    취소
+                </button>
+                <button onclick="submitSignup()" class="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
+                    가입하기
+                </button>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -605,6 +722,181 @@
             bg.style.width = '0';
             text.style.opacity = '1';
         }
+
+        // ========================================
+        // 회원가입 모달 관련 함수
+        // ========================================
+        
+        // 소속별 부서/직위 옵션
+        const companyData = {
+            visuworks: {
+                departments: ['연구개발팀', '경영기획팀', '마케팅팀', '콘텐츠팀', 'DX팀', 'CQO팀'],
+                positions: ['매니저', '어쏘', '리드', '디렉터'],
+                hospitalCode: 'visuworks2024',
+                role: 'admin_staff'
+            },
+            bnviit: {
+                departments: ['전산정보팀', '진료팀', '간호팀', '상담팀', '원무팀', '마케팅팀'],
+                positions: ['대리', '주임', '사원', '팀장', '과장', '부장'],
+                hospitalCode: 'bnviit1994',
+                role: 'hospital_staff'
+            }
+        };
+
+        function openSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        function closeSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+            // Reset form
+            document.getElementById('signupForm').reset();
+            document.getElementById('signupDepartment').innerHTML = '<option value=""></option>';
+            document.getElementById('signupPosition').innerHTML = '<option value=""></option>';
+            // Reset floating labels
+            document.querySelectorAll('#signupModal .floating-label-group').forEach(group => {
+                group.classList.remove('has-value');
+            });
+        }
+
+        function updateDepartmentOptions() {
+            const companySelect = document.getElementById('signupCompany');
+            const company = companySelect.value;
+            const deptSelect = document.getElementById('signupDepartment');
+            const posSelect = document.getElementById('signupPosition');
+            
+            // 소속 선택 시 라벨 업데이트
+            updateSelectLabel(companySelect);
+            
+            if (!company || !companyData[company]) {
+                deptSelect.innerHTML = '<option value=""></option>';
+                posSelect.innerHTML = '<option value=""></option>';
+                updateSelectLabel(deptSelect);
+                updateSelectLabel(posSelect);
+                return;
+            }
+            
+            const data = companyData[company];
+            
+            // 부서 옵션 업데이트
+            deptSelect.innerHTML = '<option value=""></option>' +
+                data.departments.map(d => `<option value="${d}">${d}</option>`).join('');
+            
+            // 직위 옵션 업데이트
+            posSelect.innerHTML = '<option value=""></option>' +
+                data.positions.map(p => `<option value="${p}">${p}</option>`).join('');
+            
+            updateSelectLabel(deptSelect);
+            updateSelectLabel(posSelect);
+        }
+        
+        // 셀렉트 라벨 업데이트 함수
+        function updateSelectLabel(select) {
+            const group = select.closest('.floating-label-group');
+            if (select.value) {
+                group.classList.add('has-value');
+            } else {
+                group.classList.remove('has-value');
+            }
+        }
+        
+        // 모든 셀렉트에 change 이벤트 연결
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('#signupModal select').forEach(select => {
+                select.addEventListener('change', function() {
+                    updateSelectLabel(this);
+                });
+            });
+        });
+
+        async function submitSignup() {
+            const name = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const passwordConfirm = document.getElementById('signupPasswordConfirm').value;
+            const phone = document.getElementById('signupPhone').value.trim();
+            const company = document.getElementById('signupCompany').value;
+            const department = document.getElementById('signupDepartment').value;
+            const position = document.getElementById('signupPosition').value;
+            
+            // 유효성 검사
+            if (!name || !email || !password || !company || !department || !position) {
+                alert('모든 필수 항목을 입력해주세요.');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('비밀번호는 6자 이상이어야 합니다.');
+                return;
+            }
+            
+            if (password !== passwordConfirm) {
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
+            }
+            
+            const data = companyData[company];
+            
+            try {
+                // 1. Supabase Auth로 사용자 생성
+                const { data: authData, error: authError } = await supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            name,
+                            role: data.role
+                        }
+                    }
+                });
+                
+                if (authError) throw authError;
+                
+                // 2. 병원 ID 조회
+                const { data: hospital } = await supabaseClient
+                    .from('hospitals')
+                    .select('id')
+                    .eq('code', data.hospitalCode)
+                    .single();
+                
+                // 3. 프로필 업데이트 (Auth 트리거 후)
+                if (authData.user) {
+                    // 약간의 딜레이 후 프로필 업데이트 (트리거가 먼저 실행되도록)
+                    setTimeout(async () => {
+                        await supabaseClient
+                            .from('profiles')
+                            .update({
+                                name,
+                                phone: phone || null,
+                                department,
+                                job_title: position,
+                                hospital_id: hospital?.id || null,
+                                role: data.role
+                            })
+                            .eq('id', authData.user.id);
+                    }, 1000);
+                }
+                
+                alert('회원가입이 완료되었습니다!\\n관리자 승인 후 로그인이 가능합니다.');
+                closeSignupModal();
+                
+            } catch (err) {
+                console.error('회원가입 오류:', err);
+                alert('회원가입 실패: ' + err.message);
+            }
+        }
+
+        // 모달 외부 클릭 시 닫기
+        document.getElementById('signupModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSignupModal();
+        });
     </script>
 </body>
 

@@ -95,6 +95,11 @@ body {
     color: #ea580c;
 }
 
+.stat-icon.red {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
 .stat-info {
     display: flex;
     flex-direction: column;

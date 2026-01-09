@@ -111,7 +111,7 @@ function createSidebarHTML() {
         <aside class="sidebar ${collapsedClass}">
             <!-- Logo -->
             <a href="${basePath}index.html" class="sidebar-logo">
-                <span class="logo-full">👁️ EyeChartPro</span>
+                <span class="logo-full">🔷 VisuWorks</span>
                 <span class="logo-short">👁️</span>
             </a>
 
