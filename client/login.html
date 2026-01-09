@@ -381,10 +381,13 @@
                 width: 580px;
                 max-width: 95vw;
                 overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                max-height: 90vh;
             }
 
             .signup-header {
-                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                background: #2563eb;
                 padding: 20px 28px;
                 display: flex;
                 justify-content: space-between;
@@ -417,6 +420,8 @@
 
             .signup-body {
                 padding: 24px 28px;
+                flex: 1;
+                overflow-y: auto;
             }
 
             .signup-grid {
@@ -648,7 +653,7 @@
             .signup-footer {
                 display: flex;
                 gap: 12px;
-                justify-content: center;
+                justify-content: flex-end;
                 padding: 20px 28px;
                 border-top: 1px solid #e5e7eb;
             }
@@ -663,36 +668,37 @@
             }
 
             .signup-footer .btn-submit {
-                background: #2563eb;
-                color: white;
-                border: none;
+                background: white;
+                color: #2563eb;
+                border: 1px solid #2563eb;
             }
 
             .signup-footer .btn-submit:hover {
-                background: #1d4ed8;
+                background: #2563eb;
+                color: white;
                 transform: translateY(-1px);
             }
 
             .signup-footer .btn-cancel {
                 background: white;
-                color: #6b7280;
-                border: 1px solid #d1d5db;
+                color: #ef4444;
+                border: 1px solid #ef4444;
             }
 
             .signup-footer .btn-cancel:hover {
-                background: #f9fafb;
+                background: #ef4444;
+                color: white;
             }
 
             .signup-footer .btn-reset {
                 background: white;
-                color: #6b7280;
-                border: 1px solid #d1d5db;
+                color: #10b981;
+                border: 1px solid #10b981;
             }
 
             .signup-footer .btn-reset:hover {
-                background: #fef2f2;
-                border-color: #fca5a5;
-                color: #dc2626;
+                background: #10b981;
+                color: white;
             }
 
             .success-msg {
@@ -727,10 +733,12 @@
                 background: white;
                 width: 720px;
                 max-width: 90vw;
-                max-height: 85vh;
+                height: 90vh;
                 border-radius: 16px;
                 box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                 overflow: hidden;
+                display: flex;
+                flex-direction: column;
                 animation: slideUp 0.3s ease;
             }
 
@@ -747,7 +755,7 @@
             }
 
             .terms-modal-header {
-                background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+                background: #2563eb;
                 padding: 16px 24px;
                 display: flex;
                 justify-content: space-between;
@@ -779,8 +787,9 @@
             }
 
             .terms-modal-body {
-                height: 700px;
-                overflow: auto;
+                flex: 1;
+                overflow-y: auto;
+                padding: 0;
             }
 
             .terms-modal-body iframe {
@@ -957,9 +966,9 @@
 
             <!-- Footer -->
             <div class="signup-footer">
-                <button type="button" class="btn btn-submit" onclick="submitSignup()">가입 신청</button>
-                <button type="button" class="btn btn-reset" onclick="resetSignupForm()">초기화</button>
+                <button type="button" class="btn btn-reset" onclick="resetSignupForm()" style="margin-right: auto;">초기화</button>
                 <button type="button" class="btn btn-cancel" onclick="closeSignupModal()">취소</button>
+                <button type="button" class="btn btn-submit" onclick="submitSignup()">가입 신청</button>
             </div>
         </div>
     </div>

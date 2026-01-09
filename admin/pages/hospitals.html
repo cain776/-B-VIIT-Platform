@@ -35,7 +35,9 @@
             width: 100%;
             max-width: 560px;
             max-height: 90vh;
-            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
             transform: scale(0.95);
             transition: transform 0.2s ease;
         }
@@ -47,12 +49,13 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 24px;
-            border-bottom: 1px solid #e5e7eb;
+            background: #2563eb;
+            color: white;
         }
         .modal-header h3 {
             font-size: 18px;
-            font-weight: 600;
-            color: #111827;
+            font-weight: 700;
+            color: white;
         }
         .modal-close {
             width: 32px;
@@ -60,47 +63,87 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 6px;
-            color: #6b7280;
+            border-radius: 8px;
+            color: white;
+            background: rgba(255, 255, 255, 0.2);
             cursor: pointer;
             transition: all 0.15s;
+            border: none;
         }
         .modal-close:hover {
-            background: #f3f4f6;
-            color: #111827;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
         }
         .modal-body {
             padding: 24px;
+            overflow-y: auto;
+            flex: 1;
         }
-        .form-group {
+        /* Floating Label Styles */
+        .floating-group {
+            position: relative;
             margin-bottom: 20px;
         }
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 6px;
-        }
-        .form-group label .required {
-            color: #ef4444;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
+        .floating-group input,
+        .floating-group select,
+        .floating-group textarea {
             width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
+            padding: 22px 14px 8px;
             font-size: 14px;
-            transition: border-color 0.15s, box-shadow 0.15s;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
+            color: #1e293b;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
             outline: none;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .floating-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px 16px;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+        .floating-group input:hover,
+        .floating-group select:hover,
+        .floating-group textarea:hover {
+            border-color: #cbd5e1;
+            background-color: #f1f5f9;
+        }
+        .floating-group input:focus,
+        .floating-group select:focus,
+        .floating-group textarea:focus {
             border-color: #3b82f6;
+            background-color: white;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .floating-group label {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 13px;
+            pointer-events: none;
+            transition: all 0.2s ease;
+            background: transparent;
+        }
+        .floating-group.has-value label,
+        .floating-group input:focus + label,
+        .floating-group select:focus + label,
+        .floating-group input:not(:placeholder-shown) + label {
+            top: 10px;
+            transform: translateY(0);
+            font-size: 11px;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        .floating-group .required {
+            color: #ef4444;
+            margin-right: 2px;
         }
         .form-row {
             display: grid;
@@ -156,37 +199,52 @@
             background: #f9fafb;
             border-radius: 0 0 12px 12px;
         }
-        .btn-cancel {
+        /* Buttons */
+        .btn-reset, .btn-cancel, .btn-submit {
             padding: 10px 20px;
-            border: 1px solid #d1d5db;
             border-radius: 8px;
             font-size: 14px;
-            font-weight: 500;
-            color: #374151;
-            background: white;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        /* Reset Button (Green) */
+        .btn-reset {
+            border: 1px solid #10b981;
+            color: #10b981;
+        }
+        .btn-reset:hover {
+            background: #10b981;
+            color: white;
+        }
+
+        /* Cancel Button (Red) */
+        .btn-cancel {
+            border: 1px solid #ef4444;
+            color: #ef4444;
         }
         .btn-cancel:hover {
-            background: #f3f4f6;
-        }
-        .btn-submit {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
+            background: #ef4444;
             color: white;
-            background: #3b82f6;
-            cursor: pointer;
-            transition: all 0.15s;
+            border-color: #ef4444;
+        }
+
+        /* Submit Button (Blue) */
+        .btn-submit {
+            border: 1px solid #2563eb;
+            color: #2563eb;
         }
         .btn-submit:hover {
             background: #2563eb;
+            color: white;
         }
         .btn-submit:disabled {
-            background: #9ca3af;
+            border-color: #94a3b8;
+            color: #94a3b8;
             cursor: not-allowed;
+            background: white;
         }
         /* Type badge */
         .type-badge {
@@ -326,45 +384,47 @@
                 <form id="hospitalForm">
                     <input type="hidden" id="hospitalId">
                     
-                    <div class="form-group">
-                        <label><span class="required">*</span> 병원명</label>
-                        <input type="text" id="hospitalName" placeholder="병원명을 입력하세요" required>
-                    </div>
+                    <div class="form-row">
+                        <div class="floating-group">
+                            <input type="text" id="hospitalName" placeholder=" " required>
+                            <label><span class="required">*</span> 병원명</label>
+                        </div>
 
-                    <div class="form-group">
-                        <label><span class="required">*</span> 병원코드</label>
-                        <input type="text" id="hospitalCode" placeholder="병원코드를 입력하세요 (예: bnviit1994)" required>
+                        <div class="floating-group">
+                            <input type="text" id="hospitalCode" placeholder=" " required>
+                            <label><span class="required">*</span> 병원코드</label>
+                        </div>
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>구분</label>
+                        <div class="floating-group has-value">
                             <select id="hospitalType">
+                                <option value="">선택 안함</option>
                                 <option value="headquarter">본점</option>
                                 <option value="branch">지점</option>
                             </select>
+                            <label>구분</label>
                         </div>
-                        <div class="form-group">
-                            <label>상위 병원 (지점인 경우)</label>
+                        <div class="floating-group has-value">
                             <select id="parentHospital">
-                                <option value="">상위 병원 선택</option>
-                                <!-- Dynamic options -->
+                                <option value="">선택 안함</option>
                             </select>
+                            <label>상위 병원</label>
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="floating-group">
+                        <input type="text" id="hospitalAddress" placeholder=" ">
                         <label>주소</label>
-                        <input type="text" id="hospitalAddress" placeholder="주소를 입력하세요">
                     </div>
 
-                    <div class="form-group">
+                    <div class="floating-group">
+                        <input type="text" id="hospitalPhone" placeholder=" ">
                         <label>연락처</label>
-                        <input type="text" id="hospitalPhone" placeholder="연락처를 입력하세요">
                     </div>
 
-                    <div class="form-group">
-                        <label>사용여부</label>
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                        <span style="font-size: 14px; font-weight: 500; color: #374151; min-width: 60px;">사용여부</span>
                         <div class="toggle-wrapper">
                             <label class="toggle-switch">
                                 <input type="checkbox" id="hospitalStatus" checked>
@@ -376,6 +436,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button class="btn-reset" onclick="resetHospitalForm()" style="margin-right: auto;">초기화</button>
                 <button class="btn-cancel" onclick="closeHospitalModal()">취소</button>
                 <button class="btn-submit" id="submitBtn" onclick="saveHospital()">등록</button>
             </div>
@@ -531,14 +592,10 @@
         // Open modal for add
         function openHospitalModal(hospitalId = null) {
             const modal = document.getElementById('hospitalModal');
-            const form = document.getElementById('hospitalForm');
             
-            form.reset();
-            document.getElementById('hospitalId').value = '';
+            resetHospitalForm();
             document.getElementById('modalTitle').textContent = '병원 등록';
             document.getElementById('submitBtn').textContent = '등록';
-            document.getElementById('hospitalStatus').checked = true;
-            document.getElementById('statusLabel').textContent = '사용';
             
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -552,6 +609,34 @@
             document.body.style.overflow = '';
         }
 
+        // Reset form
+        function resetHospitalForm() {
+            const form = document.getElementById('hospitalForm');
+            form.reset();
+            document.getElementById('hospitalId').value = '';
+            document.getElementById('hospitalStatus').checked = true;
+            document.getElementById('statusLabel').textContent = '사용';
+            
+            // Reset select manually to ensure defaults
+            document.getElementById('hospitalType').value = "";
+            toggleParentHospital();
+        }
+
+        // Toggle parent hospital select
+        function toggleParentHospital() {
+            const type = document.getElementById('hospitalType').value;
+            const parentSelect = document.getElementById('parentHospital');
+            
+            if (type === 'branch') {
+                parentSelect.disabled = false;
+                parentSelect.style.backgroundColor = '#f8fafc';
+            } else {
+                parentSelect.value = "";
+                parentSelect.disabled = true;
+                parentSelect.style.backgroundColor = '#f1f5f9'; // Visual cue for disabled
+            }
+        }
+
         // Edit hospital
         function editHospital(id) {
             const hospital = hospitals.find(h => h.id === id);
@@ -560,7 +645,11 @@
             document.getElementById('hospitalId').value = hospital.id;
             document.getElementById('hospitalName').value = hospital.name;
             document.getElementById('hospitalCode').value = hospital.code;
+            
+            // Set type and toggle parent field
             document.getElementById('hospitalType').value = hospital.type;
+            toggleParentHospital();
+            
             document.getElementById('parentHospital').value = hospital.parent_hospital_id || '';
             document.getElementById('hospitalAddress').value = hospital.address || '';
             document.getElementById('hospitalPhone').value = hospital.phone || '';
@@ -587,8 +676,8 @@
             const phone = document.getElementById('hospitalPhone').value.trim();
             const status = document.getElementById('hospitalStatus').checked ? 'active' : 'inactive';
 
-            if (!name || !code) {
-                alert('필수 항목을 입력해주세요.');
+            if (!name || !code || !type) {
+                alert('필수 항목을 입력해주세요 (병원명, 코드, 구분).');
                 return;
             }
 
@@ -670,6 +759,9 @@
         document.getElementById('hospitalStatus').addEventListener('change', function() {
             document.getElementById('statusLabel').textContent = this.checked ? '사용' : '미사용';
         });
+
+        // Hospital Type Change
+        document.getElementById('hospitalType').addEventListener('change', toggleParentHospital);
 
         // Close modal on overlay click
         document.getElementById('hospitalModal').addEventListener('click', function(e) {
