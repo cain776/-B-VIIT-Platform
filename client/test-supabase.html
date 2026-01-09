@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase 연결 테스트</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #eee;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .success {
+            background: #1e4d2b;
+            border: 1px solid #2ecc71;
+        }
+
+        .error {
+            background: #4d1e1e;
+            border: 1px solid #e74c3c;
+        }
+
+        .pending {
+            background: #4d4d1e;
+            border: 1px solid #f1c40f;
+        }
+
+        h1 {
+            color: #fff;
+        }
+
+        code {
+            background: #333;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🔌 Supabase 연결 테스트</h1>
+    <div id="connection-status" class="status pending">⏳ 연결 확인 중...</div>
+    <div id="project-info" style="margin-top: 20px;"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://txzcmvoknooiejwkprje.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4emNtdm9rbm9vaWVqd2twcmplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MTAxMDksImV4cCI6MjA4MzQ4NjEwOX0.WXSm7pW9sCXzioGczZvE_eQsvcYyVkB1ogCyk0dVtFk';
+
+        async function testConnection() {
+            const statusEl = document.getElementById('connection-status');
+            const infoEl = document.getElementById('project-info');
+
+            try {
+                const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                const { data, error } = await supabase.auth.getSession();
+
+                if (error) throw new Error(error.message);
+
+                statusEl.className = 'status success';
+                statusEl.innerHTML = '✅ Supabase 연결 성공!';
+                infoEl.innerHTML = `
+                    <h3>📋 프로젝트 정보</h3>
+                    <p><strong>URL:</strong> <code>${SUPABASE_URL}</code></p>
+                    <p><strong>세션:</strong> ${data.session ? '로그인됨' : '없음 (정상)'}</p>
+                    <hr style="border-color:#333; margin:15px 0;">
+                    <p><strong>다음 단계:</strong> hospitals 테이블 생성</p>
+                `;
+            } catch (err) {
+                statusEl.className = 'status error';
+                statusEl.innerHTML = '❌ 연결 실패: ' + err.message;
+            }
+        }
+        window.onload = testConnection;
+    </script>
+</body>
+
+</html>

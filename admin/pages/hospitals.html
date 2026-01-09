@@ -7,9 +7,216 @@
     <title>병원 관리 - EyeChartPro Admin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/admin-style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.2s ease;
+        }
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #111827;
+        }
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            color: #6b7280;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .modal-close:hover {
+            background: #f3f4f6;
+            color: #111827;
+        }
+        .modal-body {
+            padding: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        .form-group label .required {
+            color: #ef4444;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .toggle-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: #d1d5db;
+            border-radius: 24px;
+            transition: 0.3s;
+        }
+        .toggle-slider:before {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .toggle-switch input:checked + .toggle-slider {
+            background: #3b82f6;
+        }
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            border-top: 1px solid #e5e7eb;
+            background: #f9fafb;
+            border-radius: 0 0 12px 12px;
+        }
+        .btn-cancel {
+            padding: 10px 20px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #374151;
+            background: white;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-cancel:hover {
+            background: #f3f4f6;
+        }
+        .btn-submit {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            background: #3b82f6;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-submit:hover {
+            background: #2563eb;
+        }
+        .btn-submit:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        /* Type badge */
+        .type-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .type-badge.headquarter {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+        .type-badge.branch {
+            background: #f3e8ff;
+            color: #7c3aed;
+        }
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: #6b7280;
+        }
+        .empty-state i {
+            color: #d1d5db;
+            margin-bottom: 16px;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-50">
@@ -23,10 +230,6 @@
                 <h1 class="text-xl font-bold text-gray-900">병원 관리</h1>
                 <p class="text-sm text-gray-500 mt-1">등록된 병원을 관리하고 새로운 병원을 추가합니다</p>
             </div>
-            <button class="btn-primary" onclick="openAddHospitalModal()">
-                <i data-lucide="plus" class="w-4 h-4"></i>
-                병원 등록
-            </button>
         </div>
 
         <!-- Stats Cards -->
@@ -36,7 +239,7 @@
                     <i data-lucide="building-2" class="w-5 h-5"></i>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value">24</span>
+                    <span class="stat-value" id="statTotal">0</span>
                     <span class="stat-label">전체 병원</span>
                 </div>
             </div>
@@ -45,26 +248,26 @@
                     <i data-lucide="check-circle" class="w-5 h-5"></i>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value">18</span>
+                    <span class="stat-value" id="statActive">0</span>
                     <span class="stat-label">활성 병원</span>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon orange">
-                    <i data-lucide="clock" class="w-5 h-5"></i>
+                <div class="stat-icon blue">
+                    <i data-lucide="building" class="w-5 h-5"></i>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value">4</span>
-                    <span class="stat-label">체험 중</span>
+                    <span class="stat-value" id="statHQ">0</span>
+                    <span class="stat-label">본점</span>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon blue">
-                    <i data-lucide="users" class="w-5 h-5"></i>
+                <div class="stat-icon orange">
+                    <i data-lucide="git-branch" class="w-5 h-5"></i>
                 </div>
                 <div class="stat-info">
-                    <span class="stat-value">156</span>
-                    <span class="stat-label">전체 사용자</span>
+                    <span class="stat-value" id="statBranch">0</span>
+                    <span class="stat-label">지점</span>
                 </div>
             </div>
         </div>
@@ -72,97 +275,412 @@
         <!-- Table Container -->
         <div class="card">
             <div class="card-header flex items-center justify-between">
-                <h2 class="text-base font-semibold text-gray-900">등록된 병원 목록</h2>
-                <div class="search-box">
-                    <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
-                    <input type="text" placeholder="병원명 또는 코드로 검색...">
+                <div class="flex items-center gap-3">
+                    <h2 class="text-base font-semibold text-gray-900">등록된 병원 목록</h2>
+                    <span class="text-sm text-gray-400" id="resultCount">(검색 결과: 0건)</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="search-box">
+                        <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
+                        <input type="text" id="searchInput" placeholder="병원명 또는 코드로 검색..." oninput="filterHospitals()">
+                    </div>
+                    <button class="btn-primary" onclick="openHospitalModal()">
+                        <i data-lucide="plus" class="w-4 h-4"></i>
+                        병원 등록
+                    </button>
                 </div>
             </div>
             <table class="data-table">
                 <thead>
                     <tr>
+                        <th>No</th>
                         <th>병원명</th>
                         <th>병원코드</th>
-                        <th>대표자</th>
-                        <th>사용자수</th>
+                        <th>구분</th>
+                        <th>주소</th>
+                        <th>연락처</th>
                         <th>상태</th>
+                        <th>등록자</th>
                         <th>등록일</th>
+                        <th>수정일</th>
                         <th>관리</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td class="font-semibold text-gray-900">비앤빛 강남밝은세상안과</td>
-                        <td><span class="code-badge">BNVIT-001</span></td>
-                        <td>김안과</td>
-                        <td>32명</td>
-                        <td><span class="status-badge active">● 활성</span></td>
-                        <td>2025-11-15</td>
-                        <td class="actions">
-                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
-                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold text-gray-900">비앤빛 잠실밝은세상안과</td>
-                        <td><span class="code-badge">BNVIT-002</span></td>
-                        <td>이밝음</td>
-                        <td>28명</td>
-                        <td><span class="status-badge active">● 활성</span></td>
-                        <td>2025-11-20</td>
-                        <td class="actions">
-                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
-                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold text-gray-900">VXV 캠리병원</td>
-                        <td><span class="code-badge">VXV-001</span></td>
-                        <td>Nguyen Thi</td>
-                        <td>45명</td>
-                        <td><span class="status-badge active">● 활성</span></td>
-                        <td>2025-12-01</td>
-                        <td class="actions">
-                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
-                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold text-gray-900">서울밝은안과의원</td>
-                        <td><span class="code-badge">SEOUL-001</span></td>
-                        <td>박눈빛</td>
-                        <td>12명</td>
-                        <td><span class="status-badge trial">● 체험중</span></td>
-                        <td>2026-01-02</td>
-                        <td class="actions">
-                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
-                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="font-semibold text-gray-900">강남라식센터</td>
-                        <td><span class="code-badge">GN-LASIK-01</span></td>
-                        <td>최안경</td>
-                        <td>8명</td>
-                        <td><span class="status-badge inactive">● 비활성</span></td>
-                        <td>2025-10-15</td>
-                        <td class="actions">
-                            <button class="action-btn"><i data-lucide="eye" class="w-4 h-4"></i></button>
-                            <button class="action-btn"><i data-lucide="pencil" class="w-4 h-4"></i></button>
-                        </td>
-                    </tr>
+                <tbody id="hospitalTableBody">
+                    <!-- Dynamic content -->
                 </tbody>
             </table>
         </div>
     </main>
 
+    <!-- Hospital Modal -->
+    <div class="modal-overlay" id="hospitalModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modalTitle">병원 등록</h3>
+                <button class="modal-close" onclick="closeHospitalModal()">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="hospitalForm">
+                    <input type="hidden" id="hospitalId">
+                    
+                    <div class="form-group">
+                        <label><span class="required">*</span> 병원명</label>
+                        <input type="text" id="hospitalName" placeholder="병원명을 입력하세요" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><span class="required">*</span> 병원코드</label>
+                        <input type="text" id="hospitalCode" placeholder="병원코드를 입력하세요 (예: bnviit1994)" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>구분</label>
+                            <select id="hospitalType">
+                                <option value="headquarter">본점</option>
+                                <option value="branch">지점</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>상위 병원 (지점인 경우)</label>
+                            <select id="parentHospital">
+                                <option value="">상위 병원 선택</option>
+                                <!-- Dynamic options -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>주소</label>
+                        <input type="text" id="hospitalAddress" placeholder="주소를 입력하세요">
+                    </div>
+
+                    <div class="form-group">
+                        <label>연락처</label>
+                        <input type="text" id="hospitalPhone" placeholder="연락처를 입력하세요">
+                    </div>
+
+                    <div class="form-group">
+                        <label>사용여부</label>
+                        <div class="toggle-wrapper">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="hospitalStatus" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span id="statusLabel">사용</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="closeHospitalModal()">취소</button>
+                <button class="btn-submit" id="submitBtn" onclick="saveHospital()">등록</button>
+            </div>
+        </div>
+    </div>
+
     <script src="../js/admin-sidebar.js"></script>
     <script src="../js/admin-topbar.js"></script>
+    <script src="../js/supabase-config.js"></script>
     <script>
-        lucide.createIcons();
+        // Initialize
+        let hospitals = [];
+        let supabaseClient = null;
 
-        function openAddHospitalModal() {
-            alert('병원 등록 모달 - 추후 구현');
+        document.addEventListener('DOMContentLoaded', async function() {
+            lucide.createIcons();
+            await initSupabaseClient();
+            await loadHospitals();
+        });
+
+        // Initialize Supabase
+        async function initSupabaseClient() {
+            const SUPABASE_URL = 'https://txzcmvoknooiejwkprje.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4emNtdm9rbm9vaWVqd2twcmplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MTAxMDksImV4cCI6MjA4MzQ4NjEwOX0.WXSm7pW9sCXzioGczZvE_eQsvcYyVkB1ogCyk0dVtFk';
+            supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+
+        // Load hospitals from Supabase
+        async function loadHospitals() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('hospitals')
+                    .select(`
+                        *,
+                        creator:profiles!hospitals_created_by_fkey(name)
+                    `)
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                // Map creator name
+                hospitals = (data || []).map(h => ({
+                    ...h,
+                    created_by_name: h.creator?.name || '-'
+                }));
+                renderHospitals();
+                updateStats();
+                updateParentOptions();
+            } catch (err) {
+                console.error('병원 목록 조회 오류:', err);
+                // Fallback: load without join
+                try {
+                    const { data } = await supabaseClient
+                        .from('hospitals')
+                        .select('*')
+                        .order('created_at', { ascending: false });
+                    hospitals = data || [];
+                    renderHospitals();
+                    updateStats();
+                    updateParentOptions();
+                } catch (e) {
+                    console.error('Fallback 조회도 실패:', e);
+                }
+            }
+        }
+
+        // Render hospitals table
+        function renderHospitals(filteredData = null) {
+            const tbody = document.getElementById('hospitalTableBody');
+            const data = filteredData || hospitals;
+            
+            document.getElementById('resultCount').textContent = `(검색 결과: ${data.length}건)`;
+
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="11" class="empty-state">
+                            <i data-lucide="building-2" class="w-12 h-12 mx-auto"></i>
+                            <p>등록된 병원이 없습니다.</p>
+                        </td>
+                    </tr>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            tbody.innerHTML = data.map((hospital, index) => `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td class="font-semibold text-gray-900">${hospital.name}</td>
+                    <td><span class="code-badge">${hospital.code}</span></td>
+                    <td>
+                        <span class="type-badge ${hospital.type}">
+                            ${hospital.type === 'headquarter' ? '본점' : '지점'}
+                        </span>
+                    </td>
+                    <td class="text-gray-600">${hospital.address || '-'}</td>
+                    <td>${hospital.phone || '-'}</td>
+                    <td>
+                        <span class="status-badge ${hospital.status === 'active' ? 'active' : 'inactive'}">
+                            ● ${hospital.status === 'active' ? '활성' : '비활성'}
+                        </span>
+                    </td>
+                    <td>${hospital.created_by_name || '-'}</td>
+                    <td>${formatDate(hospital.created_at)}</td>
+                    <td>${formatDate(hospital.updated_at)}</td>
+                    <td class="actions">
+                        <button class="action-btn" onclick="editHospital('${hospital.id}')" title="수정">
+                            <i data-lucide="pencil" class="w-4 h-4"></i>
+                        </button>
+                        <button class="action-btn" onclick="deleteHospital('${hospital.id}')" title="삭제">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+            
+            lucide.createIcons();
+        }
+
+        // Update stats
+        function updateStats() {
+            document.getElementById('statTotal').textContent = hospitals.length;
+            document.getElementById('statActive').textContent = hospitals.filter(h => h.status === 'active').length;
+            document.getElementById('statHQ').textContent = hospitals.filter(h => h.type === 'headquarter').length;
+            document.getElementById('statBranch').textContent = hospitals.filter(h => h.type === 'branch').length;
+        }
+
+        // Update parent hospital options
+        function updateParentOptions() {
+            const select = document.getElementById('parentHospital');
+            const hqHospitals = hospitals.filter(h => h.type === 'headquarter');
+            
+            select.innerHTML = '<option value="">상위 병원 선택</option>' +
+                hqHospitals.map(h => `<option value="${h.id}">${h.name}</option>`).join('');
+        }
+
+        // Filter hospitals
+        function filterHospitals() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            if (!query) {
+                renderHospitals();
+                return;
+            }
+            
+            const filtered = hospitals.filter(h => 
+                h.name.toLowerCase().includes(query) || 
+                h.code.toLowerCase().includes(query)
+            );
+            renderHospitals(filtered);
+        }
+
+        // Open modal for add
+        function openHospitalModal(hospitalId = null) {
+            const modal = document.getElementById('hospitalModal');
+            const form = document.getElementById('hospitalForm');
+            
+            form.reset();
+            document.getElementById('hospitalId').value = '';
+            document.getElementById('modalTitle').textContent = '병원 등록';
+            document.getElementById('submitBtn').textContent = '등록';
+            document.getElementById('hospitalStatus').checked = true;
+            document.getElementById('statusLabel').textContent = '사용';
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        // Close modal
+        function closeHospitalModal() {
+            const modal = document.getElementById('hospitalModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Edit hospital
+        function editHospital(id) {
+            const hospital = hospitals.find(h => h.id === id);
+            if (!hospital) return;
+
+            document.getElementById('hospitalId').value = hospital.id;
+            document.getElementById('hospitalName').value = hospital.name;
+            document.getElementById('hospitalCode').value = hospital.code;
+            document.getElementById('hospitalType').value = hospital.type;
+            document.getElementById('parentHospital').value = hospital.parent_hospital_id || '';
+            document.getElementById('hospitalAddress').value = hospital.address || '';
+            document.getElementById('hospitalPhone').value = hospital.phone || '';
+            document.getElementById('hospitalStatus').checked = hospital.status === 'active';
+            document.getElementById('statusLabel').textContent = hospital.status === 'active' ? '사용' : '미사용';
+            
+            document.getElementById('modalTitle').textContent = '병원 수정';
+            document.getElementById('submitBtn').textContent = '수정';
+            
+            const modal = document.getElementById('hospitalModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        // Save hospital (create or update)
+        async function saveHospital() {
+            const id = document.getElementById('hospitalId').value;
+            const name = document.getElementById('hospitalName').value.trim();
+            const code = document.getElementById('hospitalCode').value.trim().toLowerCase();
+            const type = document.getElementById('hospitalType').value;
+            const parentId = document.getElementById('parentHospital').value || null;
+            const address = document.getElementById('hospitalAddress').value.trim();
+            const phone = document.getElementById('hospitalPhone').value.trim();
+            const status = document.getElementById('hospitalStatus').checked ? 'active' : 'inactive';
+
+            if (!name || !code) {
+                alert('필수 항목을 입력해주세요.');
+                return;
+            }
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '저장 중...';
+
+            try {
+                // 현재 로그인 사용자 가져오기
+                const { data: { user } } = await supabaseClient.auth.getUser();
+
+                const hospitalData = {
+                    name,
+                    code,
+                    type,
+                    parent_hospital_id: type === 'branch' ? parentId : null,
+                    address,
+                    phone,
+                    status
+                };
+
+                let result;
+                if (id) {
+                    // Update
+                    result = await supabaseClient
+                        .from('hospitals')
+                        .update(hospitalData)
+                        .eq('id', id);
+                } else {
+                    // Insert - created_by 추가
+                    hospitalData.created_by = user?.id || null;
+                    result = await supabaseClient
+                        .from('hospitals')
+                        .insert(hospitalData);
+                }
+
+                if (result.error) throw result.error;
+
+                alert(id ? '병원이 수정되었습니다.' : '병원이 등록되었습니다.');
+                closeHospitalModal();
+                await loadHospitals();
+            } catch (err) {
+                console.error('저장 오류:', err);
+                if (err.code === '23505') {
+                    alert('이미 사용 중인 병원코드입니다.');
+                } else {
+                    alert('저장 중 오류가 발생했습니다: ' + err.message);
+                }
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = id ? '수정' : '등록';
+            }
+        }
+
+        // Delete hospital
+        async function deleteHospital(id) {
+            const hospital = hospitals.find(h => h.id === id);
+            if (!hospital) return;
+
+            if (!confirm(`"${hospital.name}" 병원을 삭제하시겠습니까?`)) return;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('hospitals')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+
+                alert('병원이 삭제되었습니다.');
+                await loadHospitals();
+            } catch (err) {
+                console.error('삭제 오류:', err);
+                alert('삭제 중 오류가 발생했습니다: ' + err.message);
+            }
+        }
+
+        // Status toggle label update
+        document.getElementById('hospitalStatus').addEventListener('change', function() {
+            document.getElementById('statusLabel').textContent = this.checked ? '사용' : '미사용';
+        });
+
+        // Close modal on overlay click
+        document.getElementById('hospitalModal').addEventListener('click', function(e) {
+            if (e.target === this) closeHospitalModal();
+        });
+
+        // Format date
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
         }
     </script>
 </body>

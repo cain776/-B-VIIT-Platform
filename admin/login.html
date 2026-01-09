@@ -9,6 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Google Fonts: Inter & Outfit -->
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@500;600;700&display=swap"
@@ -402,8 +404,8 @@
         <form action="index.html" autocomplete="off">
             <!-- ID Floating Label -->
             <div class="floating-label-group">
-                <input type="text" id="adminId" name="admin_id" placeholder=" " autocomplete="off" required>
-                <label for="adminId">ID</label>
+                <input type="email" id="adminEmail" name="admin_email" placeholder=" " autocomplete="off" required>
+                <label for="adminEmail">Email</label>
             </div>
 
             <!-- Password Floating Label -->
@@ -453,20 +455,58 @@
             lucide.createIcons();
         }
 
+        // Supabase 초기화
+        const SUPABASE_URL = 'https://txzcmvoknooiejwkprje.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR4emNtdm9rbm9vaWVqd2twcmplIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5MTAxMDksImV4cCI6MjA4MzQ4NjEwOX0.WXSm7pW9sCXzioGczZvE_eQsvcYyVkB1ogCyk0dVtFk';
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
         // 로그인 처리 함수
-        document.querySelector('form').addEventListener('submit', function (e) {
+        document.querySelector('form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            const id = document.getElementById('adminId').value;
+            const email = document.getElementById('adminEmail').value.trim();
             const password = document.getElementById('adminPassword').value;
+            const loginBtn = document.getElementById('loginBtn');
 
-            if (!id || !password) {
-                alert('아이디와 비밀번호를 모두 입력해주세요.');
+            if (!email || !password) {
+                alert('이메일과 비밀번호를 모두 입력해주세요.');
                 return;
             }
 
-            // 페이지 이동
-            window.location.href = 'pages/hospitals.html';
+            loginBtn.disabled = true;
+            loginBtn.textContent = '로그인 중...';
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) throw error;
+
+                // 관리자 권한 체크 (선택 사항)
+                const { data: profile } = await supabaseClient
+                    .from('profiles')
+                    .select('role')
+                    .eq('id', data.user.id)
+                    .single();
+
+                if (profile && !['super_admin', 'admin_master', 'admin_staff'].includes(profile.role)) {
+                    await supabaseClient.auth.signOut();
+                    alert('관리자 권한이 없습니다.');
+                    return;
+                }
+
+                // 페이지 이동
+                window.location.href = 'pages/hospitals.html';
+            } catch (err) {
+                console.error('로그인 오류:', err);
+                alert('로그인 실패: ' + err.message);
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Log In';
+                loginBtn.classList.add('active');
+            }
         });
 
         // Slide Captcha Logic

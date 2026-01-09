@@ -33,8 +33,6 @@ function createTopBarHTML() {
                 <button class="top-bar-toggle" onclick="toggleSidebar()" title="사이드바 토글">
                     <i data-lucide="${toggleIcon}" class="w-5 h-5" id="sidebar-toggle-icon"></i>
                 </button>
-                <div class="top-bar-divider"></div>
-                <span class="top-bar-title">${pageTitle}</span>
             </div>
 
             <div class="top-bar-center">
