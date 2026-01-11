@@ -34,7 +34,7 @@
             color: #334155;
         }
 
-        /* Soft Blurred Background (Mesh Gradient) */
+        /* Static Background */
         .mesh-bg {
             position: absolute;
             top: 0;
@@ -46,65 +46,25 @@
         }
 
         .blob {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.8;
-            animation: float 20s infinite ease-in-out;
-        }
-
-        .blob-1 {
-            top: -10%;
-            left: -10%;
-            width: 50vw;
-            height: 50vw;
-            background: #a5f3fc;
-            animation-delay: 0s;
-        }
-
-        .blob-2 {
-            bottom: -10%;
-            right: -10%;
-            width: 60vw;
-            height: 60vw;
-            background: #ddd6fe;
-            animation-delay: -5s;
-        }
-
-        .blob-3 {
-            top: 40%;
-            left: 40%;
-            width: 40vw;
-            height: 40vw;
-            background: #fbcfe8;
-            opacity: 0.6;
-            animation-delay: -10s;
+            display: none;
         }
 
         .overlay {
             position: absolute;
             inset: 0;
             background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(20px);
             z-index: 1;
+            pointer-events: none;
         }
 
-        @keyframes float {
-            0% {
-                transform: translate(0, 0) scale(1);
-            }
-
-            33% {
-                transform: translate(30px, -50px) scale(1.1);
-            }
-
-            66% {
-                transform: translate(-20px, 20px) scale(0.9);
-            }
-
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
         }
 
         /* Glass Card */
@@ -113,9 +73,7 @@
             z-index: 10;
             width: 100%;
             max-width: 420px;
-            background: rgba(255, 255, 255, 0.65);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid rgba(255, 255, 255, 0.4);
             border-radius: 24px;
             padding: 48px 40px;
@@ -123,19 +81,6 @@
                 0 4px 6px -1px rgba(0, 0, 0, 0.05),
                 0 10px 15px -3px rgba(0, 0, 0, 0.05),
                 inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-            animation: card-enter 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
-
-        @keyframes card-enter {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         /* Logo Section */
@@ -419,10 +364,8 @@
 </head>
 
 <body>
-    <!-- Background Blobs -->
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
-    <div class="blob blob-3"></div>
+    <!-- Particle Background Canvas -->
+    <canvas id="particle-canvas"></canvas>
     <div class="overlay"></div>
 
     <!-- Top Right Links -->
@@ -479,15 +422,23 @@
         </form>
 
         <div class="flex items-center justify-center gap-4 mt-6">
+            <button onclick="openResetPasswordModal()" class="text-sm text-gray-500 hover:text-blue-600 transition">
+                비밀번호를 잊으셨나요?
+            </button>
+        </div>
+
+        <div class="flex items-center justify-center gap-4 mt-3">
             <span class="text-sm text-gray-500">계정이 없으신가요?</span>
-            <button onclick="openSignupModal()" class="text-sm font-medium text-blue-600 hover:text-blue-700 transition">
+            <button onclick="openSignupModal()"
+                class="text-sm font-medium text-blue-600 hover:text-blue-700 transition">
                 회원가입
             </button>
         </div>
     </div>
 
     <!-- Signup Modal -->
-    <div id="signupModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[1000]" style="display: none;">
+    <div id="signupModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[1000]"
+        style="display: none;">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-hidden animate-modal-enter">
             <!-- Modal Header -->
             <div class="bg-gradient-to-r from-blue-600 to-blue-500 px-6 py-4 flex items-center justify-between">
@@ -496,7 +447,7 @@
                     <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
-            
+
             <!-- Modal Body -->
             <div class="p-6 overflow-y-auto" style="max-height: calc(90vh - 140px);">
                 <form id="signupForm">
@@ -505,31 +456,31 @@
                         <input type="text" id="signupName" placeholder=" " required>
                         <label>이름</label>
                     </div>
-                    
+
                     <!-- 이메일 -->
                     <div class="floating-label-group mb-4">
                         <input type="email" id="signupEmail" placeholder=" " required>
                         <label>이메일</label>
                     </div>
-                    
+
                     <!-- 비밀번호 -->
                     <div class="floating-label-group mb-4">
                         <input type="password" id="signupPassword" placeholder=" " required minlength="6">
                         <label>비밀번호 (6자 이상)</label>
                     </div>
-                    
+
                     <!-- 비밀번호 재확인 -->
                     <div class="floating-label-group mb-4">
                         <input type="password" id="signupPasswordConfirm" placeholder=" " required minlength="6">
                         <label>비밀번호 재확인</label>
                     </div>
-                    
+
                     <!-- 전화번호 -->
                     <div class="floating-label-group mb-4">
                         <input type="tel" id="signupPhone" placeholder=" ">
                         <label>전화번호</label>
                     </div>
-                    
+
                     <!-- 소속 선택 -->
                     <div class="floating-label-group mb-4">
                         <select id="signupCompany" onchange="updateDepartmentOptions()" required>
@@ -539,7 +490,7 @@
                         </select>
                         <label>소속</label>
                     </div>
-                    
+
                     <!-- 부서 선택 -->
                     <div class="floating-label-group mb-4">
                         <select id="signupDepartment" required>
@@ -547,7 +498,7 @@
                         </select>
                         <label>부서</label>
                     </div>
-                    
+
                     <!-- 직위 선택 -->
                     <div class="floating-label-group mb-4">
                         <select id="signupPosition" required>
@@ -557,14 +508,57 @@
                     </div>
                 </form>
             </div>
-            
+
             <!-- Modal Footer -->
             <div class="px-6 py-4 bg-gray-50 border-t flex justify-end gap-3">
-                <button onclick="closeSignupModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                <button onclick="closeSignupModal()"
+                    class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
                     취소
                 </button>
-                <button onclick="submitSignup()" class="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
+                <button onclick="submitSignup()"
+                    class="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition">
                     가입하기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Reset Modal -->
+    <div id="resetPasswordModal"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[1000]"
+        style="display: none;">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-blue-600 to-cyan-500 px-6 py-4 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-white">비밀번호 재설정</h3>
+                <button onclick="closeResetPasswordModal()" class="text-white/80 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6">
+                <p class="text-gray-600 text-sm mb-6">
+                    가입하신 이메일 주소를 입력하시면 비밀번호 재설정 링크를 보내드립니다.
+                </p>
+                <form id="resetPasswordForm">
+                    <div class="floating-label-group mb-4">
+                        <input type="email" id="resetEmail" placeholder=" " required>
+                        <label>이메일 주소</label>
+                    </div>
+                </form>
+                <div id="resetMessage" class="hidden p-3 rounded-lg text-sm mb-4"></div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-gray-50 border-t flex justify-end gap-3">
+                <button onclick="closeResetPasswordModal()"
+                    class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg transition">
+                    취소
+                </button>
+                <button onclick="submitResetPassword()" id="resetPasswordBtn"
+                    class="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition flex items-center gap-2">
+                    <span>재설정 링크 발송</span>
                 </button>
             </div>
         </div>
@@ -726,7 +720,7 @@
         // ========================================
         // 회원가입 모달 관련 함수
         // ========================================
-        
+
         // 소속별 부서/직위 옵션
         const companyData = {
             visuworks: {
@@ -771,10 +765,10 @@
             const company = companySelect.value;
             const deptSelect = document.getElementById('signupDepartment');
             const posSelect = document.getElementById('signupPosition');
-            
+
             // 소속 선택 시 라벨 업데이트
             updateSelectLabel(companySelect);
-            
+
             if (!company || !companyData[company]) {
                 deptSelect.innerHTML = '<option value=""></option>';
                 posSelect.innerHTML = '<option value=""></option>';
@@ -782,21 +776,21 @@
                 updateSelectLabel(posSelect);
                 return;
             }
-            
+
             const data = companyData[company];
-            
+
             // 부서 옵션 업데이트
             deptSelect.innerHTML = '<option value=""></option>' +
                 data.departments.map(d => `<option value="${d}">${d}</option>`).join('');
-            
+
             // 직위 옵션 업데이트
             posSelect.innerHTML = '<option value=""></option>' +
                 data.positions.map(p => `<option value="${p}">${p}</option>`).join('');
-            
+
             updateSelectLabel(deptSelect);
             updateSelectLabel(posSelect);
         }
-        
+
         // 셀렉트 라벨 업데이트 함수
         function updateSelectLabel(select) {
             const group = select.closest('.floating-label-group');
@@ -806,11 +800,11 @@
                 group.classList.remove('has-value');
             }
         }
-        
+
         // 모든 셀렉트에 change 이벤트 연결
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('#signupModal select').forEach(select => {
-                select.addEventListener('change', function() {
+                select.addEventListener('change', function () {
                     updateSelectLabel(this);
                 });
             });
@@ -825,25 +819,25 @@
             const company = document.getElementById('signupCompany').value;
             const department = document.getElementById('signupDepartment').value;
             const position = document.getElementById('signupPosition').value;
-            
+
             // 유효성 검사
             if (!name || !email || !password || !company || !department || !position) {
                 alert('모든 필수 항목을 입력해주세요.');
                 return;
             }
-            
+
             if (password.length < 6) {
                 alert('비밀번호는 6자 이상이어야 합니다.');
                 return;
             }
-            
+
             if (password !== passwordConfirm) {
                 alert('비밀번호가 일치하지 않습니다.');
                 return;
             }
-            
+
             const data = companyData[company];
-            
+
             try {
                 // 1. Supabase Auth로 사용자 생성
                 const { data: authData, error: authError } = await supabaseClient.auth.signUp({
@@ -856,16 +850,16 @@
                         }
                     }
                 });
-                
+
                 if (authError) throw authError;
-                
+
                 // 2. 병원 ID 조회
                 const { data: hospital } = await supabaseClient
                     .from('hospitals')
                     .select('id')
                     .eq('code', data.hospitalCode)
                     .single();
-                
+
                 // 3. 프로필 업데이트 (Auth 트리거 후)
                 if (authData.user) {
                     // 약간의 딜레이 후 프로필 업데이트 (트리거가 먼저 실행되도록)
@@ -883,10 +877,10 @@
                             .eq('id', authData.user.id);
                     }, 1000);
                 }
-                
+
                 alert('회원가입이 완료되었습니다!\\n관리자 승인 후 로그인이 가능합니다.');
                 closeSignupModal();
-                
+
             } catch (err) {
                 console.error('회원가입 오류:', err);
                 alert('회원가입 실패: ' + err.message);
@@ -894,9 +888,223 @@
         }
 
         // 모달 외부 클릭 시 닫기
-        document.getElementById('signupModal').addEventListener('click', function(e) {
+        document.getElementById('signupModal').addEventListener('click', function (e) {
             if (e.target === this) closeSignupModal();
         });
+
+        // ========================================
+        // Password Reset Modal Functions
+        // ========================================
+        function openResetPasswordModal() {
+            const modal = document.getElementById('resetPasswordModal');
+            modal.style.display = 'flex';
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+            // Clear previous state
+            document.getElementById('resetEmail').value = '';
+            const msgEl = document.getElementById('resetMessage');
+            msgEl.classList.add('hidden');
+            msgEl.textContent = '';
+        }
+
+        function closeResetPasswordModal() {
+            const modal = document.getElementById('resetPasswordModal');
+            modal.style.display = 'none';
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        async function submitResetPassword() {
+            const email = document.getElementById('resetEmail').value.trim();
+            const btn = document.getElementById('resetPasswordBtn');
+            const msgEl = document.getElementById('resetMessage');
+
+            if (!email) {
+                showResetMessage('이메일 주소를 입력해주세요.', 'error');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<span>발송 중...</span>';
+
+            try {
+                const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+                    redirectTo: window.location.origin + '/admin/reset-password.html'
+                });
+
+                if (error) throw error;
+
+                showResetMessage('비밀번호 재설정 링크가 이메일로 발송되었습니다. 이메일을 확인해주세요.', 'success');
+
+                // Close modal after 3 seconds on success
+                setTimeout(() => {
+                    closeResetPasswordModal();
+                }, 3000);
+
+            } catch (err) {
+                console.error('비밀번호 재설정 오류:', err);
+                showResetMessage('오류: ' + err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span>재설정 링크 발송</span>';
+            }
+        }
+
+        function showResetMessage(message, type) {
+            const msgEl = document.getElementById('resetMessage');
+            msgEl.textContent = message;
+            msgEl.classList.remove('hidden', 'bg-green-100', 'text-green-700', 'bg-red-100', 'text-red-700');
+
+            if (type === 'success') {
+                msgEl.classList.add('bg-green-100', 'text-green-700');
+            } else {
+                msgEl.classList.add('bg-red-100', 'text-red-700');
+            }
+        }
+
+        // Password reset modal 외부 클릭 시 닫기
+        document.getElementById('resetPasswordModal').addEventListener('click', function (e) {
+            if (e.target === this) closeResetPasswordModal();
+        });
+
+        // ========================================
+        // Interactive Particle Background Effect
+        // ========================================
+        (function initParticles() {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+
+            let width, height;
+            let mouseX = -1000;
+            let mouseY = -1000;
+            let particles = [];
+            const particleCount = 150;
+            const maxDistance = 180;
+            const mouseInfluence = 120;
+
+            // Particle colors (blue/gray tones like Antigravity)
+            const colors = [
+                'rgba(59, 130, 246, 0.7)',   // Blue
+                'rgba(99, 102, 241, 0.6)',   // Indigo
+                'rgba(148, 163, 184, 0.5)',  // Slate
+                'rgba(59, 130, 246, 0.4)',   // Light Blue
+                'rgba(71, 85, 105, 0.4)'     // Gray
+            ];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+
+            class Particle {
+                constructor() {
+                    this.reset();
+                }
+
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.originX = this.x;
+                    this.originY = this.y;
+                    this.vx = (Math.random() - 0.5) * 0.3;
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.size = Math.random() * 3 + 1;
+                    this.length = Math.random() * 6 + 2;
+                    this.angle = Math.random() * Math.PI * 2;
+                    this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                    this.color = colors[Math.floor(Math.random() * colors.length)];
+                    this.depth = Math.random() * 0.5 + 0.5;
+                }
+
+                update() {
+                    // Calculate distance to mouse
+                    const dx = mouseX - this.x;
+                    const dy = mouseY - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    // Mouse attraction
+                    if (dist < mouseInfluence && dist > 0) {
+                        const force = (mouseInfluence - dist) / mouseInfluence;
+                        const angle = Math.atan2(dy, dx);
+                        this.vx += Math.cos(angle) * force * 0.3;
+                        this.vy += Math.sin(angle) * force * 0.3;
+                        this.angle = angle;
+                    } else {
+                        // Return to origin slowly
+                        this.vx += (this.originX - this.x) * 0.002;
+                        this.vy += (this.originY - this.y) * 0.002;
+                        this.angle += this.rotationSpeed;
+                    }
+
+                    // Apply friction
+                    this.vx *= 0.95;
+                    this.vy *= 0.95;
+
+                    // Update position
+                    this.x += this.vx;
+                    this.y += this.vy;
+
+                    // Bounds check
+                    if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) {
+                        this.reset();
+                    }
+                }
+
+                draw() {
+                    ctx.save();
+                    ctx.translate(this.x, this.y);
+                    ctx.rotate(this.angle);
+                    ctx.globalAlpha = this.depth;
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.roundRect(-this.length / 2, -this.size / 2, this.length, this.size, this.size / 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            function init() {
+                resize();
+                particles = [];
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push(new Particle());
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+
+                requestAnimationFrame(animate);
+            }
+
+            // Event listeners
+            window.addEventListener('resize', () => {
+                resize();
+                particles.forEach(p => {
+                    p.originX = Math.random() * width;
+                    p.originY = Math.random() * height;
+                });
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            document.addEventListener('mouseleave', () => {
+                mouseX = -1000;
+                mouseY = -1000;
+            });
+
+            init();
+            animate();
+        })();
     </script>
 </body>
 

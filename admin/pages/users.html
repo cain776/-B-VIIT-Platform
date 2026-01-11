@@ -23,26 +23,32 @@
             font-size: 12px;
             font-weight: 500;
         }
+
         .role-badge.super_admin {
             background: #4f46e5;
             color: white;
         }
+
         .role-badge.admin_master {
             background: #7c3aed;
             color: white;
         }
+
         .role-badge.admin_staff {
             background: #a78bfa;
             color: white;
         }
+
         .role-badge.hospital_master {
             background: #10b981;
             color: white;
         }
+
         .role-badge.hospital_staff {
             background: #6ee7b7;
             color: #065f46;
         }
+
         /* Status badge */
         .status-badge {
             padding: 4px 10px;
@@ -50,23 +56,28 @@
             font-size: 12px;
             font-weight: 500;
         }
+
         .status-badge.pending {
             background: #ffedd5;
             color: #ea580c;
         }
+
         .status-badge.approved {
             background: #d1fae5;
             color: #059669;
         }
+
         .status-badge.rejected {
             background: #fee2e2;
             color: #dc2626;
         }
+
         /* Floating Label Styles */
         .floating-group {
             position: relative;
             margin-bottom: 20px;
         }
+
         .floating-group input,
         .floating-group select {
             width: 100%;
@@ -81,6 +92,7 @@
             -webkit-appearance: none;
             appearance: none;
         }
+
         .floating-group select {
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
@@ -89,17 +101,20 @@
             padding-right: 40px;
             cursor: pointer;
         }
+
         .floating-group input:hover,
         .floating-group select:hover {
             border-color: #cbd5e1;
             background-color: #f1f5f9;
         }
+
         .floating-group input:focus,
         .floating-group select:focus {
             border-color: #3b82f6;
             background-color: white;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
+
         .floating-group label {
             position: absolute;
             left: 14px;
@@ -111,21 +126,24 @@
             transition: all 0.2s ease;
             background: transparent;
         }
+
         .floating-group.has-value label,
-        .floating-group input:focus + label,
-        .floating-group select:focus + label,
-        .floating-group input:not(:placeholder-shown) + label {
+        .floating-group input:focus+label,
+        .floating-group select:focus+label,
+        .floating-group input:not(:placeholder-shown)+label {
             top: 10px;
             transform: translateY(0);
             font-size: 11px;
             color: #3b82f6;
             font-weight: 600;
         }
+
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
+
         /* Modal */
         .modal-overlay {
             position: fixed;
@@ -143,10 +161,12 @@
             visibility: hidden;
             transition: all 0.3s ease;
         }
+
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
+
         .modal {
             background: white;
             border-radius: 20px;
@@ -158,9 +178,11 @@
             transition: transform 0.3s ease;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
+
         .modal-overlay.active .modal {
             transform: scale(1);
         }
+
         .modal-header {
             background: #2563eb;
             display: flex;
@@ -168,11 +190,13 @@
             justify-content: space-between;
             padding: 20px 28px;
         }
+
         .modal-header h3 {
             font-size: 18px;
             font-weight: 600;
             color: white;
         }
+
         .modal-close {
             width: 32px;
             height: 32px;
@@ -186,14 +210,17 @@
             cursor: pointer;
             transition: all 0.2s;
         }
+
         .modal-close:hover {
             background: rgba(255, 255, 255, 0.25);
         }
+
         .modal-body {
             padding: 28px;
             overflow-y: auto;
             max-height: calc(90vh - 180px);
         }
+
         .modal-footer {
             display: flex;
             justify-content: space-between;
@@ -203,14 +230,17 @@
             border-top: 1px solid #e5e7eb;
             background: #f9fafb;
         }
+
         .modal-footer-left {
             display: flex;
             gap: 8px;
         }
+
         .modal-footer-right {
             display: flex;
             gap: 12px;
         }
+
         .btn-cancel {
             padding: 12px 24px;
             border-radius: 10px;
@@ -222,9 +252,11 @@
             color: #374151;
             transition: all 0.2s;
         }
+
         .btn-cancel:hover {
             background: #f3f4f6;
         }
+
         .btn-submit {
             padding: 12px 32px;
             border-radius: 10px;
@@ -236,11 +268,13 @@
             color: #2563eb;
             transition: all 0.2s;
         }
+
         .btn-submit:hover {
             background: #2563eb;
             color: white;
             transform: translateY(-1px);
         }
+
         .btn-approve {
             padding: 10px 20px;
             border-radius: 10px;
@@ -255,10 +289,12 @@
             align-items: center;
             gap: 6px;
         }
+
         .btn-approve:hover {
             background: #10b981;
             color: white;
         }
+
         .btn-reject {
             padding: 10px 20px;
             border-radius: 10px;
@@ -273,10 +309,12 @@
             align-items: center;
             gap: 6px;
         }
+
         .btn-reject:hover {
             background: #ef4444;
             color: white;
         }
+
         /* Current Status Badge in Modal */
         .current-status {
             display: flex;
@@ -287,38 +325,46 @@
             border-radius: 10px;
             margin-bottom: 20px;
         }
+
         .current-status-label {
             font-size: 13px;
             color: #6b7280;
         }
+
         .current-status-badge {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
         }
+
         .current-status-badge.pending {
             background: #fff7ed;
             color: #ea580c;
         }
+
         .current-status-badge.approved {
             background: #ecfdf5;
             color: #059669;
         }
+
         .current-status-badge.rejected {
             background: #fef2f2;
             color: #dc2626;
         }
+
         /* Empty state */
         .empty-state {
             text-align: center;
             padding: 48px 24px;
             color: #6b7280;
         }
+
         .empty-state i {
             color: #d1d5db;
             margin-bottom: 16px;
         }
+
         /* Action buttons */
         .action-btn {
             width: 32px;
@@ -333,11 +379,13 @@
             cursor: pointer;
             transition: all 0.2s;
         }
+
         .action-btn:hover {
             border-color: #3b82f6;
             color: #3b82f6;
             background: #eff6ff;
         }
+
         /* Status action buttons */
         .status-actions {
             display: flex;
@@ -421,7 +469,8 @@
                         <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
                         <input type="text" id="searchInput" placeholder="이름 또는 이메일로 검색..." oninput="filterUsers()">
                     </div>
-                    <select id="statusFilter" class="px-3 py-2 border border-gray-200 rounded-lg text-sm" onchange="filterUsers()">
+                    <select id="statusFilter" class="px-3 py-2 border border-gray-200 rounded-lg text-sm"
+                        onchange="filterUsers()">
                         <option value="">전체 상태</option>
                         <option value="pending">승인 대기</option>
                         <option value="approved">승인 완료</option>
@@ -469,16 +518,16 @@
             <div class="modal-body">
                 <form id="userForm" onsubmit="return false;">
                     <input type="hidden" id="userId">
-                    
+
                     <!-- Current Status -->
                     <div class="current-status">
                         <span class="current-status-label">현재 상태</span>
                         <span class="current-status-badge pending" id="currentStatusBadge">● 승인 대기</span>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="floating-group has-value">
-                            <input type="text" id="userName" placeholder=" " disabled>
+                            <input type="text" id="userName" placeholder=" ">
                             <label>이름</label>
                         </div>
                         <div class="floating-group has-value">
@@ -662,7 +711,7 @@
         function renderUsers(filteredData = null) {
             const tbody = document.getElementById('userTableBody');
             const data = filteredData || users;
-            
+
             document.getElementById('resultCount').textContent = `(검색 결과: ${data.length}건)`;
 
             if (data.length === 0) {
@@ -705,7 +754,7 @@
                     </td>
                 </tr>
             `).join('');
-            
+
             lucide.createIcons();
         }
 
@@ -722,20 +771,20 @@
         function filterUsers() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             const statusFilter = document.getElementById('statusFilter').value;
-            
+
             let filtered = users;
-            
+
             if (query) {
-                filtered = filtered.filter(u => 
-                    (u.name && u.name.toLowerCase().includes(query)) || 
+                filtered = filtered.filter(u =>
+                    (u.name && u.name.toLowerCase().includes(query)) ||
                     u.email.toLowerCase().includes(query)
                 );
             }
-            
+
             if (statusFilter) {
                 filtered = filtered.filter(u => u.status === statusFilter);
             }
-            
+
             renderUsers(filtered);
         }
 
@@ -752,14 +801,14 @@
             document.getElementById('userPhone').value = user.phone || '';
             document.getElementById('userDepartment').value = user.department || '';
             document.getElementById('userJobTitle').value = user.job_title || '';
-            
+
             // Update current status badge
             const statusBadge = document.getElementById('currentStatusBadge');
             statusBadge.className = 'current-status-badge ' + user.status;
             statusBadge.textContent = '● ' + getStatusName(user.status);
-            
+
             document.getElementById('modalTitle').textContent = '회원 정보 수정';
-            
+
             const modal = document.getElementById('userModal');
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -776,6 +825,7 @@
         // Save user
         async function saveUser() {
             const id = document.getElementById('userId').value;
+            const name = document.getElementById('userName').value.trim();
             const role = document.getElementById('userRole').value;
             const hospitalId = document.getElementById('userHospital').value || null;
             const phone = document.getElementById('userPhone').value.trim();
@@ -790,6 +840,7 @@
                 const { error } = await supabaseClient
                     .from('profiles')
                     .update({
+                        name: name || null,
                         role,
                         hospital_id: hospitalId,
                         phone,
@@ -802,7 +853,7 @@
 
                 closeUserModal();
                 await loadUsers();
-                
+
                 // 상단 프로필도 새로고침
                 if (typeof loadCurrentUserProfile === 'function') {
                     loadCurrentUserProfile();
@@ -819,7 +870,7 @@
         // Update user status (approve/reject)
         async function updateUserStatus(newStatus) {
             const id = document.getElementById('userId').value;
-            
+
             try {
                 const { error } = await supabaseClient
                     .from('profiles')
@@ -837,7 +888,7 @@
         }
 
         // Close modal on overlay click
-        document.getElementById('userModal').addEventListener('click', function(e) {
+        document.getElementById('userModal').addEventListener('click', function (e) {
             if (e.target === this) closeUserModal();
         });
 
